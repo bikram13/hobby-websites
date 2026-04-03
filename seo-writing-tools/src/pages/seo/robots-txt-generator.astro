@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { tools } from '../../data/tools'
+
+const tool = tools.find(t => t.slug === 'robots-txt-generator')!
+const title = `${tool.title} — Free Online Tool`
+const description = tool.description
+---
+<BaseLayout title={title} description={description}>
+  <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
+  <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
+  <p class="text-gray-600 text-lg mb-6">{tool.description}</p>
+  <p class="text-gray-500 italic">Tool implementation coming in phase {tool.phase}.</p>
+</BaseLayout>

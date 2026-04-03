@@ -40,7 +40,7 @@
 - [ ] **B-5: PDF Export** — @react-pdf/renderer server-side API route, selectable text (ATS-compatible), downloadable PDF
 - [ ] **B-6: Cover Letter Builder** — Job input form (title, company, description, background), AI generation with streaming, inline editing, PDF + plain text export
 - [ ] **B-7: Freemium & Rate Limiting** — Upstash Redis sliding window (3 generations/day free, userId-keyed), localStorage free-tier tracking, paywall trigger UX
-- [ ] **B-8: Stripe Payments** — $9.99/month Stripe Checkout, webhook lifecycle (completed, updated, deleted, payment_failed), Customer Portal, idempotency
+- [ ] **B-8: Stripe Payments** — ₹799/month Razorpay Checkout, webhook lifecycle (completed, updated, deleted, payment_failed), Customer Portal, idempotency
 - [ ] **B-9: Landing Page & SEO** — Value proposition landing page, CTA, meta + OG tags on all public pages, About/Privacy Policy/Contact (AdSense-ready signals)
 
 ---
@@ -307,20 +307,20 @@
 **Success Criteria** (what must be TRUE):
   1. An authenticated free-tier user who makes 3 AI generation requests within 24 hours receives a 429 response on the fourth request
   2. The rate limit uses a sliding window (not fixed window) via `@upstash/ratelimit`, keyed by `userId`, evaluated in Next.js Middleware before the Claude API route is reached
-  3. The paywall modal appears mid-session at the generation limit — not as a separate page — showing "$9.99/month, cancel anytime"
+  3. The paywall modal appears mid-session at the generation limit — not as a separate page — showing "₹799/month, cancel anytime"
   4. Paid users bypass the rate limiter entirely
   5. An unauthenticated user attempting generation is redirected to sign in (not rate-limited to 0)
 **Plans**: TBD
 
 ### Phase B-8: Stripe Payments
-**Goal**: Users can upgrade to the $9.99/month paid tier via Stripe Checkout, manage their subscription via the Customer Portal, and paid access is granted/revoked exclusively via webhook events
+**Goal**: Users can upgrade to the ₹799/month paid tier via Razorpay Checkout, manage their subscription via the Customer Portal, and paid access is granted/revoked exclusively via webhook events
 **Depends on**: B-7
 **Requirements**: B-PAY-02, B-PAY-03, B-PAY-04
 **Success Criteria** (what must be TRUE):
-  1. Clicking "Upgrade" opens a Stripe Checkout session for a $9.99/month recurring subscription
-  2. After successful payment, the `checkout.session.completed` webhook updates the user's `subscription_status` to `active` in the database — the Checkout success redirect URL alone grants nothing
-  3. A user who cancels via the Stripe Customer Portal has their `subscription_status` set to `canceled` on `customer.subscription.deleted` webhook, losing paid access at period end
-  4. `invoice.payment_failed` locks paid features with a grace period notification
+  1. Clicking "Upgrade" opens a Razorpay Checkout session for a ₹799/month recurring subscription
+  2. After successful payment, the `subscription.charged` webhook updates the user's `subscription_status` to `active` in the database — the Checkout success redirect URL alone grants nothing
+  3. A user who cancels via the Razorpay Customer Portal has their `subscription_status` set to `canceled` on `subscription.cancelled` webhook, losing paid access at period end
+  4. `subscription.halted` locks paid features with a grace period notification
   5. All webhook events are idempotent (re-processing the same event ID produces no side effects)
 **Plans**: TBD
 
@@ -329,7 +329,7 @@
 **Depends on**: B-8
 **Requirements**: B-SEO-01, B-SEO-02
 **Success Criteria** (what must be TRUE):
-  1. The landing page (`/`) includes a headline, value proposition, feature highlights, pricing section ($9.99/month), and a primary CTA ("Try Free")
+  1. The landing page (`/`) includes a headline, value proposition, feature highlights, pricing section (₹799/month), and a primary CTA ("Try Free")
   2. Every public page has a unique `<title>`, `<meta description>`, and complete `og:` tags
   3. The landing page has an About section, a Privacy Policy page, and a Contact page — sufficient for AdSense application and trust signals
   4. The CTA converts: an unauthenticated visitor who clicks "Try Free" reaches the sign-in page in one step
@@ -476,9 +476,9 @@
 | Auth.js v5 + Resend magic link + JWT sessions | B research | B-2 |
 | @react-pdf/renderer server-side (NOT html2pdf.js — image-based, ATS-incompatible) | B research | B-5 |
 | Upstash Redis sliding window rate limiting in Middleware (userId-keyed, not IP) | B research | B-7 |
-| Stripe webhooks only for paid access grant (never Checkout success redirect) | B research | B-8 |
+| Razorpay webhooks only for paid access grant (never Checkout success redirect) | B research | B-8 |
 | Stripe idempotency via event ID on all webhook handlers | B research | B-8 |
-| $9.99/month pricing (undercuts Resume.io ~$30, Zety ~$26) | B research | B-8, B-9 |
+| ₹799/month pricing (undercuts Resume.io ~$30 (₹2500), Zety ~$26 (₹2200)) | B research | B-8, B-9 |
 | CAR framework (Challenge-Action-Result) for Claude resume bullet prompts | B research | B-4 |
 | Anthropic Structured Outputs (Nov 2025 beta, Zod schema) for resume generation | B research | B-4 |
 

@@ -1,0 +1,44 @@
+---
+interface Props {
+  categories: string[]
+}
+const { categories } = Astro.props
+---
+<div class="flex gap-2 mb-8 flex-wrap" id="category-filter">
+  <button
+    class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white"
+    data-filter="All"
+  >All</button>
+  {categories.map(cat => (
+    <button
+      class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:border-gray-500"
+      data-filter={cat}
+    >{cat}</button>
+  ))}
+</div>
+
+<script>
+  // Vanilla JS — no framework. Runs after DOMContentLoaded.
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn')
+  const cards = document.querySelectorAll<HTMLElement>('.tool-card')
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter ?? 'All'
+
+      // Update active button styles
+      buttons.forEach(b => {
+        b.classList.remove('active', 'bg-gray-900', 'text-white')
+        b.classList.add('bg-white', 'border', 'border-gray-300', 'text-gray-700')
+      })
+      btn.classList.add('active', 'bg-gray-900', 'text-white')
+      btn.classList.remove('bg-white', 'border-gray-300', 'text-gray-700')
+
+      // Show/hide cards
+      cards.forEach(card => {
+        const match = filter === 'All' || card.dataset.category === filter
+        card.style.display = match ? 'block' : 'none'
+      })
+    })
+  })
+</script>

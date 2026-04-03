@@ -114,9 +114,9 @@
 
 #### Freemium Model
 - [ ] **B-PAY-01**: Free tier: 3 AI generations per day (Upstash Redis sliding window, userId-keyed)
-- [ ] **B-PAY-02**: Paid tier: unlimited generations ($9.99/month via Stripe)
-- [ ] **B-PAY-03**: Stripe Checkout integration for subscription purchase
-- [ ] **B-PAY-04**: Stripe webhook to activate/deactivate paid access (webhooks only — never success redirect)
+- [ ] **B-PAY-02**: Paid tier: unlimited generations (₹799/month via Razorpay — ~$9.99 equivalent)
+- [ ] **B-PAY-03**: Razorpay Subscription integration for recurring payments (supports UPI, cards, net banking, wallets)
+- [ ] **B-PAY-04**: Razorpay webhook to activate/deactivate paid access (webhooks only — never success redirect)
 
 #### Auth (minimal)
 - [ ] **B-AUTH-01**: Email magic link login via Auth.js v5 + Resend (no password — reduces friction)

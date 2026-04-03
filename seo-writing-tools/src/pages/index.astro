@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import ToolCard from '../components/ToolCard.astro'
+import CategoryFilter from '../components/CategoryFilter.astro'
+import { tools } from '../data/tools'
+
+const title = 'Free SEO & Writing Tools — No Signup Required'
+const description = 'Fast, free browser-based tools for writers and SEOs. Word counter, readability checker, keyword density analyzer, meta tag generator, and more — real-time results, no data sent to any server.'
+---
+<BaseLayout title={title} description={description}>
+  <section class="mb-10">
+    <h1 class="text-3xl font-bold text-gray-900 mb-3">Free SEO &amp; Writing Tools</h1>
+    <p class="text-gray-600 text-lg max-w-2xl">
+      Fast, free tools that run entirely in your browser.
+      No signup. No data sent to any server. Real-time results.
+    </p>
+  </section>
+
+  <CategoryFilter categories={['Writing', 'SEO']} />
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {tools.map(tool => <ToolCard tool={tool} />)}
+  </div>
+</BaseLayout>
