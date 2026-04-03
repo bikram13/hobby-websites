@@ -54,6 +54,7 @@ export const tools: Tool[] = [
     description: 'Compare two texts side-by-side and highlight every addition and deletion.',
     path: '/writing/text-diff',
     phase: 'A2-4',
+    status: 'live',
   },
   {
     slug: 'lorem-ipsum-generator',

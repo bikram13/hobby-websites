@@ -6,8 +6,10 @@ import cloudflare from '@astrojs/cloudflare'
 export default defineConfig({
   output: 'static',
   adapter: cloudflare(),
+
   vite: {
     plugins: [tailwindcss()],
   },
-  site: 'https://your-project.pages.dev',
+
+  site: 'https://seo-writing-tools.pages.dev',
 })
