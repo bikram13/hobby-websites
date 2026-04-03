@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "app/api/generate/**": {
+      "maxDuration": 60
+    },
+    "app/api/resume/export": {
+      "maxDuration": 30
+    }
+  }
+}
