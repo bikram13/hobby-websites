@@ -1,0 +1,38 @@
+---
+layout: base.njk
+title: "Random Number Generator — Pick a Number in Any Range"
+description: "Generate a random number between any minimum and maximum values instantly. Set your range and generate as many numbers as you need."
+canonical: "https://everyday-tools.pages.dev/utility/random-number-generator/"
+---
+
+<div class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &rsaquo; <a href="/utility/">Utility</a> &rsaquo; Random Number Generator
+  </nav>
+
+  <article class="tool-page">
+    <h1>Random Number Generator</h1>
+    <p class="tool-intro">Generate a truly random integer within any minimum and maximum range you specify. Useful for games, giveaways, statistical sampling, making decisions, or any situation where you need an unbiased random number.</p>
+
+    <div class="tool-container" id="tool-app">
+      <!-- Tool UI implemented in Phase A1-4 -->
+      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+    </div>
+
+    <div class="ad-slot" aria-hidden="true"></div>
+
+    <section class="tool-explainer">
+      <h2>How to use the Random Number Generator</h2>
+      <p>Enter a minimum value and a maximum value, then press Generate. A random integer in that range (inclusive of both endpoints) appears immediately. Press Generate again for a new number without changing the range.</p>
+
+      <h2>How random numbers are generated</h2>
+      <p>This generator uses the browser's <code>crypto.getRandomValues()</code> API to produce cryptographically uniform random bytes. Those bytes are mapped to an integer in your specified range using a rejection-sampling method that eliminates modulo bias — a common flaw in simpler implementations that makes some numbers slightly more likely than others. The result is a uniformly distributed integer: every number in your range has exactly the same probability of being selected.</p>
+
+      <h2>Related tools</h2>
+      <ul>
+        <li><a href="/utility/password-generator/">Password Generator</a></li>
+        <li><a href="/utility/time-zone-converter/">Time Zone Converter</a></li>
+      </ul>
+    </section>
+  </article>
+</div>

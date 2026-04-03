@@ -1,0 +1,42 @@
+name: Deploy Everyday Tools to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'everyday-tools/**'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: everyday-tools
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: everyday-tools/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: everyday-tools
+          directory: everyday-tools/_site
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

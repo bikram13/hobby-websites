@@ -1,0 +1,69 @@
+---
+layout: base.njk
+title: "Free Online Calculator Tools"
+description: "Free everyday calculator and converter tools. No signup, no ads, instant results on any device."
+canonical: "https://everyday-tools.pages.dev/"
+---
+
+<section class="hero">
+  <div class="container">
+    <h1>Everyday Calculator Tools</h1>
+    <p>Free, instant tools for everyday calculations. No signup. No clutter.</p>
+  </div>
+</section>
+
+<section class="categories">
+  <div class="container">
+    <div class="category-grid">
+
+      <div class="category-card">
+        <h2><a href="/finance/">Finance Tools</a></h2>
+        <p>Tip calculator, percentage calculator, loan and EMI calculator.</p>
+        <ul>
+          {%- for tool in tools -%}
+            {%- if tool.category == "finance" -%}
+              <li><a href="/finance/{{ tool.slug }}/">{{ tool.name }}</a></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <div class="category-card">
+        <h2><a href="/health/">Health Tools</a></h2>
+        <p>BMI calculator, age calculator, and other health metrics.</p>
+        <ul>
+          {%- for tool in tools -%}
+            {%- if tool.category == "health" -%}
+              <li><a href="/health/{{ tool.slug }}/">{{ tool.name }}</a></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <div class="category-card">
+        <h2><a href="/unit-converters/">Unit Converters</a></h2>
+        <p>Convert length, weight, temperature, and volume between metric and imperial.</p>
+        <ul>
+          {%- for tool in tools -%}
+            {%- if tool.category == "unit-converters" -%}
+              <li><a href="/unit-converters/{{ tool.slug }}/">{{ tool.name }}</a></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <div class="category-card">
+        <h2><a href="/utility/">Utility Tools</a></h2>
+        <p>Time zone converter, password generator, random number generator, and more.</p>
+        <ul>
+          {%- for tool in tools -%}
+            {%- if tool.category == "utility" -%}
+              <li><a href="/utility/{{ tool.slug }}/">{{ tool.name }}</a></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>

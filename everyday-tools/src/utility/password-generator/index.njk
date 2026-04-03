@@ -1,0 +1,38 @@
+---
+layout: base.njk
+title: "Password Generator — Secure Random Passwords"
+description: "Generate strong, random passwords instantly. Configure length, uppercase letters, numbers, and special symbols. Passwords are generated locally and never sent to any server."
+canonical: "https://everyday-tools.pages.dev/utility/password-generator/"
+---
+
+<div class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &rsaquo; <a href="/utility/">Utility</a> &rsaquo; Password Generator
+  </nav>
+
+  <article class="tool-page">
+    <h1>Password Generator</h1>
+    <p class="tool-intro">Generate cryptographically secure random passwords in one click. Choose your desired length and character set — uppercase letters, lowercase letters, numbers, and symbols — and copy the result to your clipboard instantly. Passwords are generated entirely in your browser and never transmitted anywhere.</p>
+
+    <div class="tool-container" id="tool-app">
+      <!-- Tool UI implemented in Phase A1-4 -->
+      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+    </div>
+
+    <div class="ad-slot" aria-hidden="true"></div>
+
+    <section class="tool-explainer">
+      <h2>How to use the Password Generator</h2>
+      <p>Set the password length using the slider (8–64 characters), toggle the character types you want to include, and click Generate. Click the copy icon to copy the password to your clipboard without having to select it manually.</p>
+
+      <h2>How secure passwords are generated</h2>
+      <p>The generator uses the browser's built-in <code>crypto.getRandomValues()</code> API, which draws from the operating system's cryptographically secure pseudo-random number generator (CSPRNG). This is the same source used by cryptographic libraries. The character pool is assembled from your selected options, and each position in the password is filled by drawing a random index into that pool. Because each character is chosen independently from a uniform distribution, guessing a 20-character password with all character types would require testing roughly 95<sup>20</sup> &asymp; 10<sup>39</sup> combinations.</p>
+
+      <h2>Related tools</h2>
+      <ul>
+        <li><a href="/utility/random-number-generator/">Random Number Generator</a></li>
+        <li><a href="/utility/time-zone-converter/">Time Zone Converter</a></li>
+      </ul>
+    </section>
+  </article>
+</div>

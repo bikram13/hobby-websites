@@ -1,0 +1,38 @@
+---
+layout: base.njk
+title: "Time Zone Converter — Convert Times Between World Cities"
+description: "Convert times between major world time zones instantly. Compare multiple cities side by side and find the best meeting time for international calls."
+canonical: "https://everyday-tools.pages.dev/utility/time-zone-converter/"
+---
+
+<div class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &rsaquo; <a href="/utility/">Utility</a> &rsaquo; Time Zone Converter
+  </nav>
+
+  <article class="tool-page">
+    <h1>Time Zone Converter</h1>
+    <p class="tool-intro">Enter a time in one time zone and instantly see the equivalent time in any other major city around the world. Useful for scheduling international meetings, calls, or travel.</p>
+
+    <div class="tool-container" id="tool-app">
+      <!-- Tool UI implemented in Phase A1-4 -->
+      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+    </div>
+
+    <div class="ad-slot" aria-hidden="true"></div>
+
+    <section class="tool-explainer">
+      <h2>How to use the Time Zone Converter</h2>
+      <p>Select a source time zone, enter the time you want to convert, then select one or more destination time zones. The converter shows the equivalent local time for each destination, accounting for Daylight Saving Time where applicable.</p>
+
+      <h2>How time zone conversion works</h2>
+      <p>Every time zone is defined as an offset from Coordinated Universal Time (UTC). To convert from one zone to another, the local time is first converted to UTC (by subtracting the source offset), then the target offset is added. For example, converting 3:00 PM EST (UTC&minus;5) to IST (UTC+5:30): 3:00 PM + 5h = 8:00 PM UTC, then 8:00 PM + 5h 30m = 1:30 AM IST the next day. DST adjustments shift offsets by one hour seasonally.</p>
+
+      <h2>Related tools</h2>
+      <ul>
+        <li><a href="/health/age-calculator/">Age Calculator</a></li>
+        <li><a href="/utility/random-number-generator/">Random Number Generator</a></li>
+      </ul>
+    </section>
+  </article>
+</div>

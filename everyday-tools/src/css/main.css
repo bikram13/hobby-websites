@@ -1,0 +1,475 @@
+/* =============================================================
+   Everyday Tools — main.css
+   System font stack, mobile-first, CSS custom properties
+   ============================================================= */
+
+/* ----- Custom Properties ----- */
+:root {
+  --color-bg: #ffffff;
+  --color-bg-alt: #f5f5f7;
+  --color-text: #1d1d1f;
+  --color-text-muted: #6e6e73;
+  --color-accent: #0071e3;
+  --color-accent-hover: #0058b0;
+  --color-border: #d2d2d7;
+  --color-card-bg: #fafafa;
+  --color-card-shadow: rgba(0, 0, 0, 0.08);
+  --color-header-bg: rgba(255, 255, 255, 0.92);
+  --color-footer-bg: #f5f5f7;
+
+  --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+
+  --radius: 8px;
+  --radius-sm: 4px;
+  --transition: 0.18s ease;
+  --max-width: 800px;
+  --header-height: 56px;
+}
+
+/* Dark mode hook — Phase A1-7 will toggle via [data-theme="dark"] */
+[data-theme="dark"] {
+  --color-bg: #000000;
+  --color-bg-alt: #1c1c1e;
+  --color-text: #f5f5f7;
+  --color-text-muted: #aeaeb2;
+  --color-accent: #2997ff;
+  --color-accent-hover: #69c0ff;
+  --color-border: #38383a;
+  --color-card-bg: #1c1c1e;
+  --color-card-shadow: rgba(0, 0, 0, 0.4);
+  --color-header-bg: rgba(0, 0, 0, 0.88);
+  --color-footer-bg: #1c1c1e;
+}
+
+/* ----- Reset & Base ----- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-stack);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--color-bg-alt);
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+}
+
+/* ----- Layout Container ----- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* ----- Site Header ----- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-height);
+  background: var(--color-header-bg);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+}
+
+.site-header .container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-name:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav a:hover {
+  color: var(--color-accent);
+  background: var(--color-bg-alt);
+  text-decoration: none;
+}
+
+/* ----- Site Footer ----- */
+.site-footer {
+  background: var(--color-footer-bg);
+  border-top: 1px solid var(--color-border);
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+}
+
+.site-footer .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.site-footer p {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.footer-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.footer-nav a {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.footer-nav a:hover {
+  color: var(--color-accent);
+}
+
+/* ----- Hero (Homepage) ----- */
+.hero {
+  padding: 2.5rem 0 2rem;
+  background: var(--color-bg-alt);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hero h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+/* ----- Category Grid (Homepage) ----- */
+.categories {
+  padding: 2rem 0;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.category-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px var(--color-card-shadow);
+  transition: box-shadow var(--transition);
+}
+
+.category-card:hover {
+  box-shadow: 0 4px 12px var(--color-card-shadow);
+}
+
+.category-card h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.category-card h2 a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.category-card h2 a:hover {
+  color: var(--color-accent);
+}
+
+.category-card p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.category-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.category-card ul li a {
+  font-size: 0.875rem;
+}
+
+/* ----- Breadcrumb ----- */
+.breadcrumb {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 1.25rem 0;
+}
+
+.breadcrumb a {
+  color: var(--color-text-muted);
+}
+
+.breadcrumb a:hover {
+  color: var(--color-accent);
+}
+
+/* ----- Category Hub Pages ----- */
+.category-intro {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.75rem;
+  max-width: 640px;
+}
+
+.tool-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.tool-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 1px 3px var(--color-card-shadow);
+}
+
+.tool-card h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.tool-card h2 a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.tool-card h2 a:hover {
+  color: var(--color-accent);
+}
+
+.tool-card p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.tool-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* ----- Tool Pages ----- */
+.tool-page {
+  padding: 1.5rem 0 2rem;
+}
+
+.tool-page h1 {
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+.tool-intro {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  max-width: 640px;
+}
+
+.tool-container {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px var(--color-card-shadow);
+  margin-bottom: 1.5rem;
+  min-height: 200px;
+}
+
+.coming-soon {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* ----- Tool Explainer ----- */
+.tool-explainer {
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.5rem;
+}
+
+.tool-explainer h2 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tool-explainer h2:first-child {
+  margin-top: 0;
+}
+
+.tool-explainer p {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+  max-width: 640px;
+}
+
+.tool-explainer ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.tool-explainer ul li a {
+  font-size: 0.9375rem;
+}
+
+.tool-explainer em {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* ----- Ad Slot (reserved, CLS-safe) ----- */
+.ad-slot {
+  min-height: 100px;
+  width: 100%;
+  background: transparent;
+  margin: 1rem 0;
+}
+
+/* ----- Category Hub h1 ----- */
+.container > h1 {
+  font-size: 1.625rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+/* ----- Responsive: Tablet (768px+) ----- */
+@media (min-width: 768px) {
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+
+  .hero p {
+    font-size: 1.0625rem;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .site-nav a {
+    font-size: 0.9375rem;
+    padding: 0.3rem 0.625rem;
+  }
+
+  .tool-page h1 {
+    font-size: 2rem;
+  }
+
+  .container > h1 {
+    font-size: 2rem;
+  }
+}
+
+/* ----- Responsive: Desktop (1024px+) ----- */
+@media (min-width: 1024px) {
+  :root {
+    --max-width: 900px;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .hero {
+    padding: 3.5rem 0 3rem;
+  }
+
+  .hero h1 {
+    font-size: 2.75rem;
+  }
+
+  .tool-container {
+    padding: 2rem;
+  }
+}

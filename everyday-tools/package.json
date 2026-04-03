@@ -1,0 +1,11 @@
+{
+  "name": "everyday-tools",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve --port 8080"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

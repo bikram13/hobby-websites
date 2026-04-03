@@ -1,0 +1,27 @@
+---
+layout: base.njk
+title: "Finance Calculator Tools"
+description: "Free finance calculators: tip calculator, percentage calculator, loan and EMI calculator. No signup required."
+canonical: "https://everyday-tools.pages.dev/finance/"
+---
+
+<div class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &rsaquo; Finance Tools
+  </nav>
+
+  <h1>Finance Calculator Tools</h1>
+  <p class="category-intro">Free financial calculators to help with everyday money decisions. All calculations happen instantly in your browser — no data is sent anywhere.</p>
+
+  <div class="tool-list">
+    {%- for tool in tools -%}
+      {%- if tool.category == "finance" -%}
+        <div class="tool-card">
+          <h2><a href="/finance/{{ tool.slug }}/">{{ tool.name }}</a></h2>
+          <p>{{ tool.description }}</p>
+          <a class="tool-link" href="/finance/{{ tool.slug }}/">Open {{ tool.name }} &rarr;</a>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>

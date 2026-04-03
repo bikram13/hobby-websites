@@ -1,0 +1,27 @@
+---
+layout: base.njk
+title: "Unit Converter Tools"
+description: "Free unit converters for length, weight, temperature, and volume. Convert between metric and imperial units instantly."
+canonical: "https://everyday-tools.pages.dev/unit-converters/"
+---
+
+<div class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &rsaquo; Unit Converters
+  </nav>
+
+  <h1>Unit Converter Tools</h1>
+  <p class="category-intro">Free unit conversion tools covering length, weight, temperature, and volume. Switch between metric and imperial measurements instantly with no page reload.</p>
+
+  <div class="tool-list">
+    {%- for tool in tools -%}
+      {%- if tool.category == "unit-converters" -%}
+        <div class="tool-card">
+          <h2><a href="/unit-converters/{{ tool.slug }}/">{{ tool.name }}</a></h2>
+          <p>{{ tool.description }}</p>
+          <a class="tool-link" href="/unit-converters/{{ tool.slug }}/">Open {{ tool.name }} &rarr;</a>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>

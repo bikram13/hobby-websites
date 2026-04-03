@@ -1,0 +1,40 @@
+---
+layout: base.njk
+title: "Unit Converter — Length, Weight, Temperature & Volume"
+description: "Convert between metric and imperial units for length, weight, temperature, and volume. Switch unit types instantly with no page reload."
+canonical: "https://everyday-tools.pages.dev/unit-converters/unit-converter/"
+---
+
+<div class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &rsaquo; <a href="/unit-converters/">Unit Converters</a> &rsaquo; Unit Converter
+  </nav>
+
+  <article class="tool-page">
+    <h1>Unit Converter</h1>
+    <p class="tool-intro">Convert between metric and imperial units across four measurement categories: length (metres, feet, inches, miles), weight (kilograms, pounds, ounces), temperature (Celsius, Fahrenheit, Kelvin), and volume (litres, gallons, fluid ounces).</p>
+
+    <div class="tool-container" id="tool-app">
+      <!-- Tool UI implemented in Phase A1-3 -->
+      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+    </div>
+
+    <div class="ad-slot" aria-hidden="true"></div>
+
+    <section class="tool-explainer">
+      <h2>How to use the Unit Converter</h2>
+      <p>Select the measurement type (Length, Weight, Temperature, or Volume), choose your input unit and output unit from the dropdowns, then type a value. The converted result updates in real time as you type.</p>
+
+      <h2>How unit conversions work</h2>
+      <p>
+        Each measurement type uses a base unit as a pivot. For length, the base is metres: 1 inch = 0.0254 m, 1 foot = 0.3048 m, 1 mile = 1,609.344 m. To convert from any unit to any other, the input is first converted to the base, then to the target. Temperature is handled separately with its own offset formulas: &deg;F = (&deg;C &times; 9/5) + 32, and Kelvin = &deg;C + 273.15.
+      </p>
+
+      <h2>Related tools</h2>
+      <ul>
+        <li><a href="/health/bmi-calculator/">BMI Calculator</a></li>
+        <li><a href="/utility/time-zone-converter/">Time Zone Converter</a></li>
+      </ul>
+    </section>
+  </article>
+</div>

@@ -1,0 +1,27 @@
+---
+layout: base.njk
+title: "Utility Tools — Time, Passwords, and More"
+description: "Free utility tools: time zone converter, password generator, random number generator. No signup, instant results."
+canonical: "https://everyday-tools.pages.dev/utility/"
+---
+
+<div class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &rsaquo; Utility Tools
+  </nav>
+
+  <h1>Utility Tools</h1>
+  <p class="category-intro">Free utility tools for everyday tasks — convert time zones, generate secure passwords, produce random numbers. Everything runs in your browser with no data stored.</p>
+
+  <div class="tool-list">
+    {%- for tool in tools -%}
+      {%- if tool.category == "utility" -%}
+        <div class="tool-card">
+          <h2><a href="/utility/{{ tool.slug }}/">{{ tool.name }}</a></h2>
+          <p>{{ tool.description }}</p>
+          <a class="tool-link" href="/utility/{{ tool.slug }}/">Open {{ tool.name }} &rarr;</a>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>

@@ -1,0 +1,27 @@
+---
+layout: base.njk
+title: "Health Calculator Tools"
+description: "Free health calculators: BMI calculator, age calculator, and more. Results are for informational purposes only."
+canonical: "https://everyday-tools.pages.dev/health/"
+---
+
+<div class="container">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a> &rsaquo; Health Tools
+  </nav>
+
+  <h1>Health Calculator Tools</h1>
+  <p class="category-intro">Free health metric calculators for personal use. All calculations run locally in your browser. Results are estimates for informational purposes only — consult a qualified healthcare professional for medical advice.</p>
+
+  <div class="tool-list">
+    {%- for tool in tools -%}
+      {%- if tool.category == "health" -%}
+        <div class="tool-card">
+          <h2><a href="/health/{{ tool.slug }}/">{{ tool.name }}</a></h2>
+          <p>{{ tool.description }}</p>
+          <a class="tool-link" href="/health/{{ tool.slug }}/">Open {{ tool.name }} &rarr;</a>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
