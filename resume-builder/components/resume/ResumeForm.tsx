@@ -3,6 +3,7 @@
 import { useState } from "react"
 import type { ResumeContent, ExperienceEntry, EducationEntry } from "./types"
 import { emptyContent } from "./types"
+import { AIImproveButton } from "./AIImproveButton"
 
 interface Props {
   initialContent: ResumeContent
@@ -116,6 +117,11 @@ export function ResumeForm({ initialContent, onChange }: Props) {
           value={content.summary}
           onChange={(e) => update({ summary: e.target.value })}
         />
+        <AIImproveButton
+          section="summary"
+          currentContent={content.summary}
+          onApply={(text) => update({ summary: text })}
+        />
       </section>
 
       {/* Work Experience */}
@@ -191,6 +197,12 @@ export function ResumeForm({ initialContent, onChange }: Props) {
                   placeholder="Led a team of 5 engineers to deliver..."
                   value={exp.bullets}
                   onChange={(e) => updateExperience(i, { bullets: e.target.value })}
+                />
+                <AIImproveButton
+                  section="experience"
+                  currentContent={exp.bullets}
+                  jobTitle={exp.title}
+                  onApply={(text) => updateExperience(i, { bullets: text })}
                 />
               </div>
             </div>
