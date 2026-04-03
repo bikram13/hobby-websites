@@ -15,15 +15,80 @@ canonical: "https://everyday-tools.pages.dev/finance/percentage-calculator/"
     <p class="tool-intro">Solve the three most common percentage problems: find a percentage of a number, determine what percent one number is of another, and calculate percentage change between two values.</p>
 
     <div class="tool-container" id="tool-app">
-      <!-- Tool UI implemented in Phase A1-2 -->
-      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+      <div class="pct-tool">
+        <div class="pct-tabs" role="tablist" aria-label="Calculation mode">
+          <button class="pct-tab active" role="tab" aria-selected="true" data-mode="of">X% of Y</button>
+          <button class="pct-tab" role="tab" aria-selected="false" data-mode="what">X is what % of Y</button>
+          <button class="pct-tab" role="tab" aria-selected="false" data-mode="change">% Change</button>
+        </div>
+
+        <!-- Mode 1: X% of Y -->
+        <div class="pct-panel active" id="panel-of">
+          <div class="pct-row">
+            <div class="field-group">
+              <label for="of-pct">Percentage (%)</label>
+              <input type="number" id="of-pct" min="0" step="any" placeholder="e.g. 20" autocomplete="off">
+            </div>
+            <span class="pct-of-label">% of</span>
+            <div class="field-group">
+              <label for="of-num">Number</label>
+              <input type="number" id="of-num" min="0" step="any" placeholder="e.g. 150" autocomplete="off">
+            </div>
+          </div>
+          <div class="pct-result-box">
+            <span class="pct-result-label">Result</span>
+            <span class="pct-result-value" id="res-of">—</span>
+          </div>
+          <p class="pct-formula-hint">Formula: (X &divide; 100) &times; Y</p>
+        </div>
+
+        <!-- Mode 2: X is what % of Y -->
+        <div class="pct-panel" id="panel-what">
+          <div class="pct-row">
+            <div class="field-group">
+              <label for="what-x">Value (X)</label>
+              <input type="number" id="what-x" min="0" step="any" placeholder="e.g. 30" autocomplete="off">
+            </div>
+            <span class="pct-of-label">is what % of</span>
+            <div class="field-group">
+              <label for="what-y">Total (Y)</label>
+              <input type="number" id="what-y" min="0" step="any" placeholder="e.g. 150" autocomplete="off">
+            </div>
+          </div>
+          <div class="pct-result-box">
+            <span class="pct-result-label">Result</span>
+            <span class="pct-result-value" id="res-what">—</span>
+          </div>
+          <p class="pct-formula-hint">Formula: (X &divide; Y) &times; 100</p>
+        </div>
+
+        <!-- Mode 3: % Change -->
+        <div class="pct-panel" id="panel-change">
+          <div class="pct-row">
+            <div class="field-group">
+              <label for="change-from">From (original)</label>
+              <input type="number" id="change-from" step="any" placeholder="e.g. 80" autocomplete="off">
+            </div>
+            <span class="pct-of-label">to</span>
+            <div class="field-group">
+              <label for="change-to">To (new value)</label>
+              <input type="number" id="change-to" step="any" placeholder="e.g. 100" autocomplete="off">
+            </div>
+          </div>
+          <div class="pct-result-box" id="change-result-box">
+            <span class="pct-result-label">% Change</span>
+            <span class="pct-result-value" id="res-change">—</span>
+          </div>
+          <p class="pct-formula-hint">Formula: ((New &minus; Old) &divide; Old) &times; 100</p>
+        </div>
+      </div>
     </div>
 
     <div class="ad-slot" aria-hidden="true"></div>
 
     <section class="tool-explainer">
       <h2>How to use the Percentage Calculator</h2>
-      <p>Choose the type of percentage problem from the three tabs, fill in the known values, and the answer appears immediately. Switch between modes without losing your inputs.</p>
+      <p>Choose the type of percentage problem from the three tabs above, fill in the known values, and the answer appears immediately. Switch between modes at any time.</p>
 
       <h2>How percentage calculations work</h2>
       <p>
@@ -31,6 +96,31 @@ canonical: "https://everyday-tools.pages.dev/finance/percentage-calculator/"
         <strong>X is what % of Y:</strong> Result = (X &divide; Y) &times; 100. Example: 30 is what % of 150 = 20%.<br>
         <strong>Percentage change:</strong> Result = ((New &minus; Old) &divide; Old) &times; 100. A positive result is an increase; negative is a decrease.
       </p>
+
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>How do I find 15% of a number?</h3>
+          <p>Multiply the number by 0.15. For example, 15% of 200 = 200 &times; 0.15 = 30. You can also find 10% first (move the decimal one place left), then add half of that to get 15%. Example: 10% of 200 = 20, half = 10, so 15% = 30.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What is the difference between percentage and percentage points?</h3>
+          <p>A percentage is a fraction of 100 (e.g., an interest rate of 5%). A percentage point is an arithmetic difference between two percentages. If rates rise from 5% to 7%, that is a 2 percentage-point increase, but a 40% relative increase.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How do I calculate a percentage increase?</h3>
+          <p>Subtract the original value from the new value, divide the result by the original value, then multiply by 100. Example: price rose from $40 to $50 → ((50 − 40) ÷ 40) × 100 = 25% increase.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How do I reverse a percentage — for example, find the original price before a 20% discount?</h3>
+          <p>Divide the discounted price by (1 − discount rate). Example: sale price is $80 after a 20% discount → original price = $80 ÷ 0.80 = $100. Do not simply add 20% back — that gives the wrong answer.</p>
+        </div>
+        <div class="faq-item">
+          <h3>What does a negative percentage change mean?</h3>
+          <p>A negative percentage change means the value decreased. For example, going from 100 to 75 is a −25% change, meaning a 25% decrease. The sign tells you the direction; the number tells you the magnitude.</p>
+        </div>
+      </div>
 
       <h2>Related tools</h2>
       <ul>
@@ -40,3 +130,130 @@ canonical: "https://everyday-tools.pages.dev/finance/percentage-calculator/"
     </section>
   </article>
 </div>
+
+<style>
+.pct-tool { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.pct-tabs { display: flex; flex-wrap: wrap; gap: 0.375rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem; }
+.pct-tab {
+  padding: 0.45rem 0.875rem; font-size: 0.875rem; font-weight: 500; cursor: pointer;
+  border: 1px solid var(--color-border); border-radius: var(--radius);
+  background: var(--color-bg); color: var(--color-text-muted);
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+.pct-tab:hover { color: var(--color-accent); border-color: var(--color-accent); }
+.pct-tab.active { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+
+.pct-panel { display: none; flex-direction: column; gap: 1rem; }
+.pct-panel.active { display: flex; }
+
+.pct-row {
+  display: flex; flex-direction: column; gap: 0.75rem;
+  align-items: flex-start;
+}
+.pct-of-label { font-size: 0.875rem; color: var(--color-text-muted); padding: 0.25rem 0; align-self: flex-end; padding-bottom: 0.6rem; }
+
+.field-group { display: flex; flex-direction: column; gap: 0.375rem; width: 100%; }
+.field-group label { font-size: 0.875rem; font-weight: 500; color: var(--color-text); }
+.field-group input[type="number"] {
+  width: 100%; padding: 0.6rem 0.75rem; font-size: 1rem;
+  border: 1px solid var(--color-border); border-radius: var(--radius);
+  background: var(--color-bg); color: var(--color-text);
+  -moz-appearance: textfield;
+}
+.field-group input[type="number"]::-webkit-outer-spin-button,
+.field-group input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.field-group input[type="number"]:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; border-color: transparent; }
+
+.pct-result-box {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--color-accent); border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+.pct-result-label { font-size: 0.875rem; font-weight: 500; color: rgba(255,255,255,0.85); }
+.pct-result-value { font-size: 1.5rem; font-weight: 700; color: #fff; }
+
+.pct-formula-hint { font-size: 0.8125rem; color: var(--color-text-muted); font-style: italic; margin: 0; }
+
+.pct-result-box.pct-increase { background: #1a7f37; }
+.pct-result-box.pct-decrease { background: #cf222e; }
+
+.faq-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem; }
+.faq-item h3 { font-size: 0.9375rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.25rem; }
+.faq-item p { font-size: 0.875rem; color: var(--color-text-muted); margin: 0; max-width: 640px; }
+
+@media (min-width: 560px) {
+  .pct-row { flex-direction: row; align-items: flex-end; gap: 0.75rem; }
+  .pct-of-label { white-space: nowrap; flex-shrink: 0; }
+  .field-group { width: auto; flex: 1; }
+}
+</style>
+
+<script>
+(function () {
+  var tabs = document.querySelectorAll('.pct-tab');
+  var panels = document.querySelectorAll('.pct-panel');
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      panels.forEach(function (p) { p.classList.remove('active'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById('panel-' + tab.dataset.mode).classList.add('active');
+    });
+  });
+
+  function fmt(n) {
+    var rounded = Math.round(n * 10000) / 10000;
+    return rounded % 1 === 0 ? rounded.toString() : parseFloat(rounded.toFixed(4)).toString();
+  }
+
+  // Mode 1: X% of Y
+  var ofPct = document.getElementById('of-pct');
+  var ofNum = document.getElementById('of-num');
+  var resOf = document.getElementById('res-of');
+
+  function calcOf() {
+    var x = parseFloat(ofPct.value);
+    var y = parseFloat(ofNum.value);
+    if (isNaN(x) || isNaN(y)) { resOf.textContent = '—'; return; }
+    resOf.textContent = fmt((x / 100) * y);
+  }
+  ofPct.addEventListener('input', calcOf);
+  ofNum.addEventListener('input', calcOf);
+
+  // Mode 2: X is what % of Y
+  var whatX = document.getElementById('what-x');
+  var whatY = document.getElementById('what-y');
+  var resWhat = document.getElementById('res-what');
+
+  function calcWhat() {
+    var x = parseFloat(whatX.value);
+    var y = parseFloat(whatY.value);
+    if (isNaN(x) || isNaN(y) || y === 0) { resWhat.textContent = '—'; return; }
+    resWhat.textContent = fmt((x / y) * 100) + '%';
+  }
+  whatX.addEventListener('input', calcWhat);
+  whatY.addEventListener('input', calcWhat);
+
+  // Mode 3: % Change
+  var changeFrom = document.getElementById('change-from');
+  var changeTo = document.getElementById('change-to');
+  var resChange = document.getElementById('res-change');
+  var changeBox = document.getElementById('change-result-box');
+
+  function calcChange() {
+    var from = parseFloat(changeFrom.value);
+    var to = parseFloat(changeTo.value);
+    changeBox.classList.remove('pct-increase', 'pct-decrease');
+    if (isNaN(from) || isNaN(to) || from === 0) { resChange.textContent = '—'; return; }
+    var change = ((to - from) / Math.abs(from)) * 100;
+    resChange.textContent = (change >= 0 ? '+' : '') + fmt(change) + '%';
+    if (change > 0) changeBox.classList.add('pct-increase');
+    else if (change < 0) changeBox.classList.add('pct-decrease');
+  }
+  changeFrom.addEventListener('input', calcChange);
+  changeTo.addEventListener('input', calcChange);
+})();
+</script>

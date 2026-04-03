@@ -6,7 +6,7 @@ module.exports = [
     description: "Calculate tip amounts and split the bill between friends. Enter bill total, tip %, and number of people.",
     category: "finance",
     categoryName: "Finance Tools",
-    status: "stub"
+    status: "live"
   },
   {
     slug: "percentage-calculator",
@@ -14,7 +14,7 @@ module.exports = [
     description: "Calculate percentages three ways: X% of Y, X is what % of Y, and percentage change.",
     category: "finance",
     categoryName: "Finance Tools",
-    status: "stub"
+    status: "live"
   },
   {
     slug: "loan-calculator",
@@ -22,7 +22,7 @@ module.exports = [
     description: "Calculate monthly loan payments using the standard amortization formula.",
     category: "finance",
     categoryName: "Finance Tools",
-    status: "stub"
+    status: "live"
   },
   // Health
   {

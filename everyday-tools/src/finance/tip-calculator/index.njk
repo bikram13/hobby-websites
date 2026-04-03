@@ -15,18 +15,90 @@ canonical: "https://everyday-tools.pages.dev/finance/tip-calculator/"
     <p class="tool-intro">Calculate the tip on any restaurant bill and split the total between multiple people. Results update instantly without any page reload.</p>
 
     <div class="tool-container" id="tool-app">
-      <!-- Tool UI implemented in Phase A1-2 -->
-      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+      <div class="tip-tool">
+        <div class="tip-inputs">
+          <div class="field-group">
+            <label for="bill-amount">Bill Amount</label>
+            <div class="input-prefix-wrap">
+              <span class="input-prefix">$</span>
+              <input type="number" id="bill-amount" min="0" step="0.01" placeholder="0.00" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>Tip Percentage</label>
+            <div class="tip-btn-row">
+              <button class="tip-btn" data-tip="10">10%</button>
+              <button class="tip-btn" data-tip="15">15%</button>
+              <button class="tip-btn active" data-tip="18">18%</button>
+              <button class="tip-btn" data-tip="20">20%</button>
+              <button class="tip-btn" data-tip="25">25%</button>
+              <button class="tip-btn tip-btn-custom" data-tip="custom">Custom</button>
+            </div>
+            <div class="custom-tip-wrap" id="custom-tip-wrap" style="display:none; margin-top: 0.5rem;">
+              <div class="input-suffix-wrap">
+                <input type="number" id="custom-tip-input" min="0" max="100" step="0.5" placeholder="Enter %" autocomplete="off">
+                <span class="input-suffix">%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="num-people">Number of People</label>
+            <input type="number" id="num-people" min="1" step="1" value="1" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="tip-results" id="tip-results">
+          <div class="result-row">
+            <span class="result-label">Tip Amount</span>
+            <span class="result-value" id="res-tip">—</span>
+          </div>
+          <div class="result-row result-row-total">
+            <span class="result-label">Total Bill</span>
+            <span class="result-value" id="res-total">—</span>
+          </div>
+          <div class="result-row result-row-highlight">
+            <span class="result-label">Per Person</span>
+            <span class="result-value result-value-large" id="res-per-person">—</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="ad-slot" aria-hidden="true"></div>
 
     <section class="tool-explainer">
       <h2>How to use the Tip Calculator</h2>
-      <p>Enter your total bill amount, select a tip percentage (15%, 18%, 20%, or a custom amount), and specify how many people are splitting the bill. The calculator instantly shows the tip amount and the total each person owes.</p>
+      <p>Enter your total bill amount, select a tip percentage (10%, 15%, 18%, 20%, 25%, or a custom amount), and specify how many people are splitting the bill. The calculator instantly shows the tip amount, total bill, and the amount each person owes.</p>
 
       <h2>How tip is calculated</h2>
       <p>Tip amount = Bill total &times; (Tip % &divide; 100). Per-person share = (Bill total + Tip amount) &divide; Number of people. For example, a $80 bill with an 18% tip among 4 people: tip = $14.40, total = $94.40, per person = $23.60.</p>
+
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>What is the standard tip percentage at a restaurant?</h3>
+          <p>In the United States, 15–20% is the standard range for restaurant service. 18% is widely considered the baseline for good service, while 20–25% is common for excellent service. Tip less only if service was genuinely poor.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Should I tip on the pre-tax or post-tax amount?</h3>
+          <p>Etiquette varies, but most diners tip on the pre-tax subtotal. Either approach is acceptable — tipping on the full amount (including tax) is slightly more generous and simpler to calculate.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How do I split the bill unevenly?</h3>
+          <p>This calculator splits the total evenly. For unequal splits, calculate the total bill including tip, then divide manually based on what each person ordered. Many restaurant apps and payment systems now support itemised splitting.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Do I tip on takeout or delivery orders?</h3>
+          <p>Tipping 10–15% on takeout is appreciated but optional. For delivery, 15–20% (or a minimum of $3–5) is customary, as drivers bear fuel and time costs. For app-based delivery, tip through the app so the driver receives it directly.</p>
+        </div>
+        <div class="faq-item">
+          <h3>How do I calculate a 20% tip quickly in my head?</h3>
+          <p>Move the decimal one place left to get 10% of the bill, then double it for 20%. For example: $47 bill → 10% = $4.70 → 20% = $9.40. For 15%, take 10% and add half of that amount.</p>
+        </div>
+      </div>
 
       <h2>Related tools</h2>
       <ul>
@@ -36,3 +108,119 @@ canonical: "https://everyday-tools.pages.dev/finance/tip-calculator/"
     </section>
   </article>
 </div>
+
+<style>
+.tip-tool { display: flex; flex-direction: column; gap: 1.5rem; }
+.tip-inputs { display: flex; flex-direction: column; gap: 1rem; }
+.field-group { display: flex; flex-direction: column; gap: 0.375rem; }
+.field-group label { font-size: 0.875rem; font-weight: 500; color: var(--color-text); }
+.field-group input[type="number"] {
+  width: 100%; padding: 0.6rem 0.75rem; font-size: 1rem;
+  border: 1px solid var(--color-border); border-radius: var(--radius);
+  background: var(--color-bg); color: var(--color-text);
+  -moz-appearance: textfield;
+}
+.field-group input[type="number"]::-webkit-outer-spin-button,
+.field-group input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.field-group input[type="number"]:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; border-color: transparent; }
+
+.input-prefix-wrap, .input-suffix-wrap { position: relative; }
+.input-prefix { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); pointer-events: none; font-size: 1rem; }
+.input-prefix-wrap input { padding-left: 1.75rem; }
+.input-suffix { position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--color-text-muted); pointer-events: none; font-size: 1rem; }
+.input-suffix-wrap input { padding-right: 2.25rem; }
+
+.tip-btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tip-btn {
+  padding: 0.45rem 0.875rem; font-size: 0.875rem; font-weight: 500; cursor: pointer;
+  border: 1px solid var(--color-border); border-radius: var(--radius);
+  background: var(--color-bg); color: var(--color-text);
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+.tip-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.tip-btn.active { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+
+.tip-results { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; }
+.result-row { display: flex; justify-content: space-between; align-items: center; padding: 0.875rem 1rem; background: var(--color-bg-alt); border-bottom: 1px solid var(--color-border); }
+.result-row:last-child { border-bottom: none; }
+.result-row-total { background: var(--color-bg-alt); }
+.result-row-highlight { background: var(--color-accent); }
+.result-row-highlight .result-label, .result-row-highlight .result-value { color: #fff; }
+.result-label { font-size: 0.875rem; color: var(--color-text-muted); }
+.result-value { font-size: 1.125rem; font-weight: 600; color: var(--color-text); }
+.result-value-large { font-size: 1.375rem; }
+
+.faq-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem; }
+.faq-item h3 { font-size: 0.9375rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.25rem; }
+.faq-item p { font-size: 0.875rem; color: var(--color-text-muted); margin: 0; max-width: 640px; }
+
+@media (min-width: 600px) {
+  .tip-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .tip-inputs .field-group:first-child { grid-column: 1; }
+  .tip-inputs .field-group:nth-child(2) { grid-column: 1 / -1; }
+  .tip-inputs .field-group:last-child { grid-column: 2; }
+}
+</style>
+
+<script>
+(function () {
+  const billInput = document.getElementById('bill-amount');
+  const peopleInput = document.getElementById('num-people');
+  const customWrap = document.getElementById('custom-tip-wrap');
+  const customInput = document.getElementById('custom-tip-input');
+  const tipBtns = document.querySelectorAll('.tip-btn');
+  const resTip = document.getElementById('res-tip');
+  const resTotal = document.getElementById('res-total');
+  const resPerPerson = document.getElementById('res-per-person');
+
+  let currentTip = 18;
+  let isCustom = false;
+
+  function fmt(n) {
+    return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function calculate() {
+    const bill = parseFloat(billInput.value) || 0;
+    const people = Math.max(1, parseInt(peopleInput.value) || 1);
+    const tipPct = isCustom ? (parseFloat(customInput.value) || 0) : currentTip;
+
+    const tipAmt = bill * (tipPct / 100);
+    const total = bill + tipAmt;
+    const perPerson = total / people;
+
+    if (bill === 0) {
+      resTip.textContent = '—';
+      resTotal.textContent = '—';
+      resPerPerson.textContent = '—';
+    } else {
+      resTip.textContent = fmt(tipAmt);
+      resTotal.textContent = fmt(total);
+      resPerPerson.textContent = fmt(perPerson);
+    }
+  }
+
+  tipBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      tipBtns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      if (btn.dataset.tip === 'custom') {
+        isCustom = true;
+        customWrap.style.display = 'block';
+        customInput.focus();
+      } else {
+        isCustom = false;
+        currentTip = parseFloat(btn.dataset.tip);
+        customWrap.style.display = 'none';
+      }
+      calculate();
+    });
+  });
+
+  customInput.addEventListener('input', calculate);
+  billInput.addEventListener('input', calculate);
+  peopleInput.addEventListener('input', calculate);
+
+  calculate();
+})();
+</script>
