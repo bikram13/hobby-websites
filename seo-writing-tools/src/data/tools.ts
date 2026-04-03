@@ -7,6 +7,7 @@ export interface Tool {
   description: string
   path: string
   phase: string
+  status?: 'live' | 'coming-soon'
 }
 
 export const tools: Tool[] = [
@@ -18,6 +19,7 @@ export const tools: Tool[] = [
     description: 'Count words, characters, sentences, paragraphs, and reading time in real time.',
     path: '/writing/word-counter',
     phase: 'A2-2',
+    status: 'live',
   },
   {
     slug: 'character-counter',
@@ -26,6 +28,7 @@ export const tools: Tool[] = [
     description: 'Count characters with and without spaces — great for Twitter, meta descriptions, and more.',
     path: '/writing/character-counter',
     phase: 'A2-2',
+    status: 'live',
   },
   {
     slug: 'readability-checker',
@@ -34,6 +37,7 @@ export const tools: Tool[] = [
     description: 'Get your Flesch-Kincaid reading ease score and grade level instantly.',
     path: '/writing/readability-checker',
     phase: 'A2-2',
+    status: 'live',
   },
   {
     slug: 'case-converter',
