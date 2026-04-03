@@ -15,8 +15,49 @@ canonical: "https://everyday-tools.pages.dev/utility/random-number-generator/"
     <p class="tool-intro">Generate a truly random integer within any minimum and maximum range you specify. Useful for games, giveaways, statistical sampling, making decisions, or any situation where you need an unbiased random number.</p>
 
     <div class="tool-container" id="tool-app">
-      <!-- Tool UI implemented in Phase A1-4 -->
-      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;max-width:360px">
+        <div class="field-group">
+          <label for="rng-min">Minimum</label>
+          <input id="rng-min" type="number" value="1" style="padding:.5rem .75rem;border:1px solid var(--color-border,#d1d5db);border-radius:.5rem;font-size:1rem;width:100%;box-sizing:border-box">
+        </div>
+        <div class="field-group">
+          <label for="rng-max">Maximum</label>
+          <input id="rng-max" type="number" value="100" style="padding:.5rem .75rem;border:1px solid var(--color-border,#d1d5db);border-radius:.5rem;font-size:1rem;width:100%;box-sizing:border-box">
+        </div>
+      </div>
+      <button id="rng-btn" class="btn-primary" style="min-width:180px">Generate Number</button>
+      <div id="rng-result" style="font-size:4rem;font-weight:800;color:var(--color-accent,#2563eb);margin:1.5rem 0 .5rem;min-height:5rem;line-height:1"></div>
+      <button id="rng-copy" style="display:none;padding:.4rem 1rem;border:1px solid #d1d5db;border-radius:.5rem;background:#fff;cursor:pointer;font-size:.875rem">Copy</button>
+      <script>
+        function randInt(min,max){
+          const range=max-min+1;
+          const bitsNeeded=Math.ceil(Math.log2(range));
+          const bytesNeeded=Math.ceil(bitsNeeded/8);
+          const mask=(1<<bitsNeeded)-1;
+          let n;
+          do{
+            const arr=new Uint8Array(bytesNeeded);
+            crypto.getRandomValues(arr);
+            n=arr.reduce((acc,b,i)=>acc|(b<<(i*8)),0)&mask;
+          }while(n>=range);
+          return min+n;
+        }
+        const resultEl=document.getElementById('rng-result');
+        const copyBtn=document.getElementById('rng-copy');
+        document.getElementById('rng-btn').addEventListener('click',()=>{
+          const min=parseInt(document.getElementById('rng-min').value);
+          const max=parseInt(document.getElementById('rng-max').value);
+          if(isNaN(min)||isNaN(max)||min>max){resultEl.textContent='Invalid range';return}
+          const n=randInt(min,max);
+          resultEl.textContent=n;
+          copyBtn.style.display='inline-block';
+        });
+        copyBtn.addEventListener('click',()=>{
+          navigator.clipboard.writeText(resultEl.textContent).then(()=>{
+            copyBtn.textContent='Copied!';setTimeout(()=>copyBtn.textContent='Copy',1500);
+          });
+        });
+      </script>
     </div>
 
     <div class="ad-slot" aria-hidden="true"></div>

@@ -15,9 +15,98 @@ canonical: "https://everyday-tools.pages.dev/utility/time-zone-converter/"
     <p class="tool-intro">Enter a time in one time zone and instantly see the equivalent time in any other major city around the world. Useful for scheduling international meetings, calls, or travel.</p>
 
     <div class="tool-container" id="tool-app">
-      <!-- Tool UI implemented in Phase A1-4 -->
-      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+      <div class="tz-input-row">
+        <div class="field-group">
+          <label for="tz-time">Your Time</label>
+          <input id="tz-time" type="time" value="12:00">
+        </div>
+        <div class="field-group">
+          <label for="tz-source">Your Time Zone</label>
+          <select id="tz-source"></select>
+        </div>
+      </div>
+      <div id="tz-results" class="tz-results"></div>
     </div>
+    <style>
+      .tz-input-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+      @media(max-width:500px){.tz-input-row{grid-template-columns:1fr}}
+      .tz-results{display:grid;gap:.75rem}
+      .tz-card{display:flex;justify-content:space-between;align-items:center;padding:.875rem 1rem;background:var(--color-surface,#f9fafb);border:1px solid var(--color-border,#e5e7eb);border-radius:.75rem}
+      .tz-city{font-weight:600;font-size:.9rem}
+      .tz-offset{font-size:.75rem;color:var(--color-text-muted,#6b7280);margin-top:.15rem}
+      .tz-time{font-size:1.25rem;font-weight:700;color:var(--color-accent,#2563eb);text-align:right}
+      .tz-date{font-size:.75rem;color:var(--color-text-muted,#6b7280);text-align:right;margin-top:.1rem}
+    </style>
+    <script>
+      const ZONES = [
+        {id:'UTC',label:'UTC — Coordinated Universal Time'},
+        {id:'America/New_York',label:'New York (ET)'},
+        {id:'America/Los_Angeles',label:'Los Angeles (PT)'},
+        {id:'America/Chicago',label:'Chicago (CT)'},
+        {id:'America/Sao_Paulo',label:'São Paulo (BRT)'},
+        {id:'Europe/London',label:'London (GMT/BST)'},
+        {id:'Europe/Paris',label:'Paris (CET/CEST)'},
+        {id:'Europe/Moscow',label:'Moscow (MSK)'},
+        {id:'Asia/Dubai',label:'Dubai (GST)'},
+        {id:'Asia/Kolkata',label:'Mumbai / Delhi (IST)'},
+        {id:'Asia/Singapore',label:'Singapore (SGT)'},
+        {id:'Asia/Tokyo',label:'Tokyo (JST)'},
+        {id:'Asia/Shanghai',label:'Shanghai (CST)'},
+        {id:'Australia/Sydney',label:'Sydney (AEST/AEDT)'},
+      ];
+
+      const srcEl = document.getElementById('tz-source');
+      const timeEl = document.getElementById('tz-time');
+      const resultsEl = document.getElementById('tz-results');
+
+      ZONES.forEach(z => {
+        const o = document.createElement('option');
+        o.value = z.id; o.textContent = z.label; srcEl.appendChild(o);
+      });
+      // Default to user's local zone
+      try { srcEl.value = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch {}
+
+      function convert() {
+        const [h, m] = timeEl.value.split(':').map(Number);
+        const src = srcEl.value;
+        // Build a Date in the source timezone using today's date
+        const now = new Date();
+        const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+        const localDate = new Date(`${dateStr}T${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:00`);
+        // Convert to UTC by subtracting source offset
+        const srcOffset = getOffset(src, localDate);
+        const utcMs = localDate.getTime() - srcOffset * 60000;
+
+        resultsEl.innerHTML = ZONES.filter(z => z.id !== src).map(z => {
+          const tgtOffset = getOffset(z.id, new Date(utcMs));
+          const tgtMs = utcMs + tgtOffset * 60000;
+          const tgtDate = new Date(tgtMs);
+          const timeStr = tgtDate.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', hour12:true});
+          const dateLabel = tgtDate.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
+          const sign = tgtOffset >= 0 ? '+' : '';
+          const hrs = Math.floor(Math.abs(tgtOffset)/60);
+          const mins = Math.abs(tgtOffset)%60;
+          const offsetStr = `UTC${sign}${hrs}${mins ? ':'+String(mins).padStart(2,'0') : ''}`;
+          return `<div class="tz-card">
+            <div><div class="tz-city">${z.label.split('(')[0].trim()}</div><div class="tz-offset">${offsetStr}</div></div>
+            <div><div class="tz-time">${timeStr}</div><div class="tz-date">${dateLabel}</div></div>
+          </div>`;
+        }).join('');
+      }
+
+      function getOffset(tz, date) {
+        // Returns offset in minutes (positive = ahead of UTC)
+        try {
+          const utcDate = new Date(date.toLocaleString('en-US', {timeZone:'UTC'}));
+          const tzDate = new Date(date.toLocaleString('en-US', {timeZone:tz}));
+          return (tzDate - utcDate) / 60000;
+        } catch { return 0; }
+      }
+
+      timeEl.addEventListener('input', convert);
+      srcEl.addEventListener('change', convert);
+      convert();
+    </script>
 
     <div class="ad-slot" aria-hidden="true"></div>
 
