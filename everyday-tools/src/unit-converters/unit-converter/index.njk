@@ -15,9 +15,129 @@ canonical: "https://everyday-tools.pages.dev/unit-converters/unit-converter/"
     <p class="tool-intro">Convert between metric and imperial units across four measurement categories: length (metres, feet, inches, miles), weight (kilograms, pounds, ounces), temperature (Celsius, Fahrenheit, Kelvin), and volume (litres, gallons, fluid ounces).</p>
 
     <div class="tool-container" id="tool-app">
-      <!-- Tool UI implemented in Phase A1-3 -->
-      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+      <div class="tab-bar" role="tablist">
+        <button class="tab-btn active" data-cat="length" role="tab">Length</button>
+        <button class="tab-btn" data-cat="weight" role="tab">Weight</button>
+        <button class="tab-btn" data-cat="temperature" role="tab">Temperature</button>
+        <button class="tab-btn" data-cat="volume" role="tab">Volume</button>
+      </div>
+      <div class="converter-grid">
+        <div class="field-group">
+          <label for="uc-value">Value</label>
+          <input id="uc-value" type="number" placeholder="Enter value" step="any">
+        </div>
+        <div class="field-group">
+          <label for="uc-from">From</label>
+          <select id="uc-from"></select>
+        </div>
+        <div class="field-group">
+          <label for="uc-to">To</label>
+          <select id="uc-to"></select>
+        </div>
+      </div>
+      <div class="result-box" id="uc-result" aria-live="polite">Enter a value to convert</div>
     </div>
+    <style>
+      .tab-bar{display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
+      .tab-btn{padding:.4rem 1rem;border:1px solid var(--color-border,#d1d5db);border-radius:999px;background:#fff;cursor:pointer;font-size:.875rem;color:var(--color-text)}
+      .tab-btn.active{background:var(--color-accent,#2563eb);color:#fff;border-color:var(--color-accent,#2563eb)}
+      .converter-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem}
+      @media(max-width:600px){.converter-grid{grid-template-columns:1fr}}
+      .field-group{display:flex;flex-direction:column;gap:.25rem}
+      .field-group label{font-size:.8rem;font-weight:600;color:var(--color-text-muted,#6b7280)}
+      .field-group input,.field-group select{padding:.5rem .75rem;border:1px solid var(--color-border,#d1d5db);border-radius:.5rem;font-size:1rem;background:var(--color-bg,#fff);color:var(--color-text)}
+      #uc-result{padding:1rem;background:var(--color-surface,#f9fafb);border:1px solid var(--color-border,#d1d5db);border-radius:.75rem;font-size:1.25rem;font-weight:700;text-align:center;color:var(--color-accent,#2563eb);min-height:3rem}
+    </style>
+    <script>
+      const UNITS = {
+        length: {
+          mm:{label:'Millimetre (mm)',factor:0.001},
+          cm:{label:'Centimetre (cm)',factor:0.01},
+          m:{label:'Metre (m)',factor:1},
+          km:{label:'Kilometre (km)',factor:1000},
+          inch:{label:'Inch (in)',factor:0.0254},
+          foot:{label:'Foot (ft)',factor:0.3048},
+          yard:{label:'Yard (yd)',factor:0.9144},
+          mile:{label:'Mile (mi)',factor:1609.344},
+        },
+        weight: {
+          mg:{label:'Milligram (mg)',factor:0.000001},
+          g:{label:'Gram (g)',factor:0.001},
+          kg:{label:'Kilogram (kg)',factor:1},
+          tonne:{label:'Tonne (t)',factor:1000},
+          oz:{label:'Ounce (oz)',factor:0.0283495},
+          lb:{label:'Pound (lb)',factor:0.453592},
+        },
+        temperature: 'special',
+        volume: {
+          ml:{label:'Millilitre (ml)',factor:0.001},
+          l:{label:'Litre (l)',factor:1},
+          floz:{label:'Fluid Ounce (fl oz)',factor:0.0295735},
+          cup:{label:'Cup (US)',factor:0.236588},
+          pint:{label:'Pint (US)',factor:0.473176},
+          gallon:{label:'Gallon (US)',factor:3.78541},
+        },
+      };
+      const TEMP_UNITS = [{key:'C',label:'Celsius (°C)'},{key:'F',label:'Fahrenheit (°F)'},{key:'K',label:'Kelvin (K)'}];
+      function toC(v,from){return from==='C'?v:from==='F'?(v-32)*5/9:v-273.15}
+      function fromC(v,to){return to==='C'?v:to==='F'?v*9/5+32:v+273.15}
+      function convertTemp(v,from,to){return fromC(toC(v,from),to)}
+
+      let cat='length';
+      const valEl=document.getElementById('uc-value');
+      const fromEl=document.getElementById('uc-from');
+      const toEl=document.getElementById('uc-to');
+      const resultEl=document.getElementById('uc-result');
+
+      function populateSelects(){
+        [fromEl,toEl].forEach(sel=>{
+          const prev=sel.value;
+          sel.innerHTML='';
+          if(cat==='temperature'){
+            TEMP_UNITS.forEach(u=>{
+              const o=document.createElement('option');
+              o.value=u.key;o.textContent=u.label;sel.appendChild(o);
+            });
+          } else {
+            Object.entries(UNITS[cat]).forEach(([k,u])=>{
+              const o=document.createElement('option');
+              o.value=k;o.textContent=u.label;sel.appendChild(o);
+            });
+          }
+          if(prev) sel.value=prev;
+        });
+        if(fromEl.value===toEl.value&&fromEl.options.length>1) toEl.selectedIndex=1;
+        calc();
+      }
+
+      function calc(){
+        const v=parseFloat(valEl.value);
+        if(isNaN(v)){resultEl.textContent='Enter a value to convert';return}
+        const from=fromEl.value, to=toEl.value;
+        let result;
+        if(cat==='temperature'){
+          result=convertTemp(v,from,to);
+        } else {
+          const units=UNITS[cat];
+          result=v*units[from].factor/units[to].factor;
+        }
+        const fmt=Math.abs(result)>=0.001&&Math.abs(result)<1e9
+          ?+result.toPrecision(7)
+          :result.toExponential(4);
+        resultEl.textContent=`${v} ${fromEl.options[fromEl.selectedIndex].text.split(' ')[0]} = ${fmt} ${toEl.options[toEl.selectedIndex].text.split(' ')[0]}`;
+      }
+
+      document.querySelectorAll('.tab-btn').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          document.querySelector('.tab-btn.active').classList.remove('active');
+          btn.classList.add('active');
+          cat=btn.dataset.cat;
+          populateSelects();
+        });
+      });
+      [valEl,fromEl,toEl].forEach(el=>el.addEventListener('input',calc));
+      populateSelects();
+    </script>
 
     <div class="ad-slot" aria-hidden="true"></div>
 

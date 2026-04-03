@@ -15,8 +15,83 @@ canonical: "https://everyday-tools.pages.dev/health/bmi-calculator/"
     <p class="tool-intro">Calculate your Body Mass Index instantly in either metric (kg, cm) or imperial (lb, ft/in) units. See your BMI score along with the standard weight category and the healthy weight range for your height.</p>
 
     <div class="tool-container" id="tool-app">
-      <!-- Tool UI implemented in Phase A1-3 -->
-      <p class="coming-soon">Tool coming soon. Check back shortly.</p>
+      <div class="bmi-unit-toggle" role="group" aria-label="Unit system">
+        <button class="unit-btn active" id="btn-metric" onclick="setUnit('metric')">Metric (kg, cm)</button>
+        <button class="unit-btn" id="btn-imperial" onclick="setUnit('imperial')">Imperial (lb, ft/in)</button>
+      </div>
+
+      <div class="bmi-inputs">
+        <!-- Metric inputs -->
+        <div id="metric-inputs" class="input-group-row">
+          <div class="input-group">
+            <label for="height-cm">Height</label>
+            <div class="input-with-unit">
+              <input type="number" id="height-cm" min="50" max="300" step="0.1" placeholder="e.g. 175" oninput="calculate()">
+              <span class="unit-label">cm</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="weight-kg">Weight</label>
+            <div class="input-with-unit">
+              <input type="number" id="weight-kg" min="1" max="500" step="0.1" placeholder="e.g. 70" oninput="calculate()">
+              <span class="unit-label">kg</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Imperial inputs -->
+        <div id="imperial-inputs" class="input-group-row" style="display:none">
+          <div class="input-group">
+            <label>Height</label>
+            <div class="imperial-height">
+              <div class="input-with-unit">
+                <input type="number" id="height-ft" min="1" max="9" step="1" placeholder="5" oninput="calculate()">
+                <span class="unit-label">ft</span>
+              </div>
+              <div class="input-with-unit">
+                <input type="number" id="height-in" min="0" max="11" step="0.1" placeholder="9" oninput="calculate()">
+                <span class="unit-label">in</span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="weight-lb">Weight</label>
+            <div class="input-with-unit">
+              <input type="number" id="weight-lb" min="1" max="1000" step="0.1" placeholder="e.g. 154" oninput="calculate()">
+              <span class="unit-label">lb</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="bmi-result" class="result-panel" style="display:none">
+        <div class="result-main">
+          <div class="result-label">Your BMI</div>
+          <div class="result-value" id="bmi-value">--</div>
+          <div class="result-category" id="bmi-category"></div>
+        </div>
+        <div class="bmi-scale">
+          <div class="scale-bar">
+            <div class="scale-segment seg-underweight" title="Underweight"></div>
+            <div class="scale-segment seg-normal" title="Normal"></div>
+            <div class="scale-segment seg-overweight" title="Overweight"></div>
+            <div class="scale-segment seg-obese" title="Obese"></div>
+            <div class="scale-marker" id="scale-marker"></div>
+          </div>
+          <div class="scale-labels">
+            <span>0</span>
+            <span>18.5</span>
+            <span>25</span>
+            <span>30</span>
+            <span>40+</span>
+          </div>
+        </div>
+        <div class="result-detail" id="healthy-range"></div>
+      </div>
+
+      <div class="ymyl-disclaimer">
+        <strong>Note:</strong> This tool provides general information only and is not medical advice. BMI is a screening tool and does not account for muscle mass, bone density, or fat distribution. Consult a qualified healthcare professional for a full health assessment.
+      </div>
     </div>
 
     <div class="ad-slot" aria-hidden="true"></div>
@@ -31,7 +106,23 @@ canonical: "https://everyday-tools.pages.dev/health/bmi-calculator/"
         <strong>Imperial:</strong> BMI = (Weight (lb) &divide; Height (in)<sup>2</sup>) &times; 703.<br>
         BMI categories (WHO): Underweight &lt; 18.5 &bull; Normal weight 18.5&ndash;24.9 &bull; Overweight 25&ndash;29.9 &bull; Obese &ge; 30.
       </p>
-      <p><em>Disclaimer: BMI is a screening tool, not a diagnostic measure. It does not account for muscle mass, bone density, or fat distribution. Consult a qualified healthcare professional for a full health assessment.</em></p>
+
+      <h2>Frequently Asked Questions</h2>
+
+      <h3>What is a healthy BMI?</h3>
+      <p>According to the World Health Organization, a BMI between 18.5 and 24.9 is considered the normal (healthy) weight range for adults. Values below 18.5 indicate underweight, 25–29.9 indicates overweight, and 30 or above indicates obesity.</p>
+
+      <h3>Is BMI accurate for everyone?</h3>
+      <p>BMI is a useful population-level screening tool but has well-known limitations. It does not distinguish between muscle and fat, so a muscular athlete may be classified as overweight. It also does not account for age, sex, ethnicity, or where fat is distributed in the body.</p>
+
+      <h3>What is the healthy weight range for my height?</h3>
+      <p>The calculator shows your healthy weight range directly below the BMI result. This is the weight span that produces a BMI between 18.5 and 24.9 for your entered height.</p>
+
+      <h3>How do I convert between metric and imperial?</h3>
+      <p>Use the toggle at the top of the calculator to switch between metric (kg, cm) and imperial (lb, ft/in). The tool switches the input fields; you do not need to convert values yourself.</p>
+
+      <h3>Does BMI apply to children?</h3>
+      <p>This calculator uses adult BMI thresholds. For children and teenagers (ages 2–19), BMI is interpreted differently using age- and sex-specific percentile charts. Consult a paediatrician for children's BMI assessment.</p>
 
       <h2>Related tools</h2>
       <ul>
@@ -41,3 +132,234 @@ canonical: "https://everyday-tools.pages.dev/health/bmi-calculator/"
     </section>
   </article>
 </div>
+
+<style>
+.bmi-unit-toggle {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.unit-btn {
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  font-family: var(--font-stack);
+}
+.unit-btn.active {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+.unit-btn:hover:not(.active) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.input-group-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 480px) { .input-group-row { grid-template-columns: 1fr; } }
+.input-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+  color: var(--color-text);
+}
+.input-with-unit {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+.input-with-unit input {
+  flex: 1;
+  border: none;
+  padding: 0.55rem 0.75rem;
+  font-size: 1rem;
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-stack);
+  outline: none;
+  min-width: 0;
+}
+.input-with-unit:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(0,113,227,0.15);
+}
+.unit-label {
+  padding: 0 0.65rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg-alt);
+  border-left: 1px solid var(--color-border);
+  white-space: nowrap;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+}
+.imperial-height {
+  display: flex;
+  gap: 0.5rem;
+}
+.imperial-height .input-with-unit { flex: 1; }
+.result-panel {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.result-main {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.result-label { font-size: 0.8125rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.result-value { font-size: 3rem; font-weight: 700; line-height: 1.1; color: var(--color-text); }
+.result-category { font-size: 1.0625rem; font-weight: 600; margin-top: 0.25rem; }
+.cat-underweight { color: #3b82f6; }
+.cat-normal { color: #22c55e; }
+.cat-overweight { color: #f59e0b; }
+.cat-obese { color: #ef4444; }
+.bmi-scale { margin: 1rem 0 0.75rem; }
+.scale-bar {
+  position: relative;
+  display: flex;
+  height: 14px;
+  border-radius: 7px;
+  overflow: visible;
+  margin-bottom: 0.35rem;
+}
+.scale-segment {
+  flex: 1;
+  height: 100%;
+}
+.scale-segment:first-child { border-radius: 7px 0 0 7px; }
+.scale-segment:last-child { border-radius: 0 7px 7px 0; }
+.seg-underweight { background: #3b82f6; }
+.seg-normal { background: #22c55e; }
+.seg-overweight { background: #f59e0b; }
+.seg-obese { background: #ef4444; }
+.scale-marker {
+  position: absolute;
+  top: -4px;
+  width: 6px;
+  height: 22px;
+  background: var(--color-text);
+  border-radius: 3px;
+  transform: translateX(-50%);
+  transition: left 0.3s ease;
+  display: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+.result-detail {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+.ymyl-disclaimer {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  background: var(--color-bg-alt);
+  margin-top: 0.5rem;
+}
+.tool-explainer h3 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.35rem;
+}
+</style>
+
+<script>
+(function() {
+  var unit = 'metric';
+
+  window.setUnit = function(u) {
+    unit = u;
+    document.getElementById('btn-metric').classList.toggle('active', u === 'metric');
+    document.getElementById('btn-imperial').classList.toggle('active', u === 'imperial');
+    document.getElementById('metric-inputs').style.display = u === 'metric' ? '' : 'none';
+    document.getElementById('imperial-inputs').style.display = u === 'imperial' ? '' : 'none';
+    calculate();
+  };
+
+  window.calculate = function() {
+    var bmi, heightM, weightKg;
+
+    if (unit === 'metric') {
+      var hcm = parseFloat(document.getElementById('height-cm').value);
+      var wkg = parseFloat(document.getElementById('weight-kg').value);
+      if (!hcm || !wkg || hcm <= 0 || wkg <= 0) { hide(); return; }
+      heightM = hcm / 100;
+      weightKg = wkg;
+    } else {
+      var hft = parseFloat(document.getElementById('height-ft').value) || 0;
+      var hin = parseFloat(document.getElementById('height-in').value) || 0;
+      var wlb = parseFloat(document.getElementById('weight-lb').value);
+      if ((!hft && !hin) || !wlb || wlb <= 0) { hide(); return; }
+      var totalIn = hft * 12 + hin;
+      if (totalIn <= 0) { hide(); return; }
+      heightM = totalIn * 0.0254;
+      weightKg = wlb * 0.453592;
+    }
+
+    bmi = weightKg / (heightM * heightM);
+    if (!isFinite(bmi) || bmi <= 0) { hide(); return; }
+
+    var category, catClass;
+    if (bmi < 18.5) { category = 'Underweight'; catClass = 'cat-underweight'; }
+    else if (bmi < 25) { category = 'Normal weight'; catClass = 'cat-normal'; }
+    else if (bmi < 30) { category = 'Overweight'; catClass = 'cat-overweight'; }
+    else { category = 'Obese'; catClass = 'cat-obese'; }
+
+    // Healthy weight range for this height
+    var minKg = 18.5 * heightM * heightM;
+    var maxKg = 24.9 * heightM * heightM;
+    var rangeStr;
+    if (unit === 'metric') {
+      rangeStr = 'Healthy weight for your height: ' + minKg.toFixed(1) + ' kg &ndash; ' + maxKg.toFixed(1) + ' kg';
+    } else {
+      rangeStr = 'Healthy weight for your height: ' + (minKg / 0.453592).toFixed(1) + ' lb &ndash; ' + (maxKg / 0.453592).toFixed(1) + ' lb';
+    }
+
+    document.getElementById('bmi-value').textContent = bmi.toFixed(1);
+    var catEl = document.getElementById('bmi-category');
+    catEl.textContent = category;
+    catEl.className = 'result-category ' + catClass;
+    document.getElementById('healthy-range').innerHTML = rangeStr;
+
+    // Position marker — scale from 0 to 40+, clamped
+    var pct = Math.min(Math.max((bmi / 40) * 100, 2), 98);
+    var marker = document.getElementById('scale-marker');
+    marker.style.left = pct + '%';
+    marker.style.display = 'block';
+
+    document.getElementById('bmi-result').style.display = '';
+  };
+
+  function hide() {
+    document.getElementById('bmi-result').style.display = 'none';
+  }
+})();
+</script>

@@ -10,5 +10,138 @@ const description = tool.description
   <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
   <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
   <p class="text-gray-600 text-lg mb-6">{tool.description}</p>
-  <p class="text-gray-500 italic">Tool implementation coming in phase {tool.phase}.</p>
+
+  <!-- Input -->
+  <textarea
+    id="cc-input"
+    rows="8"
+    placeholder="Type or paste your text here…"
+    class="w-full rounded-lg border border-gray-300 bg-white p-4 text-base text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-y"
+  ></textarea>
+
+  <!-- Conversion buttons -->
+  <div class="mt-4 flex flex-wrap gap-2">
+    <button data-case="upper"    class="cc-btn rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-blue-50 hover:border-blue-400 hover:text-blue-700 transition-colors">UPPER CASE</button>
+    <button data-case="lower"    class="cc-btn rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-blue-50 hover:border-blue-400 hover:text-blue-700 transition-colors">lower case</button>
+    <button data-case="title"    class="cc-btn rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-blue-50 hover:border-blue-400 hover:text-blue-700 transition-colors">Title Case</button>
+    <button data-case="sentence" class="cc-btn rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-blue-50 hover:border-blue-400 hover:text-blue-700 transition-colors">Sentence case</button>
+    <button data-case="camel"    class="cc-btn rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-blue-50 hover:border-blue-400 hover:text-blue-700 transition-colors">camelCase</button>
+    <button data-case="snake"    class="cc-btn rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-blue-50 hover:border-blue-400 hover:text-blue-700 transition-colors">snake_case</button>
+    <button data-case="kebab"    class="cc-btn rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-blue-50 hover:border-blue-400 hover:text-blue-700 transition-colors">kebab-case</button>
+  </div>
+
+  <!-- Output -->
+  <div class="mt-6 relative">
+    <label class="block text-sm font-medium text-gray-700 mb-2">Result</label>
+    <textarea
+      id="cc-output"
+      rows="8"
+      readonly
+      placeholder="Converted text will appear here…"
+      class="w-full rounded-lg border border-gray-300 bg-gray-50 p-4 text-base text-gray-800 shadow-sm resize-y focus:outline-none"
+    ></textarea>
+    <button
+      id="cc-copy"
+      class="absolute top-9 right-3 rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 transition-colors"
+    >Copy</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="mt-4 flex gap-6 text-sm text-gray-500">
+    <span>Characters: <strong id="cc-chars" class="text-gray-700">0</strong></span>
+    <span>Words: <strong id="cc-words" class="text-gray-700">0</strong></span>
+  </div>
+
+  <!-- Explanation -->
+  <section class="mt-10 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 class="text-xl font-semibold text-gray-800 mb-3">About Case Converter</h2>
+    <ul class="space-y-2 text-sm text-gray-600">
+      <li><span class="font-medium text-gray-700">UPPER CASE</span> — every letter becomes uppercase.</li>
+      <li><span class="font-medium text-gray-700">lower case</span> — every letter becomes lowercase.</li>
+      <li><span class="font-medium text-gray-700">Title Case</span> — first letter of each word capitalised.</li>
+      <li><span class="font-medium text-gray-700">Sentence case</span> — first letter of each sentence capitalised, rest lowercased.</li>
+      <li><span class="font-medium text-gray-700">camelCase</span> — words joined with no spaces; first word lowercase, subsequent words capitalised. Useful for variable names.</li>
+      <li><span class="font-medium text-gray-700">snake_case</span> — words joined with underscores, all lowercase. Common in Python and databases.</li>
+      <li><span class="font-medium text-gray-700">kebab-case</span> — words joined with hyphens, all lowercase. Used in URLs and CSS class names.</li>
+    </ul>
+  </section>
 </BaseLayout>
+
+<script>
+  const input  = document.getElementById('cc-input')  as HTMLTextAreaElement
+  const output = document.getElementById('cc-output') as HTMLTextAreaElement
+  const copyBtn = document.getElementById('cc-copy')  as HTMLButtonElement
+  const elChars = document.getElementById('cc-chars')!
+  const elWords = document.getElementById('cc-words')!
+
+  // ── helpers ──────────────────────────────────────────────────────────────────
+
+  function words(text: string): string[] {
+    return text.trim().split(/[\s\-_]+/).filter(Boolean)
+  }
+
+  function toUpper(t: string)    { return t.toUpperCase() }
+  function toLower(t: string)    { return t.toLowerCase() }
+  function toTitle(t: string)    { return t.replace(/\S+/g, w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()) }
+  function toSentence(t: string) {
+    return t.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g, c => c.toUpperCase())
+  }
+  function toCamel(t: string) {
+    const ws = words(t)
+    return ws.map((w, i) => i === 0 ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join('')
+  }
+  function toSnake(t: string)   { return words(t).map(w => w.toLowerCase()).join('_') }
+  function toKebab(t: string)   { return words(t).map(w => w.toLowerCase()).join('-') }
+
+  const converters: Record<string, (t: string) => string> = {
+    upper: toUpper, lower: toLower, title: toTitle,
+    sentence: toSentence, camel: toCamel, snake: toSnake, kebab: toKebab,
+  }
+
+  // ── state ────────────────────────────────────────────────────────────────────
+
+  function updateStats(text: string) {
+    elChars.textContent = text.length.toLocaleString()
+    elWords.textContent = (text.trim() === '' ? 0 : text.trim().split(/\s+/).length).toLocaleString()
+  }
+
+  function apply(caseType: string) {
+    const text = input.value
+    const converted = converters[caseType]?.(text) ?? text
+    output.value = converted
+    updateStats(converted)
+  }
+
+  // Update stats as user types
+  input.addEventListener('input', () => updateStats(input.value))
+
+  // Case buttons
+  document.querySelectorAll<HTMLButtonElement>('.cc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const caseType = btn.dataset.case ?? ''
+      apply(caseType)
+      // Brief active highlight
+      btn.classList.add('bg-blue-100', 'border-blue-500', 'text-blue-800')
+      setTimeout(() => btn.classList.remove('bg-blue-100', 'border-blue-500', 'text-blue-800'), 400)
+    })
+  })
+
+  // Copy
+  copyBtn.addEventListener('click', async () => {
+    const text = output.value
+    if (!text) return
+    try {
+      await navigator.clipboard.writeText(text)
+    } catch {
+      // Fallback for older browsers
+      output.select()
+      document.execCommand('copy')
+    }
+    copyBtn.textContent = 'Copied!'
+    copyBtn.classList.replace('bg-blue-600', 'bg-green-600')
+    setTimeout(() => {
+      copyBtn.textContent = 'Copy'
+      copyBtn.classList.replace('bg-green-600', 'bg-blue-600')
+    }, 1800)
+  })
+</script>
