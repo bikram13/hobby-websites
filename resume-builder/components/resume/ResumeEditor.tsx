@@ -6,6 +6,18 @@ import { ResumePreview } from "@/components/resume/ResumePreview"
 import type { ResumeContent } from "@/components/resume/types"
 import Link from "next/link"
 
+async function downloadPDF(id: string) {
+  const res = await fetch(`/api/resume/export?id=${id}`)
+  if (!res.ok) { alert("PDF export failed. Please try again."); return }
+  const blob = await res.blob()
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url
+  a.download = "resume.pdf"
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 interface Props {
   id: string
   initialTitle: string
@@ -96,6 +108,12 @@ export function ResumeEditor({ id, initialTitle, initialTemplate, initialContent
           <span className="text-xs text-gray-400 ml-2">
             {saving ? "Saving…" : saved ? "Saved" : "Unsaved"}
           </span>
+          <button
+            onClick={() => downloadPDF(id)}
+            className="text-xs px-3 py-1.5 rounded-md border border-gray-300 text-gray-600 hover:border-blue-400 hover:text-blue-600 ml-2"
+          >
+            Download PDF
+          </button>
         </div>
       </header>
 
