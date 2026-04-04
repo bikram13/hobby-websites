@@ -31,7 +31,7 @@ module.exports = [
     description: "Calculate your Body Mass Index. Enter height and weight in metric or imperial units.",
     category: "health",
     categoryName: "Health Tools",
-    status: "stub"
+    status: "live"
   },
   {
     slug: "age-calculator",
@@ -39,7 +39,7 @@ module.exports = [
     description: "Calculate your exact age in years, months, and days from your date of birth.",
     category: "health",
     categoryName: "Health Tools",
-    status: "stub"
+    status: "live"
   },
   // Unit Converters
   {
@@ -48,7 +48,7 @@ module.exports = [
     description: "Convert length, weight, temperature, and volume between metric and imperial units.",
     category: "unit-converters",
     categoryName: "Unit Converters",
-    status: "stub"
+    status: "live"
   },
   // Utility
   {
@@ -57,7 +57,7 @@ module.exports = [
     description: "Convert times between major time zones around the world.",
     category: "utility",
     categoryName: "Utility Tools",
-    status: "stub"
+    status: "live"
   },
   {
     slug: "password-generator",
@@ -65,7 +65,7 @@ module.exports = [
     description: "Generate secure random passwords with configurable length, uppercase, numbers, and symbols.",
     category: "utility",
     categoryName: "Utility Tools",
-    status: "stub"
+    status: "live"
   },
   {
     slug: "random-number-generator",
@@ -73,6 +73,6 @@ module.exports = [
     description: "Generate a random number within any min/max range.",
     category: "utility",
     categoryName: "Utility Tools",
-    status: "stub"
+    status: "live"
   }
 ];

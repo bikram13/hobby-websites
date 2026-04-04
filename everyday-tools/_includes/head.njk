@@ -3,4 +3,10 @@
 <title>{{ title }} | Everyday Tools</title>
 <meta name="description" content="{{ description }}">
 {% if canonical %}<link rel="canonical" href="{{ canonical }}">{% endif %}
+<meta property="og:title" content="{{ title }}">
+<meta property="og:description" content="{{ description }}">
+{% if canonical %}<meta property="og:url" content="{{ canonical }}">{% endif %}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Everyday Tools">
+{% if toolStructuredData[page.fileSlug] %}<script type="application/ld+json">{{ toolStructuredData[page.fileSlug] | safe }}</script>{% endif %}
 <link rel="stylesheet" href="/css/main.css">
