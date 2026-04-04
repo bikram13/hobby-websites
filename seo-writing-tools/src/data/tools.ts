@@ -72,6 +72,7 @@ export const tools: Tool[] = [
     description: 'Analyze keyword frequency in your content — stopwords filtered, top terms ranked.',
     path: '/seo/keyword-density-checker',
     phase: 'A2-5',
+    status: 'live',
   },
   {
     slug: 'meta-tag-generator',
@@ -80,6 +81,7 @@ export const tools: Tool[] = [
     description: 'Generate optimized title and meta description tags with a live SERP preview.',
     path: '/seo/meta-tag-generator',
     phase: 'A2-5',
+    status: 'live',
   },
   {
     slug: 'url-slug-generator',
@@ -88,6 +90,7 @@ export const tools: Tool[] = [
     description: 'Convert any text into a clean, SEO-friendly lowercase-hyphenated URL slug.',
     path: '/seo/url-slug-generator',
     phase: 'A2-5',
+    status: 'live',
   },
   {
     slug: 'open-graph-generator',

@@ -10,5 +10,83 @@ const description = tool.description
   <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
   <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
   <p class="text-gray-600 text-lg mb-6">{tool.description}</p>
-  <p class="text-gray-500 italic">Tool implementation coming in phase {tool.phase}.</p>
+
+  <textarea
+    id="kd-input"
+    rows="10"
+    placeholder="Paste your content here to analyze keyword frequency…"
+    class="w-full rounded-lg border border-gray-300 bg-white p-4 text-base text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-y"
+  ></textarea>
+
+  <div id="kd-stats" class="mt-3 text-sm text-gray-500"></div>
+
+  <div id="kd-results" class="mt-6 hidden">
+    <h2 class="text-lg font-semibold text-gray-800 mb-3">Top Keywords</h2>
+    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+      <table class="w-full text-sm text-left">
+        <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+          <tr>
+            <th class="px-4 py-3 w-8">#</th>
+            <th class="px-4 py-3">Keyword</th>
+            <th class="px-4 py-3 text-right">Count</th>
+            <th class="px-4 py-3 text-right">Density</th>
+            <th class="px-4 py-3 w-32">Bar</th>
+          </tr>
+        </thead>
+        <tbody id="kd-tbody" class="divide-y divide-gray-100 bg-white"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const STOPWORDS = new Set(['a','an','the','and','or','but','in','on','at','to','for','of','with','by','from','as','is','was','are','were','be','been','being','have','has','had','do','does','did','will','would','could','should','may','might','shall','can','need','dare','ought','used','that','this','these','those','i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','what','which','who','when','where','why','how','all','each','every','both','few','more','most','no','not','only','same','so','than','too','very','just','about','into','through','during','before','after','above','below','between','out','off','over','under','then','once','if','also','up','down','s','t','re','ve','ll','d','m'])
+
+    const input = document.getElementById('kd-input')
+    const stats = document.getElementById('kd-stats')
+    const results = document.getElementById('kd-results')
+    const tbody = document.getElementById('kd-tbody')
+
+    input.addEventListener('input', analyze)
+
+    function analyze() {
+      const text = input.value.trim()
+      if (!text) { stats.textContent = ''; results.classList.add('hidden'); return }
+
+      const words = text.toLowerCase().match(/\b[a-z]{3,}\b/g) || []
+      const filtered = words.filter(w => !STOPWORDS.has(w))
+      const totalWords = words.length
+
+      const freq = {}
+      for (const w of filtered) freq[w] = (freq[w] || 0) + 1
+
+      const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 20)
+
+      stats.textContent = `${totalWords.toLocaleString()} total words · ${filtered.length.toLocaleString()} meaningful words · ${Object.keys(freq).length} unique`
+
+      if (!sorted.length) { results.classList.add('hidden'); return }
+
+      const max = sorted[0][1]
+      tbody.innerHTML = sorted.map(([word, count], i) => {
+        const pct = (count / totalWords * 100).toFixed(2)
+        const bar = Math.round(count / max * 100)
+        return `<tr class="hover:bg-gray-50">
+          <td class="px-4 py-2 text-gray-400">${i + 1}</td>
+          <td class="px-4 py-2 font-medium text-gray-800">${word}</td>
+          <td class="px-4 py-2 text-right text-gray-700">${count}</td>
+          <td class="px-4 py-2 text-right text-gray-700">${pct}%</td>
+          <td class="px-4 py-2"><div class="h-2 rounded-full bg-blue-100"><div class="h-2 rounded-full bg-blue-500" style="width:${bar}%"></div></div></td>
+        </tr>`
+      }).join('')
+
+      results.classList.remove('hidden')
+    }
+  </script>
+
+  <section class="mt-12 border-t border-gray-200 pt-8 text-gray-600 text-sm leading-relaxed space-y-4">
+    <h2 class="text-xl font-semibold text-gray-800">How to use the Keyword Density Checker</h2>
+    <p>Paste your article, blog post, or web page content into the text area. The tool instantly shows you the top 20 most-used meaningful words along with their frequency count and density percentage.</p>
+    <h2 class="text-xl font-semibold text-gray-800">What is keyword density?</h2>
+    <p>Keyword density is the percentage of times a specific word appears relative to the total word count. A density of 1–3% for a target keyword is generally considered healthy for SEO. Higher densities may be flagged as keyword stuffing by search engines.</p>
+    <p>This tool filters out common English stopwords (the, and, is, etc.) so you see only meaningful content words.</p>
+  </section>
 </BaseLayout>
