@@ -19,7 +19,12 @@ export default async function DashboardPage() {
       <div className="max-w-4xl mx-auto px-4 py-10">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold text-gray-900">My Resumes</h1>
-          <NewResumeButton />
+          <div className="flex gap-2">
+            <Link href="/cover-letter" className="text-sm px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:border-blue-400 hover:text-blue-600">
+              Cover Letter
+            </Link>
+            <NewResumeButton />
+          </div>
         </div>
 
         {resumes.length === 0 ? (
