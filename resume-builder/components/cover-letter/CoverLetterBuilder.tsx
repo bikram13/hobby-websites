@@ -24,6 +24,10 @@ export function CoverLetterBuilder() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ jobTitle, company, jobDescription, background }),
       })
+      if (res.status === 429) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data.error || "Daily limit reached. Try again tomorrow.")
+      }
       if (!res.ok) throw new Error("Generation failed")
       const reader = res.body?.getReader()
       const decoder = new TextDecoder()

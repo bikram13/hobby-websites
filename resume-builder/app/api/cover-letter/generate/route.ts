@@ -1,11 +1,17 @@
 import { streamText } from "ai"
 import { anthropic } from "@ai-sdk/anthropic"
 import { auth } from "@/auth"
+import { aiRatelimit } from "@/lib/ratelimit"
 
 export async function POST(req: Request) {
   const session = await auth()
   if (!session?.user?.id) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 })
+  }
+
+  const { success } = await aiRatelimit.limit(`coverletter:${session.user.id}`)
+  if (!success) {
+    return new Response(JSON.stringify({ error: "Daily limit reached. You can generate 3 times per day on the free plan." }), { status: 429 })
   }
 
   const { jobTitle = "", company = "", jobDescription = "", background = "" } = await req.json().catch(() => ({}))
