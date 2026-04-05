@@ -4,9 +4,11 @@ import '../styles/global.css'
 interface Props {
   title: string
   description: string
+  jsonLd?: string
+  affiliateLinks?: { name: string; url: string; desc: string }[]
 }
 
-const { title, description } = Astro.props
+const { title, description, jsonLd, affiliateLinks } = Astro.props
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 ---
 <!doctype html>
@@ -21,17 +23,53 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SEO & Writing Tools" />
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
-    <header class="bg-white border-b border-gray-200 px-4 py-3">
+    <header class="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 px-4 py-3">
       <nav class="max-w-5xl mx-auto flex items-center gap-6">
-        <a href="/" class="font-semibold text-gray-900 text-lg">SEO &amp; Writing Tools</a>
-        <a href="/#writing" class="text-sm text-gray-600 hover:text-gray-900">Writing</a>
-        <a href="/#seo" class="text-sm text-gray-600 hover:text-gray-900">SEO</a>
+        <a href="/" class="font-semibold text-gray-900 dark:text-gray-100 text-lg">SEO &amp; Writing Tools</a>
+        <a href="/#writing" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">Writing</a>
+        <a href="/#seo" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">SEO</a>
+        <div class="ml-auto">
+          <button id="theme-btn" aria-label="Toggle dark mode"
+            class="rounded-md border border-gray-300 dark:border-gray-700 px-2 py-1 text-sm leading-none hover:border-blue-400 transition-colors">☀️</button>
+        </div>
       </nav>
     </header>
+    <script is:inline>
+      (function(){
+        var t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+        if(t==='dark')document.documentElement.classList.add('dark');
+        document.addEventListener('DOMContentLoaded',function(){
+          var btn=document.getElementById('theme-btn');
+          if(!btn)return;
+          btn.textContent=document.documentElement.classList.contains('dark')?'☀️':'🌙';
+          btn.addEventListener('click',function(){
+            var dark=document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme',dark?'dark':'light');
+            btn.textContent=dark?'☀️':'🌙';
+          });
+        });
+      })();
+    </script>
     <main class="max-w-5xl mx-auto px-4 py-10">
       <slot />
+      {affiliateLinks && affiliateLinks.length > 0 && (
+        <aside class="mt-10 border-t border-gray-200 pt-6">
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Recommended Tools</p>
+          <div class="flex flex-wrap gap-3">
+            {affiliateLinks.map(link => (
+              <a href={link.url} target="_blank" rel="noopener sponsored"
+                class="flex flex-col rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm hover:border-blue-400 hover:shadow-sm transition-all max-w-xs">
+                <span class="font-semibold text-gray-900">{link.name}</span>
+                <span class="text-gray-500 text-xs mt-0.5">{link.desc}</span>
+              </a>
+            ))}
+          </div>
+        </aside>
+      )}
     </main>
     <footer class="border-t border-gray-200 mt-16 px-4 py-6 text-center text-sm text-gray-500">
       Free tools. No signup. No tracking. &copy; {new Date().getFullYear()}
