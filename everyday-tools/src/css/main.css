@@ -204,8 +204,13 @@ code {
 .tool-explainer ul li a { font-size: 0.9375rem; }
 .tool-explainer em { font-size: 0.8125rem; color: var(--color-text-muted); font-style: italic; }
 
-/* Ad slot — reserved space for AdSense (Phase A1-6), prevents CLS */
-.ad-slot { min-height: 100px; width: 100%; background: transparent; margin: 1rem 0; }
+/* Ad slot — reserved space for AdSense, prevents CLS (A1-6) */
+.ad-slot { min-height: 280px; width: 100%; background: transparent; margin: 1.5rem 0; contain: layout; }
+.ad-slot ins { display: block; min-height: 280px; }
+/* On mobile: tool must appear above any ad */
+@media (max-width: 767px) { .ad-slot:first-of-type { margin-top: 0; } }
+/* Pre-footer slot in base.njk wraps main — ensure it never floats above tool */
+main > .ad-slot { margin-bottom: 0; }
 
 /* Category hub h1 */
 .container > h1 { font-size: 1.625rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem; }
