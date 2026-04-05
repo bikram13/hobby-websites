@@ -99,6 +99,7 @@ export const tools: Tool[] = [
     description: 'Build og: meta tags for social sharing with a live Twitter/Facebook preview.',
     path: '/seo/open-graph-generator',
     phase: 'A2-6',
+    status: 'live',
   },
   {
     slug: 'robots-txt-generator',
@@ -107,6 +108,7 @@ export const tools: Tool[] = [
     description: 'Configure your robots.txt rules via UI — includes a safety warning for Disallow: /.',
     path: '/seo/robots-txt-generator',
     phase: 'A2-6',
+    status: 'live',
   },
 ]
 
