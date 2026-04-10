@@ -190,7 +190,7 @@ canonical: "https://everyday-tools.pages.dev/finance/loan-calculator/"
     var annualRate = parseFloat(rateInput.value);
     var tenureVal = parseFloat(tenureInput.value);
 
-    if (!P || !annualRate || !tenureVal || P <= 0 || annualRate <= 0 || tenureVal <= 0) {
+    if (!P || isNaN(annualRate) || !tenureVal || P <= 0 || annualRate < 0 || tenureVal <= 0) {
       resEmi.textContent = '—';
       resInterest.textContent = '—';
       resTotalPayment.textContent = '—';
