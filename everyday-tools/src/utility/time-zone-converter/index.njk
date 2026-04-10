@@ -69,13 +69,12 @@ canonical: "https://everyday-tools.pages.dev/utility/time-zone-converter/"
       function convert() {
         const [h, m] = timeEl.value.split(':').map(Number);
         const src = srcEl.value;
-        // Build a Date in the source timezone using today's date
+        // Build a Date using today's UTC calendar date to avoid browser-timezone interference
         const now = new Date();
-        const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-        const localDate = new Date(`${dateStr}T${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:00`);
+        const nowUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
         // Convert to UTC by subtracting source offset
-        const srcOffset = getOffset(src, localDate);
-        const utcMs = localDate.getTime() - srcOffset * 60000;
+        const srcOffset = getOffset(src, new Date(nowUTC));
+        const utcMs = nowUTC - srcOffset * 60000;
 
         resultsEl.innerHTML = ZONES.filter(z => z.id !== src).map(z => {
           const tgtOffset = getOffset(z.id, new Date(utcMs));

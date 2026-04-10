@@ -212,9 +212,14 @@ canonical: "https://everyday-tools.pages.dev/health/age-calculator/"
 
     // Calculate days
     // Start from (dob + years + months), count remaining days
+    // Use day=1 first to avoid month overflow (e.g. Jan 31 + 1 month overflows to Mar 3)
     var base = new Date(dob);
     base.setFullYear(base.getFullYear() + years);
+    base.setDate(1);
     base.setMonth(base.getMonth() + months);
+    var targetDay = dob.getDate();
+    var daysInMonth = new Date(base.getFullYear(), base.getMonth() + 1, 0).getDate();
+    base.setDate(Math.min(targetDay, daysInMonth));
     var days = Math.floor((today - base) / (1000 * 60 * 60 * 24));
 
     // Total days lived

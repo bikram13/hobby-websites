@@ -349,8 +349,13 @@ canonical: "https://everyday-tools.pages.dev/health/bmi-calculator/"
     catEl.className = 'result-category ' + catClass;
     document.getElementById('healthy-range').innerHTML = rangeStr;
 
-    // Position marker — scale from 0 to 40+, clamped
-    var pct = Math.min(Math.max((bmi / 40) * 100, 2), 98);
+    // Position marker aligned to 4 equal visual segments: <18.5 | 18.5-25 | 25-30 | 30+
+    var pct;
+    if (bmi < 18.5) pct = (bmi / 18.5) * 25;
+    else if (bmi < 25) pct = 25 + ((bmi - 18.5) / 6.5) * 25;
+    else if (bmi < 30) pct = 50 + ((bmi - 25) / 5) * 25;
+    else pct = Math.min(75 + ((bmi - 30) / 10) * 25, 98);
+    pct = Math.max(2, pct);
     var marker = document.getElementById('scale-marker');
     marker.style.left = pct + '%';
     marker.style.display = 'block';
