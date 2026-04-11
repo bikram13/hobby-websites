@@ -384,13 +384,12 @@ code {
   border-radius: 1px;
 }
 
-/* Ad slot — reserved space for AdSense, prevents CLS (A1-6) */
+/* Ad slot — disabled until AdSense publisher ID is configured
 .ad-slot { min-height: 280px; width: 100%; background: transparent; margin: 1.5rem 0; contain: layout; }
 .ad-slot ins { display: block; min-height: 280px; }
-/* On mobile: tool must appear above any ad */
 @media (max-width: 767px) { .ad-slot:first-of-type { margin-top: 0; } }
-/* Pre-footer slot in base.njk wraps main — ensure it never floats above tool */
 main > .ad-slot { margin-bottom: 0; }
+*/
 
 /* Primary button */
 .btn-primary {
