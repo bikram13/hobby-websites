@@ -180,10 +180,47 @@ canonical: "https://everyday-tools.pages.dev/finance/tip-calculator/"
     return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
+  // Block keys that would produce invalid/negative values in number inputs
+  function blockNegativeKeys(e) {
+    if (e.key === '-' || e.key === '+' || e.key === 'e' || e.key === 'E') {
+      e.preventDefault();
+    }
+  }
+
+  // Block non-integer keys in the people field (no decimals or negatives)
+  function blockNonIntegerKeys(e) {
+    if (e.key === '-' || e.key === '+' || e.key === 'e' || e.key === 'E' || e.key === '.') {
+      e.preventDefault();
+    }
+  }
+
+  // Clamp a numeric input to its min/max bounds after input
+  function clampInput(input, min, max) {
+    let val = parseFloat(input.value);
+    if (isNaN(val)) return;
+    if (min !== undefined && val < min) input.value = min;
+    if (max !== undefined && val > max) input.value = max;
+  }
+
+  billInput.addEventListener('keydown', blockNegativeKeys);
+  billInput.addEventListener('input', function () { clampInput(billInput, 0); });
+
+  customInput.addEventListener('keydown', blockNegativeKeys);
+  customInput.addEventListener('input', function () { clampInput(customInput, 0, 100); });
+
+  peopleInput.addEventListener('keydown', blockNonIntegerKeys);
+  peopleInput.addEventListener('input', function () {
+    // Strip any decimal portion that may slip through
+    if (peopleInput.value.includes('.')) {
+      peopleInput.value = Math.floor(parseFloat(peopleInput.value)) || 1;
+    }
+    clampInput(peopleInput, 1);
+  });
+
   function calculate() {
-    const bill = parseFloat(billInput.value) || 0;
+    const bill = Math.max(0, parseFloat(billInput.value) || 0);
     const people = Math.max(1, parseInt(peopleInput.value) || 1);
-    const tipPct = isCustom ? (parseFloat(customInput.value) || 0) : currentTip;
+    const tipPct = isCustom ? Math.max(0, Math.min(100, parseFloat(customInput.value) || 0)) : currentTip;
 
     const tipAmt = bill * (tipPct / 100);
     const total = bill + tipAmt;
