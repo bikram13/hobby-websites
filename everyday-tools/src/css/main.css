@@ -140,17 +140,32 @@ code {
 .footer-nav a:hover { color: var(--color-accent); }
 
 /* Hero */
-.hero {
-  padding: 2.5rem 0 2rem;
-  background: var(--color-bg-alt);
-  border-bottom: 1px solid var(--color-border);
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
-.hero h1 { font-size: 1.75rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.5rem; }
-.hero p { font-size: 1rem; color: var(--color-text-muted); }
+
+.hero {
+  padding: 4rem 0 3rem;
+  background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+  border-bottom: none;
+  text-align: center;
+}
+.hero h1 { font-size: 1.75rem; font-weight: 700; line-height: 1.25; margin-bottom: 0.5rem; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+.hero p { font-size: 1rem; color: rgba(255,255,255,0.85); }
+.hero-tagline { font-size: 0.875rem; color: rgba(255,255,255,0.7); margin-top: 0.75rem; letter-spacing: 0.03em; }
 
 /* Category grid (homepage) */
 .categories { padding: 2rem 0; }
 .category-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 .category-card {
   background: var(--color-card-bg);
@@ -158,9 +173,15 @@ code {
   border-radius: var(--radius);
   padding: 1.25rem 1.5rem;
   box-shadow: 0 1px 3px var(--color-card-shadow);
-  transition: box-shadow var(--transition);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fadeInUp 0.4s ease forwards;
+  opacity: 0;
 }
-.category-card:hover { box-shadow: 0 4px 12px var(--color-card-shadow); }
+.category-card:nth-child(1) { animation-delay: 0.1s; }
+.category-card:nth-child(2) { animation-delay: 0.15s; }
+.category-card:nth-child(3) { animation-delay: 0.2s; }
+.category-card:nth-child(4) { animation-delay: 0.25s; }
+.category-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
 .category-card h2 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.4rem; }
 .category-card h2 a { color: var(--color-text); text-decoration: none; }
 .category-card h2 a:hover { color: var(--color-accent); }
