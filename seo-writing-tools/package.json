@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",
+    "@astrojs/preact": "^5.0.1",
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^5.7.14",
     "diff": "^8.0.4",
+    "preact": "^10.29.1",
     "tailwindcss": "^4.2.2"
   },
   "engines": {
