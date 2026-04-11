@@ -94,7 +94,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site)
       <slot />
       {affiliateLinks && affiliateLinks.length > 0 && (
         <aside class="mt-10 border-t border-gray-200 pt-6">
-          <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3">Recommended Tools</p>
+          <p class="text-xs font-semibold uppercase tracking-wide text-gray-600 mb-3">Recommended Tools</p>
           <div class="flex flex-wrap gap-3">
             {affiliateLinks.map(link => (
               <a href={link.url} target="_blank" rel="noopener sponsored"

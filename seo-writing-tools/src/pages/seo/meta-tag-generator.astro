@@ -16,7 +16,7 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
   <div class="space-y-4 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">
-        Page Title <span id="mt-title-count" class="font-normal text-gray-400">0 / 60</span>
+        Page Title <span id="mt-title-count" class="font-normal text-gray-500">0 / 60</span>
       </label>
       <input
         id="mt-title"
@@ -28,7 +28,7 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">
-        Meta Description <span id="mt-desc-count" class="font-normal text-gray-400">0 / 160</span>
+        Meta Description <span id="mt-desc-count" class="font-normal text-gray-500">0 / 160</span>
       </label>
       <textarea
         id="mt-desc"
@@ -72,9 +72,9 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
       const d = descEl.value
 
       titleCount.textContent = `${t.length} / 60`
-      titleCount.className = `font-normal ${t.length > 60 ? 'text-red-500' : 'text-gray-400'}`
+      titleCount.className = `font-normal ${t.length > 60 ? 'text-red-500' : 'text-gray-500'}`
       descCount.textContent = `${d.length} / 160`
-      descCount.className = `font-normal ${d.length > 160 ? 'text-red-500' : 'text-gray-400'}`
+      descCount.className = `font-normal ${d.length > 160 ? 'text-red-500' : 'text-gray-500'}`
 
       serpTitle.textContent = t || 'Your page title will appear here'
       serpDesc.textContent = d || 'Your meta description will appear here.'
