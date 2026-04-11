@@ -93,6 +93,7 @@ code {
   border-bottom: 1px solid var(--color-border);
   backdrop-filter: saturate(180%) blur(12px);
   -webkit-backdrop-filter: saturate(180%) blur(12px);
+  /* needed for absolute-positioned mobile nav dropdown */
 }
 .site-header .container {
   height: 100%;
@@ -102,14 +103,47 @@ code {
   gap: 1rem;
 }
 .site-name {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.125rem;
+  font-weight: 700;
   color: var(--color-text);
   text-decoration: none;
   white-space: nowrap;
 }
 .site-name:hover { color: var(--color-accent); text-decoration: none; }
-.site-nav { display: flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; }
+
+/* Hamburger — mobile only */
+.hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.2rem 0.5rem;
+  line-height: 1;
+  color: var(--color-text);
+  transition: border-color var(--transition);
+  flex-shrink: 0;
+}
+.hamburger:hover { border-color: var(--color-accent); }
+
+/* Mobile nav — hidden by default, dropdown when .open */
+.site-nav {
+  display: none;
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem;
+  gap: 0.75rem;
+  z-index: 99;
+  flex-direction: column;
+}
+.site-nav.open { display: flex; }
 .site-nav a {
   font-size: 0.875rem;
   color: var(--color-text-muted);
@@ -266,10 +300,10 @@ main > .ad-slot { margin-bottom: 0; }
   text-decoration: none;
 }
 
-/* Dark/light mode toggle button (A1-7) */
+/* Dark/light mode toggle button */
 .theme-toggle {
-  background: none; border: 1px solid var(--color-border); border-radius: var(--radius-sm);
-  cursor: pointer; font-size: 1rem; padding: 0.2rem 0.45rem; line-height: 1;
+  background: none; border: 1px solid var(--color-border); border-radius: 999px;
+  cursor: pointer; font-size: 1rem; padding: 0.3rem 0.6rem; line-height: 1;
   transition: border-color var(--transition); flex-shrink: 0;
 }
 .theme-toggle:hover { border-color: var(--color-accent); }
@@ -282,6 +316,18 @@ main > .ad-slot { margin-bottom: 0; }
   .hero h1 { font-size: 2.25rem; }
   .hero p { font-size: 1.0625rem; }
   .category-grid { grid-template-columns: repeat(2, 1fr); }
+  .hamburger { display: none; }
+  .site-nav {
+    display: flex;
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    padding: 0;
+    flex-wrap: wrap;
+  }
   .site-nav a { font-size: 0.9375rem; padding: 0.3rem 0.625rem; }
   .tool-page h1, .container > h1 { font-size: 2rem; }
 }
