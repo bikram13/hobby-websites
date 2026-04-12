@@ -1,0 +1,138 @@
+---
+layout: base.njk
+title: "Volume Converter"
+---
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+<!-- Hero Header -->
+<section class="mb-12">
+<h1 class="text-5xl md:text-7xl font-black tracking-tighter text-on-surface mb-4">
+                Volume <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-container to-secondary">Prism.</span>
+</h1>
+<p class="text-on-surface-variant max-w-xl text-lg leading-relaxed">
+                Transform measurements through our digital lens. High-precision volumetric conversions for scientific, culinary, and everyday applications.
+            </p>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+<!-- Converter Core Card -->
+<div class="md:col-span-8 glass-card rounded-xl p-8 shadow-2xl relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary-container to-secondary"></div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<!-- Left: Input & From -->
+<div class="space-y-8">
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">Value to convert</label>
+<input class="w-full bg-surface-container-highest border-none rounded-xl py-6 px-8 text-4xl font-bold text-primary focus:ring-1 focus:ring-primary placeholder:text-surface-variant transition-all outline-none" placeholder="0.00" type="number"/>
+</div>
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">From Unit</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-3 px-4 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-semibold">Liters</button>
+<button class="py-3 px-4 rounded-full bg-surface-container-highest/50 text-on-surface-variant text-sm font-medium hover:bg-surface-variant transition-colors">Milliliters</button>
+<button class="py-3 px-4 rounded-full bg-surface-container-highest/50 text-on-surface-variant text-sm font-medium hover:bg-surface-variant transition-colors">Gallons (US)</button>
+<button class="py-3 px-4 rounded-full bg-surface-container-highest/50 text-on-surface-variant text-sm font-medium hover:bg-surface-variant transition-colors">Quarts</button>
+</div>
+</div>
+</div>
+<!-- Right: Result & To -->
+<div class="space-y-8">
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">Calculated Result</label>
+<div class="py-6 px-4">
+<span class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-on-surface to-on-surface-variant tracking-tighter">
+                                    0.264
+                                </span>
+<span class="text-xl font-medium text-secondary ml-2">gal</span>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">To Unit</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="py-3 px-4 rounded-full bg-surface-container-highest/50 text-on-surface-variant text-sm font-medium hover:bg-surface-variant transition-colors">Liters</button>
+<button class="py-3 px-4 rounded-full bg-surface-container-highest/50 text-on-surface-variant text-sm font-medium hover:bg-surface-variant transition-colors">Milliliters</button>
+<button class="py-3 px-4 rounded-full bg-secondary/10 border border-secondary/30 text-secondary text-sm font-semibold">Gallons (US)</button>
+<button class="py-3 px-4 rounded-full bg-surface-container-highest/50 text-on-surface-variant text-sm font-medium hover:bg-surface-variant transition-colors">Cups</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Precision Toggle -->
+<div class="mt-12 pt-8 border-t border-outline-variant/10 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+<span class="text-xs font-medium text-on-surface-variant">Real-time precision up to 8 decimal places</span>
+</div>
+<button class="flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-widest hover:underline decoration-primary/30">
+                        View Formula <span class="material-symbols-outlined text-sm">arrow_outward</span>
+</button>
+</div>
+</div>
+<!-- Culinary Sidebar Card -->
+<div class="md:col-span-4 space-y-8">
+<div class="glass-card rounded-xl p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-8xl" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+</div>
+<h3 class="text-xl font-bold mb-1 text-tertiary">Culinary Conversions</h3>
+<p class="text-xs text-on-surface-variant mb-6 uppercase tracking-widest">Kitchen Essentials</p>
+<div class="space-y-4 relative z-10">
+<div class="flex justify-between items-center p-3 rounded-lg bg-surface-container-low/50 hover:bg-surface-container-low transition-colors">
+<span class="text-sm font-medium">1 Tablespoon</span>
+<span class="text-xs text-on-surface-variant">14.78 ml</span>
+</div>
+<div class="flex justify-between items-center p-3 rounded-lg bg-surface-container-low/50 hover:bg-surface-container-low transition-colors">
+<span class="text-sm font-medium">1 Teaspoon</span>
+<span class="text-xs text-on-surface-variant">4.92 ml</span>
+</div>
+<div class="flex justify-between items-center p-3 rounded-lg bg-surface-container-low/50 hover:bg-surface-container-low transition-colors">
+<span class="text-sm font-medium">1 Fluid Ounce</span>
+<span class="text-xs text-on-surface-variant">29.57 ml</span>
+</div>
+<div class="flex justify-between items-center p-3 rounded-lg bg-surface-container-low/50 hover:bg-surface-container-low transition-colors">
+<span class="text-sm font-medium">1 Standard Cup</span>
+<span class="text-xs text-on-surface-variant">236.58 ml</span>
+</div>
+</div>
+<button class="w-full mt-6 py-3 text-xs font-bold uppercase tracking-widest border border-tertiary/20 text-tertiary rounded-lg hover:bg-tertiary/10 transition-colors">
+                        Print Chart
+                    </button>
+</div>
+<!-- Aesthetic Visual Block -->
+<div class="rounded-xl overflow-hidden aspect-square glass-card relative">
+<img class="w-full h-full object-cover mix-blend-overlay opacity-60" data-alt="close-up of elegant minimalist laboratory glassware with liquid reflecting blue and purple lights in a dark futuristic setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKiEF_QqhpjaX5wVeSS3TknYt8EdazlHRr6gEgEKc2syZeoUKTG91QSBXWaTCp-K82YfiGI88u12b7l6vSbQc9rtTRCec_PCmyqDPkirfCDHiIFLGo0RXu72lI_6-g0mkz9bp3UaSZ0kMnKfqBnKpoOhLDPDmsUv7pg8mTjCqnRPXOTmmAXbluAV77nMuX_OxhsTTtKVZtFomdW0dA04o4xE6MGJ1UPC9oFwsKV0apLNpk9L23HHQH8mag3cP24u1KVOA9rrgk1CY"/>
+<div class="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-t from-surface to-transparent">
+<span class="text-xs font-black uppercase tracking-widest text-primary mb-2">Scientific Scale</span>
+<p class="text-sm text-on-surface-variant">Converting for laboratory or industrial scale? Switch to Metric Imperial Pro.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Metric History Section -->
+<section class="mt-20">
+<h2 class="text-2xl font-bold mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">history</span> Recent Conversions
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="glass-card p-6 rounded-xl hover:translate-y-[-4px] transition-transform cursor-pointer">
+<p class="text-xs font-bold text-on-surface-variant uppercase mb-2">2 Hours Ago</p>
+<div class="flex justify-between items-end">
+<span class="text-xl font-bold">500 ml <span class="text-on-surface-variant text-sm font-normal">to</span> 2.11 cups</span>
+<span class="material-symbols-outlined text-primary">bookmark</span>
+</div>
+</div>
+<div class="glass-card p-6 rounded-xl hover:translate-y-[-4px] transition-transform cursor-pointer">
+<p class="text-xs font-bold text-on-surface-variant uppercase mb-2">Yesterday</p>
+<div class="flex justify-between items-end">
+<span class="text-xl font-bold">12 gal <span class="text-on-surface-variant text-sm font-normal">to</span> 45.42 L</span>
+<span class="material-symbols-outlined text-on-surface-variant">bookmark</span>
+</div>
+</div>
+<div class="glass-card p-6 rounded-xl border-dashed border-outline-variant/30 flex items-center justify-center group">
+<span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant group-hover:text-primary transition-colors">Clear all history</span>
+</div>
+</div>
+</section>
+
+</main>

@@ -1,0 +1,129 @@
+---
+layout: base.njk
+title: "Length Converter"
+---
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+<!-- Hero Header -->
+<div class="mb-12">
+<h1 class="text-5xl md:text-7xl font-black tracking-tight mb-4 text-gradient">Length Converter</h1>
+<p class="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+                Experience precision without complexity. Our architectural length tool provides instant high-fidelity conversions across metric and imperial systems.
+            </p>
+</div>
+<!-- Conversion Bento Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Main Tool Card -->
+<div class="lg:col-span-8 glass-card rounded-[2rem] p-8 md:p-12 shadow-[0_40px_40px_0_rgba(113,137,246,0.05)]">
+<div class="space-y-10">
+<!-- Value Input -->
+<div class="group">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 ml-1">Enter Value</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border-none rounded-2xl py-8 px-10 text-5xl md:text-7xl font-extrabold text-primary focus:ring-0 placeholder-surface-variant transition-all focus:shadow-[0_4px_20px_-10px_rgba(185,195,255,0.5)]" type="number" value="1.00"/>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-primary scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 origin-left"></div>
+</div>
+</div>
+<!-- Unit Selectors -->
+<div class="grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
+<div class="md:col-span-5">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3 ml-1">From Unit</label>
+<select class="w-full bg-surface-container-highest border-none rounded-xl py-4 px-6 text-on-surface font-medium focus:ring-1 focus:ring-primary appearance-none cursor-pointer">
+<option>Meters (m)</option>
+<option selected="">Kilometers (km)</option>
+<option>Centimeters (cm)</option>
+<option>Millimeters (mm)</option>
+<option>Miles (mi)</option>
+<option>Feet (ft)</option>
+<option>Inches (in)</option>
+</select>
+</div>
+<div class="md:col-span-1 flex justify-center pt-6">
+<button class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:rotate-180 transition-transform duration-500 shadow-lg">
+<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+</button>
+</div>
+<div class="md:col-span-5">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3 ml-1">To Unit</label>
+<select class="w-full bg-surface-container-highest border-none rounded-xl py-4 px-6 text-on-surface font-medium focus:ring-1 focus:ring-primary appearance-none cursor-pointer">
+<option>Meters (m)</option>
+<option>Kilometers (km)</option>
+<option>Centimeters (cm)</option>
+<option>Millimeters (mm)</option>
+<option selected="">Miles (mi)</option>
+<option>Feet (ft)</option>
+<option>Inches (in)</option>
+</select>
+</div>
+</div>
+<!-- Result Section -->
+<div class="pt-8 border-t border-outline-variant/10">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4 ml-1">Calculated Result</label>
+<div class="bg-surface-container-low rounded-3xl p-8 flex flex-col md:flex-row md:items-end justify-between gap-6 border border-primary/5">
+<div>
+<span class="text-4xl md:text-6xl font-black text-secondary">0.621371</span>
+<span class="text-xl font-bold text-on-surface-variant ml-3">Miles</span>
+</div>
+<button class="bg-gradient-to-r from-[#7189F6] to-[#DCB8FF] text-[#131315] font-black py-4 px-8 rounded-xl flex items-center gap-2 hover:shadow-[0_0_20px_rgba(113,137,246,0.3)] active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="content_copy">content_copy</span>
+                                COPY RESULT
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Conversions Sidebar -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Visual Decoration Card -->
+<div class="glass-card rounded-[2rem] p-1 overflow-hidden relative group">
+<img alt="Precision measuring" class="w-full h-48 object-cover rounded-[1.9rem] opacity-60 group-hover:scale-105 transition-transform duration-700" data-alt="Close up of a metallic engineer scale ruler reflecting soft purple and blue neon studio lighting with shallow depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1Nq_qZPNmqmhln3X5A2j-E2JPepPbTGLtNZ9s1iN-GsTcgVrR42fxvcV33Mz9m42UU7qrlV7ysXzkMD1MWtsjQpPF_7LY7hNVU5MAD9zwllid6o1C0lNxSrZerF7c0YPXTkHDiY39V0K5gjy1-zxzL3tNA88R70JKaWiSwJxy3fIyzvNwzSEZUmemwXr9y-UyxsZBouWg7tGG0liBrvTbXT7kiKBGDyRFhEaKaDsl_00j1JihVCR3ioEK7khbTGgEDtY_dPs3_yo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-80"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<span class="text-xs font-bold text-primary uppercase tracking-[0.2em] mb-1 block">Did you know?</span>
+<h3 class="text-lg font-bold text-white">The meter was originally defined as one ten-millionth of the distance from the equator to the North Pole.</h3>
+</div>
+</div>
+<!-- Quick Conversions List -->
+<div class="glass-card rounded-[2rem] p-8">
+<h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="bolt">bolt</span>
+                        Quick Reference
+                    </h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center p-4 rounded-xl bg-surface-container-highest/30 hover:bg-surface-container-highest transition-colors group cursor-pointer">
+<span class="text-on-surface-variant font-medium">1 km to miles</span>
+<span class="text-primary font-bold group-hover:translate-x-[-4px] transition-transform">0.621 mi</span>
+</div>
+<div class="flex justify-between items-center p-4 rounded-xl bg-surface-container-highest/30 hover:bg-surface-container-highest transition-colors group cursor-pointer">
+<span class="text-on-surface-variant font-medium">1 m to feet</span>
+<span class="text-primary font-bold group-hover:translate-x-[-4px] transition-transform">3.281 ft</span>
+</div>
+<div class="flex justify-between items-center p-4 rounded-xl bg-surface-container-highest/30 hover:bg-surface-container-highest transition-colors group cursor-pointer">
+<span class="text-on-surface-variant font-medium">1 mile to km</span>
+<span class="text-primary font-bold group-hover:translate-x-[-4px] transition-transform">1.609 km</span>
+</div>
+<div class="flex justify-between items-center p-4 rounded-xl bg-surface-container-highest/30 hover:bg-surface-container-highest transition-colors group cursor-pointer">
+<span class="text-on-surface-variant font-medium">1 foot to cm</span>
+<span class="text-primary font-bold group-hover:translate-x-[-4px] transition-transform">30.48 cm</span>
+</div>
+<div class="flex justify-between items-center p-4 rounded-xl bg-surface-container-highest/30 hover:bg-surface-container-highest transition-colors group cursor-pointer">
+<span class="text-on-surface-variant font-medium">5 km to miles</span>
+<span class="text-primary font-bold group-hover:translate-x-[-4px] transition-transform">3.107 mi</span>
+</div>
+</div>
+</div>
+<!-- Info Block -->
+<div class="p-8 border border-outline-variant/10 rounded-[2rem] bg-surface-container-lowest">
+<h4 class="text-sm font-black uppercase text-tertiary mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="verified">verified</span>
+                        High Precision Mode
+                    </h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                        Calculations are performed with up to 12 decimal places of accuracy, ensuring industrial-grade reliability for architectural and scientific applications.
+                    </p>
+</div>
+</div>
+</div>
+
+</main>

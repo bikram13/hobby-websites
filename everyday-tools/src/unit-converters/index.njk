@@ -1,27 +1,124 @@
 ---
 layout: base.njk
-title: "Unit Converter Tools"
-description: "Free unit converters for length, weight, temperature, and volume. Convert between metric and imperial units instantly."
-canonical: "https://everyday-tools.pages.dev/unit-converters/"
+title: "Unit Converters"
 ---
 
-<div class="container">
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a> &rsaquo; Unit Converters
-  </nav>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
-  <h1>Unit Converter Tools</h1>
-  <p class="category-intro">Free unit conversion tools covering length, weight, temperature, and volume. Switch between metric and imperial measurements instantly with no page reload.</p>
-
-  <div class="tool-list">
-    {%- for tool in tools -%}
-      {%- if tool.category == "unit-converters" -%}
-        <div class="tool-card">
-          <h2><a href="/unit-converters/{{ tool.slug }}/">{{ tool.name }}</a></h2>
-          <p>{{ tool.description }}</p>
-          <a class="tool-link" href="/unit-converters/{{ tool.slug }}/">Open {{ tool.name }} &rarr;</a>
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
-  </div>
+<!-- Hero Section -->
+<section class="mb-20">
+<div class="flex flex-col items-center text-center space-y-6">
+<span class="px-4 py-1.5 rounded-full bg-surface-container-highest text-primary text-xs font-bold tracking-widest uppercase border border-outline-variant/20">Precision Measured</span>
+<h1 class="text-6xl md:text-7xl font-extrabold tracking-tight text-white max-w-4xl leading-[1.1]">
+                    Convert <span class="text-transparent bg-clip-text hero-gradient">Anything</span> with Clarity.
+                </h1>
+<p class="text-on-surface-variant text-lg max-w-2xl leading-relaxed">
+                    Our suite of high-precision conversion tools brings simplicity to complex measurements. Experience an editorial approach to utility.
+                </p>
 </div>
+</section>
+<!-- Tool Grid (Bento Style Asymmetry) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[240px]">
+<!-- Length Converter (Large Feature) -->
+<div class="md:col-span-8 md:row-span-2 glass-card rounded-xl p-10 flex flex-col justify-between group cursor-pointer hover:shadow-[0_40px_40px_0_rgba(113,137,246,0.1)] transition-all duration-500">
+<div class="space-y-4">
+<div class="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined text-3xl">straighten</span>
+</div>
+<h2 class="text-4xl font-bold tracking-tight text-white">Length</h2>
+<p class="text-on-surface-variant max-w-xs">Metric to Imperial, architectural scales, and cosmic distances in one place.</p>
+</div>
+<div class="flex items-center space-x-2 text-primary font-medium group-hover:translate-x-2 transition-transform">
+<span>Explore Tool</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</div>
+<div class="absolute right-0 bottom-0 overflow-hidden rounded-br-xl opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-[180px] translate-y-12 translate-x-12">straighten</span>
+</div>
+</div>
+<!-- Weight & Mass -->
+<div class="md:col-span-4 md:row-span-1 glass-card rounded-xl p-8 flex flex-col justify-between group cursor-pointer hover:bg-surface-variant/60 transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-tertiary text-4xl">scale</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-white mb-2">Weight</h3>
+<p class="text-sm text-on-surface-variant">Precise mass conversions for science and everyday life.</p>
+</div>
+</div>
+<!-- Temperature -->
+<div class="md:col-span-4 md:row-span-1 glass-card rounded-xl p-8 flex flex-col justify-between group cursor-pointer hover:bg-surface-variant/60 transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary text-4xl">thermostat</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-white mb-2">Temperature</h3>
+<p class="text-sm text-on-surface-variant">Instant shifts between Celsius, Fahrenheit, and Kelvin.</p>
+</div>
+</div>
+<!-- Volume (Horizontal Wide) -->
+<div class="md:col-span-4 md:row-span-1 glass-card rounded-xl p-8 flex flex-col justify-between group cursor-pointer hover:bg-surface-variant/60 transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary text-4xl">opacity</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-white mb-2">Volume</h3>
+<p class="text-sm text-on-surface-variant">Culinary and liquid volume standards at your fingertips.</p>
+</div>
+</div>
+<!-- Area -->
+<div class="md:col-span-4 md:row-span-1 glass-card rounded-xl p-8 flex flex-col justify-between group cursor-pointer hover:bg-surface-variant/60 transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-tertiary text-4xl">grid_view</span>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-white mb-2">Area</h3>
+<p class="text-sm text-on-surface-variant">Land and surface area calculations simplified.</p>
+</div>
+</div>
+<!-- Time (Mini CTA) -->
+<div class="md:col-span-4 md:row-span-1 hero-gradient rounded-xl p-8 flex flex-col justify-between group cursor-pointer shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-on-primary-container text-4xl" style="font-variation-settings: 'FILL' 1;">schedule</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-on-primary-container mb-1">Time</h3>
+<p class="text-sm text-on-primary-container/80">Coming Soon: Zones &amp; Units</p>
+</div>
+</div>
+</div>
+<!-- Featured Section -->
+<section class="mt-32">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="relative rounded-2xl overflow-hidden aspect-video group">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="abstract close-up of a glass prism reflecting light in a spectrum of blue and violet tones with soft bokeh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4SEzcnleVoe6d1VHfF7QLRIOjOIZpq-JRiUCgL6yel7Uht-Rxq3_sxmWJM_3sUgiw9NZ_N4fx90hY1sXNwmrYqMyWuk7DU0sz2ZHlTLKXx3AS61QOcQbTJ3nzWq2Y-jmo9wttlOqNPlJiME4udYtQoBSfG_aiaKoFnT85RBcbaLxOFv_ynIJ9LGFAQeOHI9P-9FB1T2KUv62u-mPE8qvGcv8U72D7eHZAHpS9T62CF_JB5X_r9s7x7Kz4MKLXf_Fkrkf7-26BaI4"/>
+<div class="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+</div>
+<div class="space-y-8">
+<h2 class="text-4xl font-bold text-white tracking-tight leading-tight">Engineered for <br/>Absolute Accuracy.</h2>
+<p class="text-on-surface-variant text-lg leading-relaxed">
+                        Luminous Clarity converters use industry-standard algorithms to ensure every decimal point is reliable. Whether you're a designer needing pixel-to-em ratios or a scientist calculating mass, our tools provide instant, authoritative results.
+                    </p>
+<ul class="space-y-4">
+<li class="flex items-center space-x-3 text-on-surface">
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+<span class="font-medium">Real-time dynamic updates</span>
+</li>
+<li class="flex items-center space-x-3 text-on-surface">
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+<span class="font-medium">Copy-to-clipboard functionality</span>
+</li>
+<li class="flex items-center space-x-3 text-on-surface">
+<span class="material-symbols-outlined text-tertiary">check_circle</span>
+<span class="font-medium">Localized measurement systems</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+
+</main>

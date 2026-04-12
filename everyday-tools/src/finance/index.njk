@@ -1,27 +1,102 @@
 ---
 layout: base.njk
-title: "Finance Calculator Tools"
-description: "Free finance calculators: tip calculator, percentage calculator, loan and EMI calculator. No signup required."
-canonical: "https://everyday-tools.pages.dev/finance/"
+title: "Finance Tools"
 ---
 
-<div class="container">
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a> &rsaquo; Finance Tools
-  </nav>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
-  <h1>Finance Calculator Tools</h1>
-  <p class="category-intro">Free financial calculators to help with everyday money decisions. All calculations happen instantly in your browser — no data is sent anywhere.</p>
-
-  <div class="tool-list">
-    {%- for tool in tools -%}
-      {%- if tool.category == "finance" -%}
-        <div class="tool-card">
-          <h2><a href="/finance/{{ tool.slug }}/">{{ tool.name }}</a></h2>
-          <p>{{ tool.description }}</p>
-          <a class="tool-link" href="/finance/{{ tool.slug }}/">Open {{ tool.name }} &rarr;</a>
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
-  </div>
+<header class="mb-16">
+<h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-on-surface mb-4 leading-[1.1]">
+                Financial <span class="bg-gradient-to-br from-primary-container to-secondary bg-clip-text text-transparent">Precision</span>.
+            </h1>
+<p class="text-on-surface-variant text-lg md:text-xl max-w-2xl leading-relaxed">
+                Elevate your daily calculations with tools designed for clarity and authority. Simple inputs, powerful insights.
+            </p>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+<div class="md:col-span-8 group">
+<div class="glass-card rounded-xl p-8 h-full flex flex-col justify-between transition-all duration-500 hover:shadow-[0_40px_60px_0_rgba(113,137,246,0.15)] overflow-hidden relative">
+<div class="relative z-10">
+<div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary-container/20 text-primary mb-8">
+<span class="material-symbols-outlined text-3xl">calculate</span>
 </div>
+<h3 class="text-3xl font-bold text-on-surface mb-3 tracking-tight">Loan &amp; EMI Calculator</h3>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-md mb-8">
+                            Plan your financial future with precision. Calculate monthly installments, interest breakdowns, and total repayment schedules for any loan.
+                        </p>
+</div>
+<div class="mt-auto relative z-10">
+<button class="bg-gradient-to-br from-primary-container to-secondary text-on-primary-container font-semibold px-8 py-4 rounded-full flex items-center gap-2 group-hover:shadow-[0_0_20px_rgba(113,137,246,0.3)] transition-all">
+                            Open Calculator
+                            <span class="material-symbols-outlined">trending_flat</span>
+</button>
+</div>
+<div class="absolute -right-20 -bottom-20 w-80 h-80 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[240px]" data-weight="fill">account_balance</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 group">
+<div class="glass-card rounded-xl p-8 h-full flex flex-col transition-all duration-500 hover:shadow-[0_40px_60px_0_rgba(113,137,246,0.15)] border-l-4 border-tertiary/30">
+<div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-tertiary/20 text-tertiary mb-8">
+<span class="material-symbols-outlined text-3xl">percent</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3 tracking-tight">Percentage Tools</h3>
+<p class="text-on-surface-variant leading-relaxed mb-12">
+                        Calculate increases, decreases, or parts of a whole instantly. Perfect for tax, discounts, and margin analysis.
+                    </p>
+<div class="mt-auto">
+<a class="text-tertiary flex items-center gap-2 font-medium hover:underline decoration-tertiary/50" href="#">
+                            View Details <span class="material-symbols-outlined">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 group">
+<div class="glass-card rounded-xl p-8 h-full flex flex-col transition-all duration-500 hover:shadow-[0_40px_60px_0_rgba(113,137,246,0.15)]">
+<div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-secondary/20 text-secondary mb-8">
+<span class="material-symbols-outlined text-3xl">payments</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3 tracking-tight">Tip Calculator</h3>
+<p class="text-on-surface-variant leading-relaxed mb-12">
+                        Quickly split bills and calculate gratuity with elegant precision. Adjustable for any party size.
+                    </p>
+<div class="mt-auto">
+<a class="text-secondary flex items-center gap-2 font-medium hover:underline decoration-secondary/50" href="#">
+                            Open Tool <span class="material-symbols-outlined">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+<div class="md:col-span-8 relative rounded-xl overflow-hidden min-h-[300px]">
+<img alt="Financial abstraction" class="absolute inset-0 w-full h-full object-cover opacity-50" data-alt="Abstract 3D render of iridescent glass spheres and flowing digital waves in deep purple and electric blue colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByuX0RjqNX1txxeLHDdunvs6QJOq6f58GOkFm_GuBkBp5_Qe8_5uyy16TmLfsV8I3chvxKSvqGiaSM0KLRTWROWvzaGyMomR0cseWK8ajw6OucdRmHEj8XSCbEgr30UN1P9sQ_LTeBjX1wPwyfBHJkZ6NMLzoQVRVguil3vNpYKRBYLwIhVzsEXXIGbV9LT3ZPaQZN503kdAGwZOPAZrR_xLDy6HxrrRN3Fm9YCfpQN5eTdr0v8vkTYSlTobAlvLd-jV7vZTFEOdI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8">
+<div class="inline-block px-4 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase mb-4">Market Pulse</div>
+<h4 class="text-2xl font-bold text-on-surface mb-2">Upcoming Features</h4>
+<p class="text-on-surface-variant max-w-lg">We are building an advanced Crypto-Converter and Stock Yield Estimator. Stay tuned for the prism expansion.</p>
+</div>
+</div>
+</div>
+<section class="mt-24">
+<h2 class="text-3xl font-bold mb-12 text-center text-on-surface">Experience Excellence</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="text-center">
+<div class="text-primary mb-4 flex justify-center"><span class="material-symbols-outlined text-4xl">verified_user</span></div>
+<h4 class="text-xl font-bold mb-2">Privacy First</h4>
+<p class="text-on-surface-variant leading-relaxed">No data is ever stored on our servers. All calculations happen locally on your device.</p>
+</div>
+<div class="text-center">
+<div class="text-tertiary mb-4 flex justify-center"><span class="material-symbols-outlined text-4xl">bolt</span></div>
+<h4 class="text-xl font-bold mb-2">Instant Execution</h4>
+<p class="text-on-surface-variant leading-relaxed">Zero-latency responses powered by our lightweight, high-performance engine.</p>
+</div>
+<div class="text-center">
+<div class="text-secondary mb-4 flex justify-center"><span class="material-symbols-outlined text-4xl">auto_awesome</span></div>
+<h4 class="text-xl font-bold mb-2">Elegant Clarity</h4>
+<p class="text-on-surface-variant leading-relaxed">Beautifully structured data visualizations that make numbers easy to digest.</p>
+</div>
+</div>
+</section>
+
+</main>
