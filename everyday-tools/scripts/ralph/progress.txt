@@ -1,17 +1,85 @@
-# Ralph Progress Log
-Started: Sat Apr 11 21:41:09 IST 2026
+# Current Progress
+The Everyday Tools UI was recently redesigned using an automated Stitch-exported Tailwind layout. While the structural integration of the Eleventy templates executed successfully, the functional and UX fidelity is lacking.
+
+## Bugs & UX Findings Discovered:
+- The calculators (Percentage, BMI) and generators (Random Number) contain unresponsive UI. Inputs and buttons exist visually but do not evaluate their respective JS computations.
+- Critical navigation links on the Homepage routing to functional templates are disjointed (`href="#"`). The footer `Legal` links do not trigger the `/legal/` layout properly.
+- The top header navigation strips entirely on a mobile viewport (375px) with no hamburger menu fail-safe, trapping users.
+- Several Glassmorphism cards and primary colored inputs fail contrast metrics, appearing invisible or completely unclickable. No UI state feedback (like hover classes or focus rings) exists.
+
+Ready to initiate fixes sequentially!
+
 ---
 
-## Sat Apr 11 21:45 IST 2026 - US-001
-- Added `keydown` event listeners on all 3 inputs to block `-`, `+`, `e`, `E` keys (and `.` on people field)
-- Added `clampInput()` helper that enforces min/max bounds on the `input` event as a second layer
-- Wrapped `calculate()` values in `Math.max(0, ...)` guards so even if a negative slips through, output is never negative
-- Capped custom tip at 100% via `Math.min(100, ...)`
-- People field strips any decimal portion that slips past `keydown` via floor + clamp
-- **Files changed**: `src/finance/tip-calculator/index.njk`
-- **Learnings:**
-  - `type="number"` inputs still accept `-` via keyboard in most browsers despite `min="0"` — `keydown` prevention is necessary
-  - Blocking `e`/`E` prevents scientific notation entry (e.g., `1e5`) which would bypass normal limits
-  - Defensive `Math.max`/`Math.min` in `calculate()` is a safe last resort even if DOM events fail
-  - Ctrl+A + Backspace clears the field → `parseFloat('') || 0` = 0 → calculate() shows dashes, no broken state
+## US-004 COMPLETE: Enhance Visual UX Accessibility and Action States
+
+**Completed**: Global accessibility improvements in `_includes/head.njk` and homepage CTA fix.
+
+### Global CSS (`_includes/head.njk`)
+- Increased `.glass-card` background opacity (0.4 → 0.55) and border opacity for better text contrast
+- Added global `input:focus`, `select:focus`, `textarea:focus`, `button:focus-visible`, `a:focus-visible` rules with 2px `#b9c3ff` outline — WCAG keyboard navigation
+- Added hover border color transitions for all text/number/email inputs
+- Added `box-shadow` focus glow rings on inputs (3px spread, 15% opacity primary)
+- Added global button transitions with `opacity`, `transform` (scale 0.97 on active), and `box-shadow`
+- Added `button:disabled` style (45% opacity, not-allowed cursor)
+
+### Homepage CTA (`src/index.njk`)
+- Primary CTA "Explore All Tools" changed from `text-on-primary-container` (#001e78 dark) to `text-white` for WCAG AA compliance on gradient background
+- Button converted to `<a href="/finance/">` so it actually navigates
+- Added `hover:opacity-90` and `active:scale-95` for visible feedback
+
+- Build verified: 18 files written, no errors.
+
 ---
+
+## US-001 COMPLETE: Fix Calculator Interactivity and Logic
+
+**Completed**: Wired up vanilla JS event listeners for all three broken interactive tools.
+
+### Percentage Calculator (`src/finance/percentage-calculator.njk`)
+- Added `id` attributes to Base Amount input, Percentage input, Calculate button, and result span.
+- Added IIFE `<script>` block: reads both inputs on button click (or Enter key), computes `(base * percent) / 100`, updates result display with `toLocaleString` formatting, and updates breakdown text showing the full equation.
+- Shows "Enter both values to calculate" hint when inputs are missing.
+
+### BMI Calculator (`src/health/bmi-calculator.njk`)
+- Added `id` attributes to weight/height inputs, unit toggle buttons, BMI value span, status text, message paragraph, SVG gauge circle, and the 4 category bar divs.
+- Unit toggle (Metric/Imperial) dynamically switches labels (kg/cm ↔ lbs/in) and resets inputs.
+- Calculate button computes BMI: metric = `weight / (height_m)²`, imperial = `(weight / height_in²) × 703`.
+- Updates: BMI value, status label with category color, descriptive message, SVG gauge stroke-dashoffset (maps BMI 10–40 range to full circle), and highlights the correct category bar.
+- Categories: Underweight (<18.5), Healthy (18.5–24.9), Overweight (25–29.9), Obese (≥30).
+
+### Random Number Generator (`src/utility/random-number-generator.njk`)
+- Added `id` attributes to Min/Max inputs, Generate button, result display div, Copy button, and history container.
+- Generate button: reads min/max, auto-swaps if min > max, computes `Math.floor(Math.random() * (max - min + 1)) + min`, renders result.
+- History: tracks last 6 generated numbers, renders most-recent as primary-colored chip.
+- Copy button: writes current result to clipboard (using `navigator.clipboard` with textarea fallback), shows "Copied!" flash for 1.5s.
+- Build verified: 18 files written, no errors.
+
+---
+
+## US-003 COMPLETE: Fix Broken Internal Links
+
+**Completed**: Fixed all `href="#"` broken links on homepage and footer.
+
+### Homepage (`src/index.njk`)
+- Finance card: Tip Calculator → `/finance/tip-calculator/`, Mortgage Pro → Loan EMI Calculator → `/finance/loan-emi-calculator/`, Forex Realtime → Percentage Calculator → `/finance/percentage-calculator/`, Tax Estimator → More Finance Tools → `/finance/`
+- Health card: BMI Calculator → `/health/bmi-calculator/`, Calorie Intake → Age Calculator → `/health/age-calculator/`, Hydration Level → More Health Tools → `/health/`
+- Utility buttons converted from `<button>` to `<a>` tags: Password Gen → `/utility/password-generator/`, Precision Timer → Random Number → `/utility/random-number-generator/`
+
+### Footer (`_includes/footer.njk`)
+- Cookie Policy and Accessibility links now point to `/legal/` (all 4 legal links resolved)
+
+- Build verified: 18 files written, no errors.
+
+---
+
+## US-002 COMPLETE: Implement Mobile Navigation Menu
+
+**Completed**: Added a hamburger menu to `_includes/header.njk` for mobile viewports.
+
+- Hamburger button (3 horizontal bars) is visible on mobile (`md:hidden`), hidden on desktop.
+- Mobile menu (`#mobile-menu`) drops down below the header with all nav links: Finance, Health, Converters, Utility, About.
+- Vanilla JS IIFE toggles `hidden`/`flex` on the menu div and updates `aria-expanded` on the button for accessibility.
+- Clicking any nav link in mobile mode auto-closes the menu.
+- Desktop nav is unchanged (`hidden md:flex`).
+- Build verified: 18 files written, no errors.

@@ -1,23 +1,30 @@
-{
-  "project": "Everyday Tools",
-  "branchName": "ralph/functional-fixes",
-  "description": "Functional bug fixes discovered during automated QA testing cycle.",
-  "userStories": [
-    {
-      "id": "US-001",
-      "title": "Fix Tip Calculator Input Validation (Negative & Invalid Characters)",
-      "description": "As a user, I should not be able to enter negative numbers for my bill amount or tip percentage, nor should I be able to enter invalid characters which breaks the calculator logic resulting in negative outputs.",
-      "acceptanceCriteria": [
-        "Update HTML input types to strictly enforce minimum values of 0 using min='0'.",
-        "Add JS validation to explicitly prevent calculating negative total bills or tips.",
-        "Add JS regex or keydown filtering to prevent invalid math sequences (e.g. '11-2') in the 'Number of People' field.",
-        "Ensure keyboard shortcuts for clearing fields (Ctrl+A/Cmd+A + Backspace) do not break the calculation state.",
-        "Check build passes",
-        "Verify functionally in browser"
-      ],
-      "priority": 1,
-      "passes": true,
-      "notes": ""
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "title": "Fix Calculator Interactivity and Logic",
+    "description": "The logic behind core calculators (Percentage Calculator, BMI Calculator) and Utility tools (Random Number Generator) is disconnected. The action buttons (e.g., 'Calculate Precise Result', 'Generate') do not trigger state changes or compute accurate results.",
+    "acceptanceCriteria": "Calculators update their output fields reacting to valid inputs when the primary button is clicked. No console errors occur during computation. Test via browser verification.",
+    "passes": true
+  },
+  {
+    "id": 2,
+    "title": "Implement Mobile Navigation Menu",
+    "description": "On viewport widths of 375px (Mobile), the Top Navigation links disappear entirely. There is no hamburger menu to browse tools.",
+    "acceptanceCriteria": "A hamburger menu icon appears on mobile devices triggering a dropdown or side-panel. Clicking links on mobile successfully navigates without layout breakage.",
+    "passes": true
+  },
+  {
+    "id": 3,
+    "title": "Fix Broken Internal Links",
+    "description": "Several Tool cards on the homepage lead to '#' resolving nowhere. Footer links point out to anchor tags like '#privacy' instead of resolving to the implemented '/legal/' page.",
+    "acceptanceCriteria": "All tool cards link correctly to their respective routes under '/finance/', '/health/', or '/utility/'. Footer legal links path directly to '/legal/'.",
+    "passes": true
+  },
+  {
+    "id": 4,
+    "title": "Enhance Visual UX Accessibility and Action States",
+    "description": "Blue buttons on dark backgrounds currently fail color contrast accessibility checks. There are no hover, load, or focus action states on interactive form elements. The Glassmorphism effect is inconsistent causing poor text readability over background images.",
+    "acceptanceCriteria": "Primary buttons pass WCAG AA contrast. All inputs feature focus rings. Buttons display hover states. Background opacity of tool cards ensures readable text.",
+    "passes": true
+  }
+]

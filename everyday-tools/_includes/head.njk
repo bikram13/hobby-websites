@@ -89,13 +89,71 @@ tailwind.config = {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 .glass-card {
-  background: rgba(53, 52, 55, 0.4);
+  background: rgba(53, 52, 55, 0.55);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(68, 70, 83, 0.15);
+  border: 1px solid rgba(68, 70, 83, 0.25);
 }
 .hero-gradient {
   background: radial-gradient(circle at top left, rgba(113, 137, 246, 0.15), transparent 40%),
               radial-gradient(circle at bottom right, rgba(220, 184, 255, 0.1), transparent 40%);
+}
+
+/* WCAG AA compliant primary action button */
+.btn-primary {
+  background: linear-gradient(to right, #7189f6, #dcb8ff);
+  color: #ffffff;
+  font-weight: 700;
+}
+.btn-primary:hover {
+  background: linear-gradient(to right, #8a9ef8, #e8ccff);
+  box-shadow: 0 0 28px rgba(113, 137, 246, 0.45);
+}
+
+/* Global focus rings — keyboard & screen reader friendly */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #b9c3ff;
+  outline-offset: 2px;
+}
+
+/* Hover states for interactive inputs */
+input[type="number"],
+input[type="text"],
+input[type="email"],
+select {
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input[type="number"]:hover,
+input[type="text"]:hover,
+input[type="email"]:hover,
+select:hover {
+  border-color: rgba(185, 195, 255, 0.4);
+}
+input[type="number"]:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus {
+  border-color: #b9c3ff;
+  box-shadow: 0 0 0 3px rgba(185, 195, 255, 0.15);
+  outline: none;
+}
+
+/* Button hover / active feedback */
+button {
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+button:hover:not(:disabled) {
+  opacity: 0.92;
+}
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 </style>
 <!-- AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID before enabling -->

@@ -56,13 +56,13 @@ title: "Random Number Generator"
 <div class="space-y-2">
 <label class="text-sm font-medium text-on-surface-variant px-1">Min</label>
 <div class="bg-surface-container-highest/40 rounded-2xl p-4 shadow-inner border-b border-transparent focus-within:border-primary transition-all">
-<input class="bg-transparent border-none w-full text-2xl font-bold text-on-surface focus:ring-0 p-0" type="number" value="1"/>
+<input id="rng-min" class="bg-transparent border-none w-full text-2xl font-bold text-on-surface focus:ring-0 p-0" type="number" value="1"/>
 </div>
 </div>
 <div class="space-y-2">
 <label class="text-sm font-medium text-on-surface-variant px-1">Max</label>
 <div class="bg-surface-container-highest/40 rounded-2xl p-4 shadow-inner border-b border-transparent focus-within:border-primary transition-all">
-<input class="bg-transparent border-none w-full text-2xl font-bold text-on-surface focus:ring-0 p-0" type="number" value="100"/>
+<input id="rng-max" class="bg-transparent border-none w-full text-2xl font-bold text-on-surface focus:ring-0 p-0" type="number" value="100"/>
 </div>
 </div>
 </div>
@@ -83,7 +83,7 @@ title: "Random Number Generator"
 </div>
 </div>
 </div>
-<button class="mt-8 prism-gradient w-full py-5 rounded-2xl text-on-primary-container font-black text-xl tracking-tight shadow-[0_0_40px_rgba(113,137,246,0.2)] active:scale-[0.98] transition-transform flex items-center justify-center space-x-2">
+<button id="rng-generate" class="mt-8 prism-gradient w-full py-5 rounded-2xl text-on-primary-container font-black text-xl tracking-tight shadow-[0_0_40px_rgba(113,137,246,0.2)] active:scale-[0.98] transition-transform flex items-center justify-center space-x-2">
 <span class="material-symbols-outlined">refresh</span>
 <span>Generate</span>
 </button>
@@ -94,11 +94,11 @@ title: "Random Number Generator"
 <div class="glass-card rounded-[2rem] p-12 flex-1 flex flex-col items-center justify-center relative overflow-hidden group">
 <div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl transition-all group-hover:scale-150"></div>
 <span class="text-on-surface-variant text-sm font-headline tracking-[0.2em] uppercase mb-4">Current Result</span>
-<div class="text-[10rem] md:text-[14rem] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-primary to-secondary">
-                                42
+<div id="rng-result" class="text-[10rem] md:text-[14rem] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-primary to-secondary">
+                                --
                             </div>
 <div class="mt-8 flex space-x-3">
-<button class="flex items-center space-x-2 px-6 py-3 rounded-full bg-surface-container-highest/60 hover:bg-surface-container-highest transition-colors">
+<button id="rng-copy" class="flex items-center space-x-2 px-6 py-3 rounded-full bg-surface-container-highest/60 hover:bg-surface-container-highest transition-colors">
 <span class="material-symbols-outlined text-sm">content_copy</span>
 <span class="text-sm font-medium">Copy</span>
 </button>
@@ -112,11 +112,8 @@ title: "Random Number Generator"
 <div class="grid grid-cols-2 gap-6 h-48">
 <div class="glass-card rounded-[1.5rem] p-6 flex flex-col justify-between">
 <span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">History</span>
-<div class="flex flex-wrap gap-2">
-<span class="bg-white/5 px-3 py-1 rounded-full text-sm font-mono text-primary">88</span>
-<span class="bg-white/5 px-3 py-1 rounded-full text-sm font-mono text-zinc-500">12</span>
-<span class="bg-white/5 px-3 py-1 rounded-full text-sm font-mono text-zinc-500">07</span>
-<span class="bg-white/5 px-3 py-1 rounded-full text-sm font-mono text-zinc-500">54</span>
+<div id="rng-history" class="flex flex-wrap gap-2">
+<span class="text-xs text-on-surface-variant italic">No history yet</span>
 </div>
 </div>
 <div class="glass-card rounded-[1.5rem] p-6 flex flex-col justify-between overflow-hidden relative">
@@ -139,3 +136,62 @@ title: "Random Number Generator"
 </div>
 
 </main>
+
+<script>
+(function() {
+  var minInput = document.getElementById('rng-min');
+  var maxInput = document.getElementById('rng-max');
+  var generateBtn = document.getElementById('rng-generate');
+  var resultEl = document.getElementById('rng-result');
+  var copyBtn = document.getElementById('rng-copy');
+  var historyEl = document.getElementById('rng-history');
+  var history = [];
+
+  function generate() {
+    var min = parseInt(minInput.value, 10);
+    var max = parseInt(maxInput.value, 10);
+    if (isNaN(min) || isNaN(max)) return;
+    if (min > max) {
+      var tmp = min; min = max; max = tmp;
+      minInput.value = min;
+      maxInput.value = max;
+    }
+    var result = Math.floor(Math.random() * (max - min + 1)) + min;
+    resultEl.textContent = result;
+    history.unshift(result);
+    if (history.length > 6) history = history.slice(0, 6);
+    renderHistory();
+  }
+
+  function renderHistory() {
+    historyEl.innerHTML = '';
+    history.forEach(function(num, idx) {
+      var span = document.createElement('span');
+      span.className = 'bg-white/5 px-3 py-1 rounded-full text-sm font-mono ' + (idx === 0 ? 'text-primary' : 'text-zinc-500');
+      span.textContent = num;
+      historyEl.appendChild(span);
+    });
+  }
+
+  function copyToClipboard() {
+    var val = resultEl.textContent;
+    if (val === '--') return;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(val);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = val;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    var origText = copyBtn.querySelector('span:last-child');
+    origText.textContent = 'Copied!';
+    setTimeout(function() { origText.textContent = 'Copy'; }, 1500);
+  }
+
+  generateBtn.addEventListener('click', generate);
+  copyBtn.addEventListener('click', copyToClipboard);
+})();
+</script>

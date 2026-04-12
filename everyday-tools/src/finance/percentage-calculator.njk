@@ -31,7 +31,7 @@ title: "Percentage Calculator"
 <div class="space-y-3">
 <label class="text-on-surface-variant text-sm font-medium tracking-wide">Base Amount</label>
 <div class="relative group">
-<input class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-xl font-semibold focus:ring-0 focus:outline-none transition-all placeholder:text-zinc-600" placeholder="0.00" type="number"/>
+<input id="pc-base" class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-xl font-semibold focus:ring-0 focus:outline-none transition-all placeholder:text-zinc-600" placeholder="0.00" type="number" min="0"/>
 <div class="absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
 </div>
 </div>
@@ -39,13 +39,13 @@ title: "Percentage Calculator"
 <div class="space-y-3">
 <label class="text-on-surface-variant text-sm font-medium tracking-wide">Percentage (%)</label>
 <div class="relative group">
-<input class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-xl font-semibold focus:ring-0 focus:outline-none transition-all placeholder:text-zinc-600" placeholder="0%" type="number"/>
+<input id="pc-percent" class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-xl font-semibold focus:ring-0 focus:outline-none transition-all placeholder:text-zinc-600" placeholder="0%" type="number" min="0"/>
 <div class="absolute bottom-0 left-0 h-[2px] w-0 bg-tertiary group-focus-within:w-full transition-all duration-300"></div>
 </div>
 </div>
 </div>
 <div class="mt-10">
-<button class="w-full py-4 prism-gradient rounded-lg font-bold text-on-primary-container shadow-[0_10px_30px_rgba(113,137,246,0.3)] hover:scale-[1.01] transition-transform active:scale-95">
+<button id="pc-calculate" class="w-full py-4 prism-gradient rounded-lg font-bold text-on-primary-container shadow-[0_10px_30px_rgba(113,137,246,0.3)] hover:scale-[1.01] transition-transform active:scale-95">
                             Calculate Precise Result
                         </button>
 </div>
@@ -58,14 +58,41 @@ title: "Percentage Calculator"
 <div class="relative z-10">
 <p class="text-on-surface-variant text-sm font-bold uppercase tracking-widest mb-2">Calculated Outcome</p>
 <div class="flex items-baseline gap-2">
-<span class="text-6xl font-black tracking-tighter text-tertiary">0.00</span>
+<span id="pc-result" class="text-6xl font-black tracking-tighter text-tertiary">0.00</span>
 <span class="text-zinc-500 font-medium">Final Value</span>
 </div>
 <div class="mt-6 flex items-center gap-4 text-sm text-on-surface-variant">
-<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">info</span> Breakdown available in reports</span>
+<span id="pc-breakdown" class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">info</span> Enter values and click Calculate</span>
 </div>
 </div>
 </div>
+
+<script>
+(function() {
+  var btn = document.getElementById('pc-calculate');
+  var baseInput = document.getElementById('pc-base');
+  var percentInput = document.getElementById('pc-percent');
+  var resultEl = document.getElementById('pc-result');
+  var breakdownEl = document.getElementById('pc-breakdown');
+
+  function calculate() {
+    var base = parseFloat(baseInput.value);
+    var percent = parseFloat(percentInput.value);
+    if (isNaN(base) || isNaN(percent)) {
+      resultEl.textContent = '0.00';
+      breakdownEl.innerHTML = '<span class="material-symbols-outlined text-xs">info</span> Enter both values to calculate';
+      return;
+    }
+    var result = (base * percent) / 100;
+    resultEl.textContent = result.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    breakdownEl.innerHTML = '<span class="material-symbols-outlined text-xs">check_circle</span> ' + percent + '% of ' + base.toLocaleString() + ' = ' + result.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  btn.addEventListener('click', calculate);
+  baseInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+  percentInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+})();
+</script>
 </div>
 <!-- Sidebar Contextual Cards -->
 <div class="lg:col-span-5 space-y-8">
