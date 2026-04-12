@@ -1,0 +1,141 @@
+---
+layout: base.njk
+title: "Random Number Generator"
+---
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+<!-- Abstract Background Element -->
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-container/10 blur-[120px] rounded-full -z-10"></div>
+<div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary-container/10 blur-[100px] rounded-full -z-10"></div>
+<div class="flex flex-col lg:flex-row gap-8 items-start">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col py-8 px-4 w-64 glass-card rounded-3xl sticky top-32">
+<div class="mb-8 px-4">
+<h2 class="text-on-surface font-headline font-bold tracking-tight">Tools</h2>
+<p class="text-on-surface-variant text-sm font-light">Precision Rituals</p>
+</div>
+<div class="flex flex-col space-y-2">
+<button class="flex items-center space-x-3 p-3 rounded-xl text-zinc-500 hover:bg-white/5 hover:translate-x-1 transition-all">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-['Inter'] font-medium">Finance</span>
+</button>
+<button class="flex items-center space-x-3 p-3 rounded-xl text-zinc-500 hover:bg-white/5 hover:translate-x-1 transition-all">
+<span class="material-symbols-outlined">monitor_heart</span>
+<span class="font-['Inter'] font-medium">Health</span>
+</button>
+<button class="flex items-center space-x-3 p-3 rounded-xl text-zinc-500 hover:bg-white/5 hover:translate-x-1 transition-all">
+<span class="material-symbols-outlined">sync_alt</span>
+<span class="font-['Inter'] font-medium">Converters</span>
+</button>
+<button class="flex items-center space-x-3 p-3 rounded-xl bg-indigo-500/20 text-indigo-200 border-r-4 border-indigo-400 transition-all">
+<span class="material-symbols-outlined">build</span>
+<span class="font-['Inter'] font-medium">Utility</span>
+</button>
+<button class="flex items-center space-x-3 p-3 rounded-xl text-zinc-500 hover:bg-white/5 hover:translate-x-1 transition-all">
+<span class="material-symbols-outlined">info</span>
+<span class="font-['Inter'] font-medium">About</span>
+</button>
+</div>
+</aside>
+<!-- Main Content: Random Number Generator -->
+<section class="flex-1 w-full space-y-8">
+<!-- Header -->
+<div class="space-y-2">
+<h1 class="text-5xl md:text-6xl font-black tracking-tight text-on-surface">Random Number</h1>
+<p class="text-on-surface-variant text-lg max-w-xl leading-relaxed">
+                        Generate precise entropy for your digital rituals with our high-fidelity random number generator.
+                    </p>
+</div>
+<!-- Generator Interface -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
+<!-- Input Section -->
+<div class="md:col-span-5 glass-card p-8 rounded-[2rem] flex flex-col justify-between">
+<div class="space-y-8">
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-sm font-medium text-on-surface-variant px-1">Min</label>
+<div class="bg-surface-container-highest/40 rounded-2xl p-4 shadow-inner border-b border-transparent focus-within:border-primary transition-all">
+<input class="bg-transparent border-none w-full text-2xl font-bold text-on-surface focus:ring-0 p-0" type="number" value="1"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium text-on-surface-variant px-1">Max</label>
+<div class="bg-surface-container-highest/40 rounded-2xl p-4 shadow-inner border-b border-transparent focus-within:border-primary transition-all">
+<input class="bg-transparent border-none w-full text-2xl font-bold text-on-surface focus:ring-0 p-0" type="number" value="100"/>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface-container-low/40 rounded-2xl border border-white/5">
+<span class="text-on-surface-variant font-medium">Unique Numbers</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low/40 rounded-2xl border border-white/5">
+<span class="text-on-surface-variant font-medium">Sort Results</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</div>
+</div>
+</div>
+</div>
+<button class="mt-8 prism-gradient w-full py-5 rounded-2xl text-on-primary-container font-black text-xl tracking-tight shadow-[0_0_40px_rgba(113,137,246,0.2)] active:scale-[0.98] transition-transform flex items-center justify-center space-x-2">
+<span class="material-symbols-outlined">refresh</span>
+<span>Generate</span>
+</button>
+</div>
+<!-- Display Section -->
+<div class="md:col-span-7 flex flex-col space-y-8">
+<!-- Main Result -->
+<div class="glass-card rounded-[2rem] p-12 flex-1 flex flex-col items-center justify-center relative overflow-hidden group">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl transition-all group-hover:scale-150"></div>
+<span class="text-on-surface-variant text-sm font-headline tracking-[0.2em] uppercase mb-4">Current Result</span>
+<div class="text-[10rem] md:text-[14rem] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white via-primary to-secondary">
+                                42
+                            </div>
+<div class="mt-8 flex space-x-3">
+<button class="flex items-center space-x-2 px-6 py-3 rounded-full bg-surface-container-highest/60 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+<span class="text-sm font-medium">Copy</span>
+</button>
+<button class="flex items-center space-x-2 px-6 py-3 rounded-full bg-surface-container-highest/60 hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">share</span>
+<span class="text-sm font-medium">Share</span>
+</button>
+</div>
+</div>
+<!-- History/Details Bento -->
+<div class="grid grid-cols-2 gap-6 h-48">
+<div class="glass-card rounded-[1.5rem] p-6 flex flex-col justify-between">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">History</span>
+<div class="flex flex-wrap gap-2">
+<span class="bg-white/5 px-3 py-1 rounded-full text-sm font-mono text-primary">88</span>
+<span class="bg-white/5 px-3 py-1 rounded-full text-sm font-mono text-zinc-500">12</span>
+<span class="bg-white/5 px-3 py-1 rounded-full text-sm font-mono text-zinc-500">07</span>
+<span class="bg-white/5 px-3 py-1 rounded-full text-sm font-mono text-zinc-500">54</span>
+</div>
+</div>
+<div class="glass-card rounded-[1.5rem] p-6 flex flex-col justify-between overflow-hidden relative">
+<img class="absolute inset-0 w-full h-full object-cover opacity-20" data-alt="abstract flowing glass-like shapes with prismatic light diffraction and soft colorful gradients in dark space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0ueu7skSwt9CZ0-B7GAh62kQRverprcEcCOV6JFCNNJ0_ECBvhti9-WTIAaPufLpK3KdacuBEjLoPMmxKzwgwNlWXoRCtLkTSqVTiAqioNCKYC3Le58z23tIId7UIb67p_PnJRQoqixexCuUnbHPbQ6LI6cenb4t1fRwnYYA-If8AgrM1bM-MeLg_25ew5gJylWuD7zI3Lfu0cqEhUVIomyhO98X2mGDIw4lkLUljJACBiSMi-hOTdSzh2xwvGnuS3HiGO_ftlzc"/>
+<div class="relative z-10 flex flex-col justify-between h-full">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Entropy Level</span>
+<div class="flex items-end space-x-1">
+<div class="w-2 h-4 bg-tertiary/40 rounded-full"></div>
+<div class="w-2 h-8 bg-tertiary/60 rounded-full"></div>
+<div class="w-2 h-12 bg-tertiary rounded-full"></div>
+<div class="w-2 h-6 bg-tertiary/50 rounded-full"></div>
+<span class="ml-2 font-black text-tertiary">High</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+
+</main>

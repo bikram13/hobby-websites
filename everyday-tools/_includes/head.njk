@@ -12,17 +12,91 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "on-primary-fixed-variant": "#1f3ba6",
+        "surface-dim": "#131315",
+        "on-secondary-fixed-variant": "#5c3187",
+        "inverse-primary": "#3c55bf",
+        "surface-tint": "#b9c3ff",
+        "background": "#131315",
+        "on-error": "#690005",
+        "on-secondary": "#44176f",
+        "surface-container-high": "#2a2a2c",
+        "secondary": "#dcb8ff",
+        "tertiary-container": "#00a572",
+        "on-tertiary-container": "#00311f",
+        "secondary-fixed-dim": "#dcb8ff",
+        "inverse-surface": "#e4e2e4",
+        "outline": "#8f909e",
+        "surface-variant": "#353437",
+        "primary-fixed": "#dde1ff",
+        "surface-bright": "#39393b",
+        "on-error-container": "#ffdad6",
+        "on-tertiary-fixed-variant": "#005236",
+        "secondary-fixed": "#f0dbff",
+        "outline-variant": "#444653",
+        "on-secondary-container": "#d0a1ff",
+        "on-primary": "#002388",
+        "on-tertiary": "#003824",
+        "tertiary": "#4edea3",
+        "error-container": "#93000a",
+        "tertiary-fixed": "#6ffbbe",
+        "on-surface-variant": "#c5c5d5",
+        "on-tertiary-fixed": "#002113",
+        "on-surface": "#e4e2e4",
+        "surface": "#131315",
+        "surface-container-lowest": "#0e0e10",
+        "surface-container": "#1f1f21",
+        "tertiary-fixed-dim": "#4edea3",
+        "inverse-on-surface": "#303032",
+        "primary-container": "#7189f6",
+        "surface-container-highest": "#353437",
+        "on-background": "#e4e2e4",
+        "on-primary-container": "#001e78",
+        "secondary-container": "#5c3187",
+        "primary": "#b9c3ff",
+        "error": "#ffb4ab",
+        "on-primary-fixed": "#001356",
+        "on-secondary-fixed": "#2c0051",
+        "surface-container-low": "#1b1b1d",
+        "primary-fixed-dim": "#b9c3ff"
+      },
+      borderRadius: {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      fontFamily: {
+        "headline": ["Inter"],
+        "body": ["Inter"],
+        "label": ["Inter"]
+      }
+    }
+  }
+}
+</script>
 <style>
-:root{--color-bg:#fff;--color-text:#1d1d1f;--color-header-bg:rgba(255,255,255,.92);--color-border:#d2d2d7;--font-stack:'Inter',sans-serif;--max-width:1100px;--header-height:56px;--gradient-primary:linear-gradient(135deg,#667eea,#764ba2);--color-finance:#10b981;--color-health:#f43f5e;--color-utility:#8b5cf6;--color-converters:#f59e0b;--color-accent-rgb:0,113,227}
-[data-theme="dark"]{--color-bg:#0f0f23;--color-bg-alt:#1a1a2e;--color-text:#f5f5f7;--color-header-bg:rgba(15,15,35,.88);--color-border:#38383a;--color-accent-rgb:41,151,255;--color-card-bg:rgba(255,255,255,0.05)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;transition:background-color 0.3s ease,color 0.3s ease,border-color 0.3s ease}body{font-family:var(--font-stack);background:var(--color-bg);color:var(--color-text);min-height:100vh;display:flex;flex-direction:column}
-.site-header{position:sticky;top:0;z-index:100;height:var(--header-height);background:var(--color-header-bg);border-bottom:1px solid var(--color-border);backdrop-filter:saturate(180%) blur(12px)}
-.site-header .container{height:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;width:100%;max-width:var(--max-width);margin:0 auto;padding:0 1rem}
-.site-name{font-size:1rem;font-weight:600;color:var(--color-text);text-decoration:none}
-main{flex:1}
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.glass-card {
+  background: rgba(53, 52, 55, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(68, 70, 83, 0.15);
+}
+.hero-gradient {
+  background: radial-gradient(circle at top left, rgba(113, 137, 246, 0.15), transparent 40%),
+              radial-gradient(circle at bottom right, rgba(220, 184, 255, 0.1), transparent 40%);
+}
 </style>
-<link rel="stylesheet" href="/css/main.css">
 <!-- AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID before enabling -->
 <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->

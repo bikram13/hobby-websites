@@ -1,0 +1,155 @@
+---
+layout: base.njk
+title: "Time Zone Converter"
+---
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+<!-- Abstract Background Glows -->
+<div class="fixed top-1/4 right-0 w-96 h-96 bg-primary/10 blur-[120px] rounded-full -z-10"></div>
+<div class="fixed bottom-0 left-1/4 w-[500px] h-[500px] bg-secondary-container/10 blur-[150px] rounded-full -z-10"></div>
+<!-- Header Section -->
+<header class="mb-12">
+<h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-4 text-on-background">
+                Temporal <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-container to-secondary">Prism</span>
+</h1>
+<p class="text-on-surface-variant max-w-xl text-lg leading-relaxed">
+                Synchronize across borders with surgical precision. A tactical view of the world's shifting timeframes.
+            </p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Primary City Card (Large) -->
+<div class="lg:col-span-8 glass-panel rounded-xl p-8 shadow-[0_40px_80px_0_rgba(185,195,255,0.05)]">
+<div class="flex justify-between items-start mb-12">
+<div>
+<span class="text-primary font-medium tracking-widest text-xs uppercase block mb-2">Current Location</span>
+<h2 class="text-4xl font-bold">San Francisco, USA</h2>
+<p class="text-on-surface-variant">Pacific Daylight Time (GMT-7)</p>
+</div>
+<div class="text-right">
+<div class="text-6xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-white to-white/40">
+                            10:42<span class="text-2xl ml-1">AM</span>
+</div>
+<p class="text-on-surface-variant font-medium mt-1">Wednesday, Oct 23</p>
+</div>
+</div>
+<!-- World Map Visualization -->
+<div class="relative w-full aspect-[21/9] rounded-xl overflow-hidden ghost-border bg-surface-container-lowest">
+<img alt="Dark stylized world map" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" data-alt="Minimalist dark world map with neon indigo and purple data points representing major global cities and glowing time zone lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARJQTW6H5X7xQ3Yf47eK5QcEoYDPbC3LUfSy3pNF6U5_aLt1u08EiHjzU1yZbUfasFcLOkZ6qUvcwXXuPkqvsNDZuQGZZ9aS4t6lkENQ5tc5B1cOONxxngt2AwkDmqdbU8RvkWF0pn_CM5X7SxFmlWWhxAPX5LamLE_WF6aXRiYiS5xktHLGhnS6rGA9osGYLqZBHOBZ_EyYedcLn76xVqgI5FZpXioQdxaROEiJYJrRXJn7ChXyno2HlA7EzC7i91SkNOB4A95pQ"/>
+<!-- Map Overlays -->
+<div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+<!-- Pulsing Points -->
+<div class="absolute top-1/3 left-1/4 group cursor-pointer">
+<div class="w-3 h-3 bg-primary rounded-full animate-pulse"></div>
+<div class="absolute -top-10 -left-1/2 bg-surface-container-high px-3 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">SF 10:42 AM</div>
+</div>
+<div class="absolute top-1/4 left-[55%] group cursor-pointer">
+<div class="w-3 h-3 bg-secondary rounded-full animate-pulse"></div>
+<div class="absolute -top-10 -left-1/2 bg-surface-container-high px-3 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">London 6:42 PM</div>
+</div>
+<div class="absolute top-1/2 left-[85%] group cursor-pointer">
+<div class="w-3 h-3 bg-tertiary rounded-full animate-pulse"></div>
+<div class="absolute -top-10 -left-1/2 bg-surface-container-high px-3 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Tokyo 2:42 AM</div>
+</div>
+</div>
+</div>
+<!-- Search & Add Sidebar -->
+<div class="lg:col-span-4 space-y-8">
+<div class="glass-panel rounded-xl p-6">
+<h3 class="text-xl font-bold mb-6">Add Time Zone</h3>
+<div class="relative mb-6">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-highest rounded-lg py-3 pl-12 pr-4 text-sm focus:ring-1 focus:ring-primary border-none shadow-inner" placeholder="Search city or country..." type="text"/>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-colors border border-white/5 group">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary group-hover:rotate-12 transition-transform">schedule</span>
+<div>
+<p class="text-sm font-bold">New York, NY</p>
+<p class="text-xs text-on-surface-variant">EDT (GMT-4)</p>
+</div>
+</div>
+<span class="text-sm font-medium">1:42 PM</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-colors border border-white/5 group">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary group-hover:rotate-12 transition-transform">schedule</span>
+<div>
+<p class="text-sm font-bold">London, UK</p>
+<p class="text-xs text-on-surface-variant">BST (GMT+1)</p>
+</div>
+</div>
+<span class="text-sm font-medium">6:42 PM</span>
+</div>
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-colors border border-white/5 group">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary group-hover:rotate-12 transition-transform">schedule</span>
+<div>
+<p class="text-sm font-bold">Tokyo, JP</p>
+<p class="text-xs text-on-surface-variant">JST (GMT+9)</p>
+</div>
+</div>
+<span class="text-sm font-medium">2:42 AM</span>
+</div>
+</div>
+<button class="w-full mt-6 py-4 rounded-xl bg-gradient-to-r from-primary-container to-secondary text-on-primary-container font-bold shadow-lg hover:shadow-primary/20 active:scale-95 transition-all">
+                        Synchronize Custom List
+                    </button>
+</div>
+<!-- Quick Action Feature -->
+<div class="bg-surface-container-low rounded-xl p-6 border border-white/5">
+<div class="flex items-center space-x-3 mb-4">
+<span class="material-symbols-outlined text-tertiary">public</span>
+<h4 class="font-bold">Visual Calendar</h4>
+</div>
+<p class="text-sm text-on-surface-variant mb-4">Plan international calls effortlessly. Drag the slider to see how time shifts globally.</p>
+<div class="w-full h-2 bg-surface-container-highest rounded-full relative overflow-hidden">
+<div class="absolute left-0 top-0 h-full w-1/2 bg-gradient-to-r from-primary to-secondary"></div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] text-zinc-500 font-bold uppercase tracking-widest">
+<span>Dawn</span>
+<span>Midday</span>
+<span>Dusk</span>
+</div>
+</div>
+</div>
+<!-- Comparison Grid -->
+<div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="glass-panel p-6 rounded-xl border-l-4 border-primary">
+<p class="text-xs font-bold text-primary uppercase mb-2">Dubai, UAE</p>
+<div class="text-3xl font-bold">9:42 PM</div>
+<div class="flex items-center space-x-2 text-xs text-on-surface-variant mt-2">
+<span class="material-symbols-outlined text-sm">wb_twilight</span>
+<span>Night Owl</span>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-xl border-l-4 border-secondary">
+<p class="text-xs font-bold text-secondary uppercase mb-2">Berlin, DE</p>
+<div class="text-3xl font-bold">7:42 PM</div>
+<div class="flex items-center space-x-2 text-xs text-on-surface-variant mt-2">
+<span class="material-symbols-outlined text-sm">dinner_dining</span>
+<span>Dinner Time</span>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-xl border-l-4 border-tertiary">
+<p class="text-xs font-bold text-tertiary uppercase mb-2">Sydney, AU</p>
+<div class="text-3xl font-bold">4:42 AM</div>
+<div class="flex items-center space-x-2 text-xs text-on-surface-variant mt-2">
+<span class="material-symbols-outlined text-sm">bedtime</span>
+<span>Sleeping</span>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-xl border-l-4 border-primary-container">
+<p class="text-xs font-bold text-primary-container uppercase mb-2">Mumbai, IN</p>
+<div class="text-3xl font-bold">11:12 PM</div>
+<div class="flex items-center space-x-2 text-xs text-on-surface-variant mt-2">
+<span class="material-symbols-outlined text-sm">nights_stay</span>
+<span>Late Night</span>
+</div>
+</div>
+</div>
+</div>
+
+</main>

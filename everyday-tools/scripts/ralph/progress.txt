@@ -1,0 +1,17 @@
+# Ralph Progress Log
+Started: Sat Apr 11 21:41:09 IST 2026
+---
+
+## Sat Apr 11 21:45 IST 2026 - US-001
+- Added `keydown` event listeners on all 3 inputs to block `-`, `+`, `e`, `E` keys (and `.` on people field)
+- Added `clampInput()` helper that enforces min/max bounds on the `input` event as a second layer
+- Wrapped `calculate()` values in `Math.max(0, ...)` guards so even if a negative slips through, output is never negative
+- Capped custom tip at 100% via `Math.min(100, ...)`
+- People field strips any decimal portion that slips past `keydown` via floor + clamp
+- **Files changed**: `src/finance/tip-calculator/index.njk`
+- **Learnings:**
+  - `type="number"` inputs still accept `-` via keyboard in most browsers despite `min="0"` — `keydown` prevention is necessary
+  - Blocking `e`/`E` prevents scientific notation entry (e.g., `1e5`) which would bypass normal limits
+  - Defensive `Math.max`/`Math.min` in `calculate()` is a safe last resort even if DOM events fail
+  - Ctrl+A + Backspace clears the field → `parseFloat('') || 0` = 0 → calculate() shows dashes, no broken state
+---

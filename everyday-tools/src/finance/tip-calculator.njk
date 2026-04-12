@@ -1,0 +1,164 @@
+---
+layout: base.njk
+title: "Tip Calculator"
+---
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+<!-- Hero Header -->
+<header class="mb-16">
+<div class="flex items-center gap-3 text-primary mb-4">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label text-sm uppercase tracking-widest font-semibold text-on-surface-variant">Finance Tools</span>
+</div>
+<h1 class="text-5xl md:text-7xl font-bold font-headline tracking-tighter text-on-surface mb-6">
+                Tip Calculator
+            </h1>
+<p class="text-on-surface-variant text-lg max-w-2xl leading-relaxed">
+                Calculate the perfect gratuity and split the bill effortlessly. An elegant way to handle post-dinner logistics.
+            </p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Main Calculator Section (Bento Style) -->
+<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Input Card -->
+<section class="glass-card p-8 rounded-xl flex flex-col gap-8 md:col-span-1">
+<div class="space-y-6">
+<div class="group">
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-widest mb-3">Bill Total</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-bold">$</span>
+<input class="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-10 pr-4 text-2xl font-bold focus:ring-0 border-b-2 border-transparent focus:border-primary transition-all text-on-surface" type="number" value="125.50"/>
+</div>
+</div>
+<div class="group">
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-widest mb-3">Tip Percentage</label>
+<div class="flex gap-2 mb-4">
+<button class="flex-1 bg-surface-container-highest hover:bg-primary-container/20 text-on-surface py-3 rounded-full text-sm font-medium transition-colors">15%</button>
+<button class="flex-1 bg-primary-container text-on-primary-container py-3 rounded-full text-sm font-bold shadow-lg shadow-primary/20">20%</button>
+<button class="flex-1 bg-surface-container-highest hover:bg-primary-container/20 text-on-surface py-3 rounded-full text-sm font-medium transition-colors">25%</button>
+</div>
+<div class="relative">
+<input class="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="20"/>
+</div>
+</div>
+<div class="group">
+<label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-widest mb-3">Number of People</label>
+<div class="flex items-center bg-surface-container-highest rounded-lg p-1">
+<button class="w-12 h-12 flex items-center justify-center text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined">remove</span></button>
+<input class="flex-1 bg-transparent border-none text-center text-xl font-bold focus:ring-0 text-on-surface" type="number" value="4"/>
+<button class="w-12 h-12 flex items-center justify-center text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined">add</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Results Card -->
+<section class="bg-gradient-to-br from-primary-container to-secondary p-8 rounded-xl flex flex-col justify-between md:col-span-1 shadow-2xl shadow-primary/10 relative overflow-hidden">
+<div class="relative z-10">
+<div class="mb-12">
+<p class="text-on-primary-container/70 text-sm font-semibold uppercase tracking-widest mb-1">Tip Amount</p>
+<h2 class="text-5xl font-bold text-on-primary-container tracking-tighter">$25.10</h2>
+</div>
+<div class="mb-12">
+<p class="text-on-primary-container/70 text-sm font-semibold uppercase tracking-widest mb-1">Total with Tip</p>
+<h2 class="text-4xl font-bold text-on-primary-container tracking-tighter opacity-80">$150.60</h2>
+</div>
+<div class="pt-8 border-t border-on-primary-container/10">
+<p class="text-on-primary-container/70 text-sm font-semibold uppercase tracking-widest mb-1">Per Person</p>
+<h2 class="text-6xl font-black text-on-primary-container tracking-tighter">$37.65</h2>
+</div>
+</div>
+<div class="absolute -right-12 -bottom-12 opacity-10">
+<span class="material-symbols-outlined text-[200px]" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+</div>
+<button class="mt-12 w-full bg-surface-dim text-primary py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-black active:scale-95 transition-all shadow-xl">
+<span class="material-symbols-outlined">share</span>
+                        Share Breakdown
+                    </button>
+</section>
+<!-- Tool Info / Instructions (Asymmetric secondary card) -->
+<section class="glass-card p-8 rounded-xl md:col-span-2">
+<h3 class="text-xl font-bold mb-4 text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">info</span>
+                        About This Calculator
+                    </h3>
+<div class="grid md:grid-cols-2 gap-8">
+<p class="text-on-surface-variant leading-relaxed">
+                            Our tip calculator uses real-time precision to ensure your gratuity matches your satisfaction level. Adjust the percentage slider for granular control or use our quick presets based on standard service benchmarks.
+                        </p>
+<div class="flex flex-col gap-4">
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-container/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-sm">check</span>
+</div>
+<span class="text-sm text-on-surface-variant">Includes custom split functionality for large groups.</span>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-container/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-sm">check</span>
+</div>
+<span class="text-sm text-on-surface-variant">Tax-exclusive calculation option available in settings.</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Sidebar: Related Tools -->
+<aside class="lg:col-span-4 flex flex-col gap-6">
+<div class="glass-card p-8 rounded-xl">
+<h4 class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-6">Related Finance Tools</h4>
+<div class="space-y-4">
+<!-- Related Tool 1 -->
+<a class="group block p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-highest transition-all" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary">percent</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface">Percentage Calculator</p>
+<p class="text-xs text-on-surface-variant">Find increases and decreases</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all">arrow_forward</span>
+</div>
+</a>
+<!-- Related Tool 2 -->
+<a class="group block p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-highest transition-all" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary">account_balance</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface">Loan Calculator</p>
+<p class="text-xs text-on-surface-variant">Amortization &amp; monthly plans</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all">arrow_forward</span>
+</div>
+</a>
+<!-- Related Tool 3 -->
+<a class="group block p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-highest transition-all" href="#">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-secondary">trending_up</span>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface">Compound Interest</p>
+<p class="text-xs text-on-surface-variant">Visualize long-term growth</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all">arrow_forward</span>
+</div>
+</a>
+</div>
+</div>
+<!-- Ad/Promo Space -->
+<div class="relative group rounded-xl overflow-hidden aspect-[4/3]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Modern high-end restaurant table with a credit card and glass of wine, soft ambient lighting, luxury atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd-V-QMbSu8KOKjFxB-Y_CE5VgYbw5913f8CUOERGiLAJR4TjmrATfhLk6wS4Z8600IbXx2hWVb70DLEjhN6qmSUcI53ehH_Q9-wBHa-miBkWwtUS1JFZ8wgoluNHkJU35T-6axrZ0yaWtx46SCcDQIwCiM7ua5hoFr0tzx8yS15_xI2Rt7V7FwyilwDidPvFF-zK-CudSPIAPHfPalXXw0QWsWxzGUbHEMBQ3wk6s1Pf-ubyC64_F7s3ewpy72BSdMidCDvuuLCg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<span class="bg-primary text-on-primary text-[10px] font-black px-2 py-0.5 rounded-full mb-2 inline-block uppercase tracking-tighter">Pro Tip</span>
+<h5 class="text-lg font-bold text-white leading-tight">Always check if gratuity is already included for parties of 6+.</h5>
+</div>
+</div>
+</aside>
+</div>
+
+</main>

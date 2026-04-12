@@ -1,0 +1,135 @@
+---
+layout: base.njk
+title: "BMI Calculator"
+---
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+<!-- Hero Section -->
+<section class="mb-16 text-center">
+<h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+                Body Mass Index
+            </h1>
+<p class="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                Precision health tracking with our prism-aligned BMI calculator. Monitor your wellness journey through an editorial lens.
+            </p>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Input Panel -->
+<div class="lg:col-span-5 glass-card rounded-xl p-8 shadow-2xl">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="monitor_weight">monitor_weight</span>
+</div>
+<h2 class="text-2xl font-bold tracking-tight">Measurements</h2>
+</div>
+<div class="space-y-8">
+<!-- Unit Toggle -->
+<div class="flex p-1 bg-surface-container-highest rounded-full w-fit">
+<button class="px-6 py-2 rounded-full bg-primary-container text-on-primary-container font-bold text-sm transition-all">Metric</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant font-medium text-sm hover:text-on-surface transition-all">Imperial</button>
+</div>
+<!-- Weight Input -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Weight</label>
+<span class="text-xs text-primary font-medium">kg</span>
+</div>
+<div class="relative group">
+<input class="w-full bg-surface-container-highest border-none rounded-xl py-4 px-6 text-2xl font-bold focus:ring-0 focus:outline-none placeholder:text-zinc-700" placeholder="70" type="number"/>
+<div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-focus-within:w-full transition-all duration-500"></div>
+</div>
+</div>
+<!-- Height Input -->
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<label class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Height</label>
+<span class="text-xs text-primary font-medium">cm</span>
+</div>
+<div class="relative group">
+<input class="w-full bg-surface-container-highest border-none rounded-xl py-4 px-6 text-2xl font-bold focus:ring-0 focus:outline-none placeholder:text-zinc-700" placeholder="175" type="number"/>
+<div class="absolute bottom-0 left-0 w-0 h-[2px] bg-primary group-focus-within:w-full transition-all duration-500"></div>
+</div>
+</div>
+<button class="w-full py-5 rounded-xl bg-gradient-to-br from-primary-container to-secondary text-white font-bold text-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-[0.98]">
+                        Calculate Results
+                    </button>
+</div>
+</div>
+<!-- Display Panel -->
+<div class="lg:col-span-7 space-y-8">
+<!-- BMI Gauge Card -->
+<div class="glass-card rounded-xl p-8 relative overflow-hidden group">
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-tertiary/10 rounded-full blur-3xl group-hover:bg-tertiary/20 transition-all duration-700"></div>
+<div class="relative z-10 flex flex-col md:flex-row items-center gap-12">
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- Circular Gauge Placeholder -->
+<svg class="w-full h-full -rotate-90">
+<circle class="text-surface-container-highest" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-tertiary" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552" stroke-dashoffset="140" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="text-4xl font-black tracking-tighter">22.8</span>
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">BMI Index</span>
+</div>
+</div>
+<div class="flex-grow space-y-4">
+<div>
+<h3 class="text-tertiary text-sm font-bold uppercase tracking-[0.2em] mb-1">Status</h3>
+<p class="text-3xl font-black text-on-surface">Healthy Weight</p>
+</div>
+<p class="text-on-surface-variant leading-relaxed text-sm italic">
+                                "You are currently within the recommended range. Maintaining a balanced diet and regular activity will sustain this health profile."
+                            </p>
+<div class="grid grid-cols-4 gap-2 pt-4">
+<div class="h-1.5 rounded-full bg-blue-400/30"></div>
+<div class="h-1.5 rounded-full bg-tertiary"></div>
+<div class="h-1.5 rounded-full bg-yellow-400/30"></div>
+<div class="h-1.5 rounded-full bg-red-400/30"></div>
+</div>
+<div class="flex justify-between text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">
+<span>Under</span>
+<span class="text-tertiary">Healthy</span>
+<span>Over</span>
+<span>Obese</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Tips -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="glass-card rounded-xl p-6 border-l-4 border-tertiary">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="restaurant">restaurant</span>
+<h4 class="font-bold tracking-tight">Nutritional Balance</h4>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            Focus on whole foods and complex carbohydrates to maintain consistent energy levels throughout your tool-driven workflow.
+                        </p>
+</div>
+<div class="glass-card rounded-xl p-6 border-l-4 border-primary">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="directions_run">directions_run</span>
+<h4 class="font-bold tracking-tight">Activity Routine</h4>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                            Aim for at least 30 minutes of moderate activity daily to improve metabolic health and mental clarity.
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Visual Anchor Section -->
+<section class="mt-20">
+<div class="w-full h-80 rounded-xl overflow-hidden relative glass-card group">
+<img class="w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-1000" data-alt="serene yoga practitioner in a dark minimalist studio with soft purple and teal ambient light coming from the floor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNgkJ-ZnML0PT9MQ4WL9C9weuozYPLDBD79VCMCNDDoTLKRONiKALavM-W91pj7nkwLQhbw16gLIjw0QBYsxBRp3LYPfLfB8T1TJIxZIqXKIbdMVHEFEl8NLi4Jc4KN-cNEcmZurgfj2BOSJWcv9YuFuiWIeiMavw-sDZ28CA0P5KUzI-Bb2tyRZuOG6bjUHcCJZZWiatvGLPTWePU3fSEgg438q35YpbMG5O3EVYFXtuO2TP9MaB-aGg7VNYvIm8ZbJSDAMXfm58"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<div class="absolute bottom-8 left-8 max-w-lg">
+<h3 class="text-3xl font-black mb-2">The Ritual of Wellness</h3>
+<p class="text-on-surface-variant">BMI is just one metric in your expansive health portfolio. Use our tools to build a comprehensive picture of your daily performance.</p>
+</div>
+</div>
+</section>
+
+</main>

@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
   {% include "head.njk" %}
 </head>
-<body>
+<body class="bg-background text-on-background font-body selection:bg-primary/30 min-h-screen hero-gradient">
   {% include "header.njk" %}
-  <main>
-    {{ content | safe }}
-  </main>
+  {{ content | safe }}
   {# {% include "ad-slot.njk" %} #}
   {% include "footer.njk" %}
 </body>

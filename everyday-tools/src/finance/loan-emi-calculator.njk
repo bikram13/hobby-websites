@@ -1,0 +1,147 @@
+---
+layout: base.njk
+title: "Loan EMI Calculator"
+---
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+<!-- Hero Title -->
+<div class="max-w-6xl mx-auto mb-12">
+<h1 class="text-5xl md:text-6xl font-black tracking-tight text-on-surface mb-2" style="letter-spacing: -0.02em;">Loan / EMI Calculator</h1>
+<p class="text-on-surface-variant text-lg max-w-xl">Architect your financial future with precision. Calculate your monthly obligations through a crystal-clear prism of data.</p>
+</div>
+<!-- Bento Layout -->
+<div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Inputs Section (Asymmetric Span) -->
+<section class="lg:col-span-7 space-y-8">
+<div class="glass-card rounded-xl p-8 shadow-[0_40px_40px_0_rgba(185,195,255,0.05)]">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance">account_balance</span>
+<h2 class="text-xl font-bold tracking-tight">Loan Parameters</h2>
+</div>
+<div class="space-y-10">
+<!-- Loan Amount -->
+<div class="group">
+<div class="flex justify-between items-end mb-4">
+<label class="text-sm font-medium text-on-surface-variant">Loan Amount</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-primary font-bold">$</span>
+<input class="bg-surface-container-highest border-none rounded-lg pl-8 pr-4 py-2 text-right font-bold focus:ring-1 focus:ring-primary w-32 transition-all" type="text" value="50,000"/>
+</div>
+</div>
+<input class="custom-slider w-full" max="1000000" min="1000" type="range" value="50000"/>
+</div>
+<!-- Interest Rate -->
+<div class="group">
+<div class="flex justify-between items-end mb-4">
+<label class="text-sm font-medium text-on-surface-variant">Interest Rate (p.a)</label>
+<div class="relative">
+<input class="bg-surface-container-highest border-none rounded-lg px-4 py-2 text-right font-bold focus:ring-1 focus:ring-primary w-24 transition-all" type="text" value="8.5"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-primary font-bold">%</span>
+</div>
+</div>
+<input class="custom-slider w-full" max="25" min="1" step="0.1" type="range" value="8.5"/>
+</div>
+<!-- Tenure -->
+<div class="group">
+<div class="flex justify-between items-end mb-4">
+<label class="text-sm font-medium text-on-surface-variant">Loan Tenure</label>
+<div class="flex bg-surface-container-highest rounded-full p-1">
+<button class="px-4 py-1 rounded-full bg-primary text-on-primary-container text-xs font-bold transition-all">Years</button>
+<button class="px-4 py-1 rounded-full text-on-surface-variant text-xs font-medium hover:text-on-surface transition-all">Months</button>
+</div>
+</div>
+<div class="flex justify-between items-center mb-4">
+<span class="text-on-surface font-bold text-lg">5 <span class="text-xs text-on-surface-variant font-normal">Years</span></span>
+<input class="bg-surface-container-highest border-none rounded-lg px-4 py-2 text-right font-bold focus:ring-1 focus:ring-primary w-20 transition-all" type="text" value="5"/>
+</div>
+<input class="custom-slider w-full" max="30" min="1" type="range" value="5"/>
+</div>
+</div>
+</div>
+<!-- Amortization Teaser -->
+<div class="glass-card rounded-xl p-8 bg-gradient-to-br from-primary-container/20 to-secondary-container/10 border-primary/10">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-lg mb-2">Refined Insights</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed max-w-sm">Explore how your principal decreases over time. A balanced strategy today ensures freedom tomorrow.</p>
+</div>
+<button class="bg-gradient-to-r from-primary-container to-secondary text-on-primary-container px-6 py-3 rounded-xl font-bold text-sm shadow-[0_10px_30px_rgba(113,137,246,0.3)] hover:scale-105 transition-transform active:scale-95">
+                                View Schedule
+                            </button>
+</div>
+</div>
+</section>
+<!-- Results Section (Asymmetric Span) -->
+<section class="lg:col-span-5 space-y-8">
+<div class="glass-card rounded-xl p-8 border-primary/20 relative overflow-hidden h-full">
+<!-- Abstract Prism Background Decor -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[80px] rounded-full"></div>
+<h2 class="text-xl font-bold tracking-tight mb-10 relative z-10">Calculated Projection</h2>
+<div class="space-y-12 relative z-10">
+<!-- Monthly EMI Focus -->
+<div class="text-center py-6">
+<p class="text-on-surface-variant text-sm font-medium mb-2">Monthly EMI</p>
+<p class="text-5xl font-black text-primary tracking-tighter">$1,025.83</p>
+</div>
+<!-- Breakdown Stats -->
+<div class="grid grid-cols-1 gap-6">
+<div class="bg-surface-container-low/50 p-6 rounded-xl border border-white/5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<p class="text-sm text-on-surface-variant">Principal Amount</p>
+</div>
+<p class="font-bold">$50,000</p>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-tertiary"></div>
+<p class="text-sm text-on-surface-variant">Total Interest</p>
+</div>
+<p class="font-bold">$11,549.80</p>
+</div>
+<div class="mt-6 pt-6 border-t border-white/5 flex items-center justify-between">
+<p class="text-sm font-bold">Total Payment</p>
+<p class="text-xl font-black text-secondary">$61,549.80</p>
+</div>
+</div>
+</div>
+<!-- Visualization (CSS Chart) -->
+<div class="space-y-4">
+<div class="flex justify-between text-xs font-bold uppercase tracking-wider mb-2">
+<span class="text-on-surface-variant">Distribution</span>
+<span class="text-primary">Principal vs Interest</span>
+</div>
+<div class="w-full h-8 bg-surface-container-highest rounded-full flex overflow-hidden p-1">
+<!-- Principal -->
+<div class="h-full bg-gradient-to-r from-primary-container to-primary rounded-full" style="width: 81%;"></div>
+<!-- Interest -->
+<div class="h-full bg-tertiary-container ml-1 rounded-full" style="width: 19%;"></div>
+</div>
+<div class="flex gap-6 mt-4">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-xs text-on-surface-variant">81.2% Principal</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<span class="text-xs text-on-surface-variant">18.8% Interest</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Descriptive Image Section -->
+<div class="max-w-6xl mx-auto mt-20 relative rounded-xl overflow-hidden h-[300px] group">
+<img alt="Financial Dashboard" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Abstract cinematic view of futuristic financial charts and light trails on a dark obsidian glass surface with vibrant purple and cyan glows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSiFOqjCO9oag6nG27EK19dPUFaeO7fA0Nnw90x78yN6Fjdhte7mtWNRkdMyO-FoVZgd7zF27l9wTz3yjZfHZj-_e9uDmrA3G2mdNer0jeLB9co97M7lTbcgE55uBNBNaZZgRU8rl2B_OPsok6Oa_ZWkkB-Y4ka_6vhKmSGtpoLyZA5oWqPbBa2oiJeBZ2qCeEWIl52zYPbgE0vN2o45GhR5QuLvEqWMNWSMuzsuW-Lhln67Nf6332QxEbuonEhWtRB_RNMadC3Hs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+<div class="absolute bottom-8 left-8 max-w-md">
+<h4 class="text-2xl font-bold mb-2">Financial Sovereignty</h4>
+<p class="text-on-surface-variant text-sm">Every calculation is a step toward clarity. Our tools provide the architectural precision needed for modern wealth management.</p>
+</div>
+</div>
+
+</main>

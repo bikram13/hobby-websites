@@ -1,70 +1,181 @@
 ---
 layout: base.njk
-title: "Free Online Calculator Tools"
-description: "Free everyday calculator and converter tools. No signup, no ads, instant results on any device."
-canonical: "https://everyday-tools.pages.dev/"
+title: "Home"
 ---
 
-<section class="hero">
-  <div class="container">
-    <h1>Everyday Calculator Tools</h1>
-    <p>Free, instant tools for everyday calculations. No signup. No clutter.</p>
-    <p class="hero-tagline">9 free tools · Zero signups · Works on any device</p>
-  </div>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+<!-- Abstract Background Elements -->
+<div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 rounded-full blur-[120px] -z-10"></div>
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 py-20 text-center relative">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-variant/30 border border-outline-variant/15 text-xs font-medium tracking-wider uppercase text-primary mb-8">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+</span>
+                Now with 50+ Smart Calculators
+            </div>
+<h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-b from-on-surface to-on-surface-variant/50">
+                Free, instant tools for <br/>everyday calculations.
+            </h1>
+<p class="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto leading-relaxed mb-12">
+                Simplify your complex tasks with our suite of precision-engineered digital instruments. No subscriptions, no fluff—just pure utility.
+            </p>
+<div class="flex flex-wrap justify-center gap-4">
+<button class="bg-gradient-to-r from-primary-container to-secondary px-8 py-4 rounded-xl font-bold text-on-primary-container flex items-center gap-2 hover:shadow-[0_0_30px_rgba(113,137,246,0.3)] transition-all">
+                    Explore All Tools
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="glass-card px-8 py-4 rounded-xl font-bold text-on-surface flex items-center gap-2 hover:bg-surface-variant/50 transition-all">
+                    How it works
+                </button>
+</div>
+</section>
+<!-- Tool Categories Bento Grid -->
+<section class="max-w-7xl mx-auto px-8 py-20">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Finance Card (Large) -->
+<div class="md:col-span-8 glass-card rounded-xl p-8 flex flex-col justify-between min-h-[400px] relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10 group-hover:bg-primary/10 transition-colors"></div>
+<div>
+<div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined text-3xl">payments</span>
+</div>
+<h3 class="text-3xl font-bold mb-4">Finance</h3>
+<p class="text-on-surface-variant max-w-md mb-8">Manage your wealth with precision. From mortgage estimates to crypto conversions.</p>
+<div class="grid grid-cols-2 gap-4">
+<a class="flex items-center gap-3 p-4 rounded-xl bg-surface-container-highest/30 hover:bg-surface-container-highest transition-all group/item" href="#">
+<span class="material-symbols-outlined text-primary group-hover/item:scale-110 transition-transform">calculate</span>
+<span class="font-medium">Tip Calculator</span>
+</a>
+<a class="flex items-center gap-3 p-4 rounded-xl bg-surface-container-highest/30 hover:bg-surface-container-highest transition-all group/item" href="#">
+<span class="material-symbols-outlined text-primary group-hover/item:scale-110 transition-transform">account_balance</span>
+<span class="font-medium">Mortgage Pro</span>
+</a>
+<a class="flex items-center gap-3 p-4 rounded-xl bg-surface-container-highest/30 hover:bg-surface-container-highest transition-all group/item" href="#">
+<span class="material-symbols-outlined text-primary group-hover/item:scale-110 transition-transform">currency_exchange</span>
+<span class="font-medium">Forex Realtime</span>
+</a>
+<a class="flex items-center gap-3 p-4 rounded-xl bg-surface-container-highest/30 hover:bg-surface-container-highest transition-all group/item" href="#">
+<span class="material-symbols-outlined text-primary group-hover/item:scale-110 transition-transform">receipt_long</span>
+<span class="font-medium">Tax Estimator</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Health Card (Medium Tall) -->
+<div class="md:col-span-4 glass-card rounded-xl p-8 flex flex-col relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-tertiary/5 rounded-full blur-2xl -z-10"></div>
+<div class="w-12 h-12 rounded-xl bg-tertiary/20 flex items-center justify-center text-tertiary mb-6">
+<span class="material-symbols-outlined text-3xl">monitor_heart</span>
+</div>
+<h3 class="text-2xl font-bold mb-4">Health</h3>
+<p class="text-on-surface-variant mb-8">Science-backed tools to track your physiological benchmarks.</p>
+<div class="space-y-4 flex-grow">
+<a class="flex items-center justify-between p-4 rounded-xl border border-outline-variant/10 hover:border-tertiary/30 transition-all" href="#">
+<span class="font-medium">BMI Calculator</span>
+<span class="material-symbols-outlined text-tertiary">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 rounded-xl border border-outline-variant/10 hover:border-tertiary/30 transition-all" href="#">
+<span class="font-medium">Calorie Intake</span>
+<span class="material-symbols-outlined text-tertiary">chevron_right</span>
+</a>
+<a class="flex items-center justify-between p-4 rounded-xl border border-outline-variant/10 hover:border-tertiary/30 transition-all" href="#">
+<span class="font-medium">Hydration Level</span>
+<span class="material-symbols-outlined text-tertiary">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- Unit Converters (Medium Wide) -->
+<div class="md:col-span-5 glass-card rounded-xl p-8 relative overflow-hidden group min-h-[300px]">
+<div class="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center text-secondary mb-6">
+<span class="material-symbols-outlined text-3xl">sync_alt</span>
+</div>
+<h3 class="text-2xl font-bold mb-4">Unit Converters</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-2 rounded-full bg-surface-container-highest text-sm font-medium hover:bg-secondary/20 hover:text-secondary cursor-pointer transition-colors">Metric to Imperial</span>
+<span class="px-4 py-2 rounded-full bg-surface-container-highest text-sm font-medium hover:bg-secondary/20 hover:text-secondary cursor-pointer transition-colors">Data Units</span>
+<span class="px-4 py-2 rounded-full bg-surface-container-highest text-sm font-medium hover:bg-secondary/20 hover:text-secondary cursor-pointer transition-colors">Temperature</span>
+<span class="px-4 py-2 rounded-full bg-surface-container-highest text-sm font-medium hover:bg-secondary/20 hover:text-secondary cursor-pointer transition-colors">Speed</span>
+<span class="px-4 py-2 rounded-full bg-surface-container-highest text-sm font-medium hover:bg-secondary/20 hover:text-secondary cursor-pointer transition-colors">Pressure</span>
+</div>
+</div>
+<!-- Utility (Small) -->
+<div class="md:col-span-7 glass-card rounded-xl p-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
+<div class="flex-1">
+<div class="w-12 h-12 rounded-xl bg-on-surface-variant/10 flex items-center justify-center text-on-surface mb-6">
+<span class="material-symbols-outlined text-3xl">build</span>
+</div>
+<h3 class="text-2xl font-bold mb-2">Utility Tools</h3>
+<p class="text-on-surface-variant">Random generators, timers, and small helpers for daily productivity.</p>
+</div>
+<div class="flex flex-col gap-3 w-full md:w-auto">
+<button class="px-6 py-3 rounded-xl bg-surface-container-highest font-medium flex items-center justify-center gap-2 hover:bg-on-surface/5 transition-all">
+<span class="material-symbols-outlined text-sm">casino</span> Password Gen
+                        </button>
+<button class="px-6 py-3 rounded-xl bg-surface-container-highest font-medium flex items-center justify-center gap-2 hover:bg-on-surface/5 transition-all">
+<span class="material-symbols-outlined text-sm">timer</span> Precision Timer
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Dynamic Feature Section -->
+<section class="max-w-7xl mx-auto px-8 py-20">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="relative">
+<div class="absolute -inset-4 bg-gradient-to-tr from-primary/20 to-secondary/20 blur-3xl opacity-30"></div>
+<div class="relative glass-card rounded-xl p-1 overflow-hidden">
+<img class="rounded-lg w-full h-auto object-cover opacity-90 shadow-2xl" data-alt="Modern sleek dashboard interface on a laptop screen with vibrant charts and glassmorphism elements on a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJvCUdXttATy2lnpl6enf_u6GyZYuajJluhXLTr7QenXOsY93QEcfjMqIdpyFtS3pTgrJUvKcBQeUU88W6MGY8H1blKnqN9X9gSXxvv9lTNEIOfWLcrHDA6fK8N_vF16HiHJMXhstpSv-zUfYNIt_u5HTPTjM-_WQo_FFZJ5VNPMIzocQrg4oVicgYKBOjHA71iEgkdFxvY7lxH3tgBWFV2Em4qFYIa4zIPgku9I-znYOU1-rytEppFuTVTqpLmlf3FcZ8RRyUfBs"/>
+</div>
+</div>
+<div>
+<h2 class="text-4xl font-extrabold tracking-tight mb-6">Designed for speed. <br/>Built for clarity.</h2>
+<div class="space-y-8">
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Zero Latency</h4>
+<p class="text-on-surface-variant leading-relaxed">Calculations happen locally in your browser. No server round-trips, no waiting for results.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">shield</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Privacy First</h4>
+<p class="text-on-surface-variant leading-relaxed">Your data never leaves your device. We don't store your calculations or sensitive financial inputs.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">devices</span>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-2">Omni-Platform</h4>
+<p class="text-on-surface-variant leading-relaxed">A seamless experience across mobile, tablet, and desktop with a responsive prism layout.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="max-w-7xl mx-auto px-8 py-32 text-center">
+<div class="glass-card rounded-xl p-16 relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/20 to-secondary/20 opacity-30 -z-10"></div>
+<h2 class="text-4xl md:text-5xl font-extrabold mb-6">Missing a tool?</h2>
+<p class="text-lg text-on-surface-variant mb-10 max-w-xl mx-auto">We are constantly adding new digital instruments. Suggest a calculator or conversion and we'll build it.</p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<input class="w-full sm:w-80 px-6 py-4 rounded-xl bg-surface-container-highest border-none focus:ring-2 focus:ring-primary/50 text-on-surface transition-all" placeholder="Your tool idea..." type="email"/>
+<button class="w-full sm:w-auto px-8 py-4 rounded-xl bg-on-surface text-surface font-bold hover:bg-white transition-colors">Submit Request</button>
+</div>
+</div>
 </section>
 
-<section class="categories">
-  <div class="container">
-    <div class="category-grid">
-
-      <div class="category-card" style="border-left: 3px solid var(--color-finance);">
-        <h2><a href="/finance/">💰 Finance Tools</a></h2>
-        <p>Tip calculator, percentage calculator, loan and EMI calculator.</p>
-        <ul>
-          {%- for tool in tools -%}
-            {%- if tool.category == "finance" -%}
-              <li><a href="/finance/{{ tool.slug }}/">{{ tool.name }}</a></li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-      </div>
-
-      <div class="category-card" style="border-left: 3px solid var(--color-health);">
-        <h2><a href="/health/">❤️ Health Tools</a></h2>
-        <p>BMI calculator, age calculator, and other health metrics.</p>
-        <ul>
-          {%- for tool in tools -%}
-            {%- if tool.category == "health" -%}
-              <li><a href="/health/{{ tool.slug }}/">{{ tool.name }}</a></li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-      </div>
-
-      <div class="category-card" style="border-left: 3px solid var(--color-converters);">
-        <h2><a href="/unit-converters/">🔄 Unit Converters</a></h2>
-        <p>Convert length, weight, temperature, and volume between metric and imperial.</p>
-        <ul>
-          {%- for tool in tools -%}
-            {%- if tool.category == "unit-converters" -%}
-              <li><a href="/unit-converters/{{ tool.slug }}/">{{ tool.name }}</a></li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-      </div>
-
-      <div class="category-card" style="border-left: 3px solid var(--color-utility);">
-        <h2><a href="/utility/">⚡ Utility Tools</a></h2>
-        <p>Time zone converter, password generator, random number generator, and more.</p>
-        <ul>
-          {%- for tool in tools -%}
-            {%- if tool.category == "utility" -%}
-              <li><a href="/utility/{{ tool.slug }}/">{{ tool.name }}</a></li>
-            {%- endif -%}
-          {%- endfor -%}
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
+</main>

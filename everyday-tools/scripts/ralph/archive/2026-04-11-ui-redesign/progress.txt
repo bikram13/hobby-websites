@@ -1,0 +1,131 @@
+# Ralph Progress Log
+Started: 2026-04-11
+Feature: UI/UX Redesign
+
+## Codebase Patterns
+- Eleventy 3.x static site with Nunjucks templates
+- All styles in src/css/main.css, critical CSS inline in _includes/head.njk
+- CSS custom properties (--color-*) used throughout for theming
+- Dark mode via [data-theme="dark"] on <html>, toggled by JS in header.njk
+- Tool pages follow pattern: breadcrumb → h1 → intro → .tool-container → ad-slot → .tool-explainer
+- To build: export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" && cd /Users/bikram/Documents/Claude/everyday-tools && npx eleventy
+- head.njk has BOTH inline critical CSS AND links to main.css — update font-stack in BOTH places
+- Don't break Nunjucks template syntax: {% for %}, {% if %}, {{ variable }}
+---
+
+## 2026-04-11 - US-001
+- Added Inter font (400,500,600,700) via Google Fonts preconnect + link in head.njk
+- Updated --font-stack to 'Inter', sans-serif in both head.njk inline CSS and main.css
+- Added CSS variables: --gradient-primary, --color-finance/health/utility/converters, --color-accent-rgb
+- Updated dark mode vars: --color-bg:#0f0f23, --color-bg-alt:#1a1a2e, dark card bg rgba(255,255,255,0.05)
+- Increased --max-width to 1100px (removed 1024px breakpoint override that was capping at 900px)
+- Added html transition: background-color/color/border-color 0.3s ease
+- Added .btn-primary class with gradient background, scale hover, and box-shadow
+- Updated .tool-container: border-radius 12px, padding 2rem, box-shadow 0 4px 24px
+- Files changed: _includes/head.njk, src/css/main.css
+- **Learnings:**
+  - head.njk inline CSS only has minimal critical vars — main.css has the full set; update both
+  - The 1024px media query was overriding --max-width to 900px; removing it lets the 1100px root value apply
+  - Dark mode card-bg uses rgba so backdrop-filter glassmorphism works naturally
+---
+
+## 2026-04-11 - US-002
+- Animated gradient hero: @keyframes gradientShift on .hero with background-size:200% 200%, 8s ease infinite
+- Hero text: white, text-shadow, centered at padding 4rem/3rem; added .hero-tagline paragraph
+- Category cards: emoji icons (💰❤️🔄⚡) and colored left borders via inline style per card
+- @keyframes fadeInUp added; applied to .category-card with opacity:0 start and nth-child delay stagger (0.1s–0.25s)
+- Category card hover: translateY(-3px), box-shadow 0 8px 30px rgba(0,0,0,0.12), transition 0.2s ease
+- Files changed: src/index.njk, src/css/main.css
+- **Learnings:**
+  - Inline style for per-card border colors is cleaner than nth-child CSS when colors are arbitrary per slot
+  - Combining animation with opacity:0 start requires animation to set final opacity — use `forwards` fill-mode
+  - gradientShift keyframe moves background-position, not gradient stops — needs background-size:200%+ to be visible
+---
+
+## 2026-04-11 - US-004
+- Gradient border on .tool-container: padding-box/border-box trick with linear-gradient(135deg, accent→#a855f7), border:2px solid transparent
+- .field-group label: uppercase, letter-spacing 0.02em, font-size 0.75rem, font-weight 600
+- .field-group input: border-radius 8px; focus: box-shadow 0 0 0 3px rgba(accent-rgb,0.15), no outline
+- .result-row-highlight: uses var(--gradient-primary) instead of flat accent color
+- .tip-btn.active: var(--gradient-primary) background + box-shadow 0 2px 8px rgba(102,126,234,0.35), border-color transparent
+- .faq-item: border-left 3px solid var(--color-border), padding-left 1rem, hover transitions to accent
+- .tool-explainer h2::after: 32px×2px gradient underline, margin-top 0.4rem, border-radius 1px
+- .breadcrumb: improved spacing (margin 1.5rem 0 1rem), flex row with gap, .sep class for separator styling
+- Files changed: src/css/main.css
+- **Learnings:**
+  - Gradient border trick: set background shorthand with padding-box for bg color + border-box for gradient, then border:2px solid transparent
+  - Global field-group styles in main.css serve as baseline; tool inline styles override if more specific
+  - ::after on h2 must use display:block to take full width; background shorthand with gradient works on pseudo-elements
+---
+
+## 2026-04-11 - US-003
+- Added .hamburger button (☰) in header.njk, positioned between site-name and site-nav
+- Mobile nav (.site-nav): display:none by default, position:absolute top:var(--header-height), becomes display:flex column when .open class toggled
+- JS: hamburger click toggles .open on #site-nav + aria-expanded; nav link clicks close the menu
+- Desktop (768px+): .hamburger display:none; .site-nav resets to flex row, position:static, no border/padding
+- Theme toggle updated: border-radius 999px (pill shape), padding 0.3rem 0.6rem
+- Site name updated: font-size 1.125rem, font-weight 700
+- Files changed: _includes/header.njk, src/css/main.css
+- **Learnings:**
+  - position:sticky on .site-header acts as containing block for position:absolute children — no extra relative wrapper needed
+  - Mobile nav needs explicit background:var(--color-bg) to avoid transparent dropdown over page content
+  - Desktop media query must reset position:static on .site-nav to undo the mobile absolute positioning
+---
+
+## 2026-04-11 - US-008
+- #pg-output: terminal-style dark background (#1e1e2e), green text (#50fa7b), monospace, glow text-shadow
+- [data-theme="dark"] override: slightly lighter #2a2a3e background
+- Added #pg-strength-bar-wrap + #pg-strength-bar: 6px height, border-radius 3px, transitions width/bg 0.3s
+- JS: bar width=25/50/75/100% and bar color based on strength score 1-4 (Weak→Very Strong)
+- Copy button: full width, gradient background, shows '✓ Copied!' in green (#10b981) for 1.5s then resets
+- Checkboxes: accent-color var(--color-accent), transform scale(1.15)
+- Generate button already had .btn-primary class (from US-001) — no change needed
+- Files changed: src/utility/password-generator/index.njk
+- **Learnings:**
+  - Inline [data-theme="dark"] style rules inside <style> blocks work in .njk pages without conflict
+  - The strength bar wrap needs display:none initially then set to 'block' by JS after first generate
+  - copy button background must be reset explicitly after 1.5s since gradient can't be set via textContent
+---
+
+## 2026-04-11 - US-007
+- Added inline SVG emoji favicon (🛠️) via data URI in head.njk
+- Commented out placeholder AdSense <script> tag in head.njk
+- Commented out {% include "ad-slot.njk" %} in base.njk using Nunjucks comment syntax {# #}
+- Commented out ad-slot CSS rules in main.css (wrapped in /* ... */)
+- Files changed: _includes/head.njk, _includes/base.njk, src/css/main.css
+- **Learnings:**
+  - Nunjucks comment syntax {# ... #} works inside .njk files; HTML <!-- --> comments still render the include
+  - SVG emoji favicon via data URI works in all modern browsers without an icon file
+  - Commenting out ad CSS prevents reserved 280px whitespace gaps from appearing on pages
+---
+
+## 2026-04-11 - US-006
+- Replaced minimal footer with 3-column CSS grid layout
+- Column 1: brand name (font-weight 700) + tagline
+- Column 2: 'Tools' heading + links to /finance/, /health/, /unit-converters/, /utility/
+- Column 3: 'About' heading + Eleventy credit + copyright
+- Footer background: dark gradient (linear-gradient(135deg,#1a1a2e,#16213e)), even darker in dark mode
+- Column headings: uppercase, letter-spacing 0.1em, 0.75rem, #fff
+- Link color #999, hover #fff with 0.2s transition
+- Removed dead # links for Privacy and About
+- Files changed: _includes/footer.njk, src/css/main.css
+- **Learnings:**
+  - Hardcoded dark gradient directly on .site-footer avoids fighting the CSS variable system for a permanently dark footer
+  - [data-theme="dark"] .site-footer override only needs to go slightly darker, since the base is already dark
+  - footer-inner class on .container allows targeting grid without interfering with .container max-width/padding
+---
+
+## 2026-04-11 - US-005
+- Updated @keyframes fadeInUp: translateY(20px → 16px) to match spec
+- Added @keyframes slideIn (opacity 0 + translateX(-8px) → 1 + 0)
+- Applied fadeInUp to .tool-page and .tool-container (0.4s ease forwards)
+- Applied slideIn to .result-row with opacity:0 start and nth-child(1-3) delay stagger (0.1s/0.2s/0.3s)
+- Added hover translateY(-3px) + box-shadow to .tool-card; added transition property
+- Added .tip-btn:hover { transform: scale(1.05) }
+- Added @media (prefers-reduced-motion: reduce) block at end of file (disables all animations/transitions)
+- Files changed: src/css/main.css
+- **Learnings:**
+  - .result-row needs opacity:0 on the selector (not just in keyframe from) so elements start invisible before animation fires
+  - prefers-reduced-motion block goes last in file so it always wins specificity race
+  - fadeInUp was already defined in US-002 with 20px — updating to 16px as US-005 spec is safe, same keyframe name
+---

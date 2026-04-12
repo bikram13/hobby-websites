@@ -1,0 +1,124 @@
+---
+layout: base.njk
+title: "Percentage Calculator"
+---
+
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+
+<!-- Hero Header -->
+<div class="mb-16 text-center md:text-left">
+<span class="inline-block px-4 py-1 rounded-full bg-secondary-container/20 text-secondary text-xs font-bold tracking-widest uppercase mb-4 border border-secondary/10">Finance Utility</span>
+<h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-4">
+                Percentage <br/> <span class="prism-gradient bg-clip-text text-transparent">Calculator</span>
+</h1>
+<p class="text-on-surface-variant max-w-lg text-lg leading-relaxed">
+                Experience precision with luminous clarity. Calculate growth, discounts, and distributions through our prismatic interface.
+            </p>
+</div>
+<!-- Tool Grid Asymmetric Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Calculation Card -->
+<div class="lg:col-span-7 space-y-8">
+<div class="glass-card p-8 rounded-xl shadow-2xl">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">calculate</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Main Calculation</h2>
+</div>
+<div class="grid md:grid-cols-2 gap-8">
+<!-- Input 1 -->
+<div class="space-y-3">
+<label class="text-on-surface-variant text-sm font-medium tracking-wide">Base Amount</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-xl font-semibold focus:ring-0 focus:outline-none transition-all placeholder:text-zinc-600" placeholder="0.00" type="number"/>
+<div class="absolute bottom-0 left-0 h-[2px] w-0 bg-primary group-focus-within:w-full transition-all duration-300"></div>
+</div>
+</div>
+<!-- Input 2 -->
+<div class="space-y-3">
+<label class="text-on-surface-variant text-sm font-medium tracking-wide">Percentage (%)</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-highest border-none rounded-lg p-4 text-xl font-semibold focus:ring-0 focus:outline-none transition-all placeholder:text-zinc-600" placeholder="0%" type="number"/>
+<div class="absolute bottom-0 left-0 h-[2px] w-0 bg-tertiary group-focus-within:w-full transition-all duration-300"></div>
+</div>
+</div>
+</div>
+<div class="mt-10">
+<button class="w-full py-4 prism-gradient rounded-lg font-bold text-on-primary-container shadow-[0_10px_30px_rgba(113,137,246,0.3)] hover:scale-[1.01] transition-transform active:scale-95">
+                            Calculate Precise Result
+                        </button>
+</div>
+</div>
+<!-- Result Display Card -->
+<div class="glass-card p-10 rounded-xl relative overflow-hidden border-tertiary/20">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-tertiary/20 text-6xl">blur_on</span>
+</div>
+<div class="relative z-10">
+<p class="text-on-surface-variant text-sm font-bold uppercase tracking-widest mb-2">Calculated Outcome</p>
+<div class="flex items-baseline gap-2">
+<span class="text-6xl font-black tracking-tighter text-tertiary">0.00</span>
+<span class="text-zinc-500 font-medium">Final Value</span>
+</div>
+<div class="mt-6 flex items-center gap-4 text-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs">info</span> Breakdown available in reports</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Contextual Cards -->
+<div class="lg:col-span-5 space-y-8">
+<!-- Quick Actions / Finance Tools -->
+<div class="glass-card p-8 rounded-xl">
+<h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-indigo-300">account_balance_wallet</span>
+                        Related Tools
+                    </h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition-all cursor-pointer group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">trending_up</span>
+<span class="font-medium text-zinc-200">Compound Interest</span>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-zinc-300 transition-colors">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition-all cursor-pointer group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">percent</span>
+<span class="font-medium text-zinc-200">VAT &amp; Tax Calc</span>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-zinc-300 transition-colors">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition-all cursor-pointer group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">payments</span>
+<span class="font-medium text-zinc-200">Tip Calculator</span>
+</div>
+<span class="material-symbols-outlined text-zinc-600 group-hover:text-zinc-300 transition-colors">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Descriptive Visual Card -->
+<div class="relative h-64 rounded-xl overflow-hidden group">
+<img alt="Financial Market Concept" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="abstract architectural glass reflecting deep blue and purple evening light with sharp geometric lines and soft bokeh particles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbiui2sWSpdcLqIADdtQeCBxyb8mmd06syO9PILBWTRb4n0LvIQCLoEC7HK2wZX9GDx1GaGDh9iCHIAVo9kcvXS0PD7JdQI1vz6ToCeMfHSuARTRg5MQreUqLnEKn3crrDzMYOHNVOgjGu8NXGvDgwZIHx2Kf69DaNj2DZ5SLw8YTMJjZQFd0indKMN_TQD2IraBY0UB8VUReGmViQJXo4I6ggwWZ41iRcRTTpr-d9HmtZ6HfiHKQWREtwZRIrdJ16dOLacU8ge9o"/>
+<div class="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6">
+<p class="text-xs font-bold text-indigo-300 uppercase tracking-widest mb-1">Deep Insights</p>
+<h4 class="text-lg font-bold text-white">Understand your margins.</h4>
+</div>
+</div>
+<!-- History Chip Section -->
+<div class="glass-card p-6 rounded-xl">
+<h3 class="text-sm font-bold text-on-surface-variant uppercase tracking-widest mb-4">Recent Calculations</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-xs border border-white/5 text-zinc-400">15% of 2,400</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-xs border border-white/5 text-zinc-400">7.5% margin</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-xs border border-white/5 text-zinc-400">20% discount</span>
+<span class="px-3 py-1 rounded-full bg-surface-container-highest text-xs border border-white/5 text-zinc-400">Tax 21%</span>
+</div>
+</div>
+</div>
+</div>
+
+</main>

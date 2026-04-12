@@ -1,0 +1,23 @@
+{
+  "project": "Everyday Tools",
+  "branchName": "ralph/functional-fixes",
+  "description": "Functional bug fixes discovered during automated QA testing cycle.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Fix Tip Calculator Input Validation (Negative & Invalid Characters)",
+      "description": "As a user, I should not be able to enter negative numbers for my bill amount or tip percentage, nor should I be able to enter invalid characters which breaks the calculator logic resulting in negative outputs.",
+      "acceptanceCriteria": [
+        "Update HTML input types to strictly enforce minimum values of 0 using min='0'.",
+        "Add JS validation to explicitly prevent calculating negative total bills or tips.",
+        "Add JS regex or keydown filtering to prevent invalid math sequences (e.g. '11-2') in the 'Number of People' field.",
+        "Ensure keyboard shortcuts for clearing fields (Ctrl+A/Cmd+A + Backspace) do not break the calculation state.",
+        "Check build passes",
+        "Verify functionally in browser"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    }
+  ]
+}
