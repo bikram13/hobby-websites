@@ -1,27 +1,151 @@
 ---
 layout: base.njk
-title: "Utility Tools — Time, Passwords, and More"
-description: "Free utility tools: time zone converter, password generator, random number generator. No signup, instant results."
-canonical: "https://everyday-tools.pages.dev/utility/"
+title: "Utility Tools"
 ---
 
-<div class="container">
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a> &rsaquo; Utility Tools
-  </nav>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
-  <h1>Utility Tools</h1>
-  <p class="category-intro">Free utility tools for everyday tasks — convert time zones, generate secure passwords, produce random numbers. Everything runs in your browser with no data stored.</p>
-
-  <div class="tool-list">
-    {%- for tool in tools -%}
-      {%- if tool.category == "utility" -%}
-        <div class="tool-card">
-          <h2><a href="/utility/{{ tool.slug }}/">{{ tool.name }}</a></h2>
-          <p>{{ tool.description }}</p>
-          <a class="tool-link" href="/utility/{{ tool.slug }}/">Open {{ tool.name }} &rarr;</a>
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
-  </div>
+<!-- Hero Section -->
+<header class="mb-16">
+<div class="inline-flex items-center px-4 py-1.5 rounded-full glass-card ghost-border mb-6">
+<span class="w-2 h-2 rounded-full bg-utility-accent mr-2 shadow-[0_0_8px_#667EEA]"></span>
+<span class="text-xs font-medium uppercase tracking-widest text-on-surface-variant">Universal Toolkit</span>
 </div>
+<h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface mb-4 leading-[1.1]">
+                Refined Utility for <br/><span class="bg-gradient-to-br from-primary-container to-secondary bg-clip-text text-transparent">Everyday Complexity</span>.
+            </h1>
+<p class="text-on-surface-variant text-lg md:text-xl max-w-2xl leading-relaxed">
+                Precision-engineered tools designed to streamline your digital workflow with aesthetic clarity and mathematical certainty.
+            </p>
+</header>
+<!-- Tools Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
+<!-- Time Zone Converter (Large Card) -->
+<div class="md:col-span-8 group">
+<div class="glass-card rounded-xl p-8 h-full flex flex-col justify-between transition-all duration-500 hover:shadow-[0_40px_60px_0_rgba(113,137,246,0.15)] overflow-hidden relative">
+<div class="relative z-10">
+<div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary-container/20 text-primary mb-8 border border-primary/20">
+<span class="material-symbols-outlined text-3xl">schedule</span>
+</div>
+<h3 class="text-3xl font-bold text-on-surface mb-3 tracking-tight">Time Zone Converter</h3>
+<p class="text-on-surface-variant text-lg leading-relaxed max-w-md mb-8">
+                            Synchronize global schedules with temporal precision across every major meridian.
+                        </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg">
+<div class="bg-surface-container-highest/30 rounded-xl p-4 border-b border-primary/10">
+<label class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold block mb-1">Local / London</label>
+<div class="text-2xl font-mono">14:45 <span class="text-sm font-sans text-on-surface-variant">GMT</span></div>
+</div>
+<div class="bg-surface-container-highest/30 rounded-xl p-4 border-b border-secondary/10">
+<label class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold block mb-1">Target / Tokyo</label>
+<div class="text-2xl font-mono text-secondary">23:45 <span class="text-sm font-sans text-on-surface-variant">JST</span></div>
+</div>
+</div>
+</div>
+<div class="mt-12 relative z-10">
+<button class="bg-gradient-to-br from-primary-container to-secondary text-on-primary-container font-semibold px-8 py-4 rounded-full flex items-center gap-2 group-hover:shadow-[0_0_20px_rgba(113,137,246,0.3)] transition-all">
+                            Configure Timeline
+                            <span class="material-symbols-outlined">trending_flat</span>
+</button>
+</div>
+<div class="absolute -right-20 -bottom-20 w-80 h-80 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[240px]">public</span>
+</div>
+</div>
+</div>
+<!-- Password Generator (Medium Card) -->
+<div class="md:col-span-4 group">
+<div class="glass-card rounded-xl p-8 h-full flex flex-col transition-all duration-500 hover:shadow-[0_40px_60px_0_rgba(113,137,246,0.15)] border-l-4 border-secondary/30">
+<div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-secondary/20 text-secondary mb-8">
+<span class="material-symbols-outlined text-3xl">lock_open</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3 tracking-tight">Password Generator</h3>
+<p class="text-on-surface-variant leading-relaxed mb-8">
+                        Create cryptographically secure passwords with adjustable entropy levels.
+                    </p>
+<div class="bg-surface-container-lowest/50 rounded-xl p-4 mb-8 font-mono text-center text-secondary tracking-widest border border-outline-variant/10 text-lg">
+                        φ8#kL9-2x@Zp
+                    </div>
+<div class="mt-auto">
+<button class="w-full py-4 rounded-full border border-outline-variant/30 text-on-surface text-sm font-bold hover:bg-surface-variant/40 transition-all active:scale-95">
+                            Regenerate Entropy
+                        </button>
+</div>
+</div>
+</div>
+<!-- Random Number Generator (Small Card) -->
+<div class="md:col-span-4 group">
+<div class="glass-card rounded-xl p-8 h-full flex flex-col transition-all duration-500 hover:shadow-[0_40px_60px_0_rgba(113,137,246,0.15)]">
+<div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-tertiary/20 text-tertiary mb-8">
+<span class="material-symbols-outlined text-3xl">casino</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3 tracking-tight">Random Generator</h3>
+<p class="text-on-surface-variant leading-relaxed mb-12">
+                        Powered by the Entropy Engine for true non-deterministic output.
+                    </p>
+<div class="mt-auto flex items-center justify-between">
+<div class="text-4xl font-mono text-tertiary">882</div>
+<button class="material-symbols-outlined p-2 hover:bg-white/10 rounded-full transition-all text-tertiary">refresh</button>
+</div>
+</div>
+</div>
+<!-- Metric Flux (Wide Feature Card) -->
+<div class="md:col-span-8 relative rounded-xl overflow-hidden min-h-[400px] glass-card group">
+<div class="absolute inset-0 z-0">
+<img alt="Metric Flux abstraction" class="w-full h-full object-cover opacity-20 grayscale brightness-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyQRit57zMC6esc_NQzEFv5N-T4Q-RpebrUtCAR6rTAlc9ciRJ14K2_bsW0cYcpJz6rU--TIoZxkuCV2WrG3Yd1RpSatoHhN_JwqJhhX3U9nIRL5d3eTXpTEgHdt7xJmigIjkKEJQLS3mgsAnw8WlKkdq_7NgXu3vFNnYkmHMRdax4LC3XHWB2OdGd4_K04ZZgmJ9QN1Lh_2Oven1Jh7ipAKvfsjENKMCpLaHQuq56MJ2vmJFdfhABAfKqQ8IU52c7HVDFHh77QzA"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"></div>
+</div>
+<div class="relative z-10 h-full p-8 flex flex-col md:flex-row gap-8">
+<div class="md:w-1/2 flex flex-col justify-between">
+<div>
+<div class="inline-block px-4 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase mb-6">Unified Hub</div>
+<h3 class="text-3xl font-bold text-on-surface mb-4">Metric Flux</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">
+                                A unified converter for mass, volume, length, and energy. Transition between systems with mathematical elegance.
+                            </p>
+<ul class="space-y-2 mb-8">
+<li class="flex items-center gap-3 text-sm text-on-surface-variant"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Imperial to SI</li>
+<li class="flex items-center gap-3 text-sm text-on-surface-variant"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Astronomical Units</li>
+</ul>
+</div>
+<button class="w-fit px-8 py-3 rounded-full bg-primary/10 border border-primary/30 text-primary font-bold hover:bg-primary/20 transition-all">Explore Flux</button>
+</div>
+<div class="md:w-1/2 bg-surface-container-low/40 backdrop-blur-md rounded-xl p-6 border border-white/5 flex flex-col justify-center gap-4">
+<div class="space-y-1">
+<label class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">Input Magnitude</label>
+<div class="w-full bg-surface-container-highest/60 rounded-lg text-lg px-4 py-3 border border-white/5">45.5</div>
+</div>
+<div class="flex justify-center">
+<span class="material-symbols-outlined text-primary">sync_alt</span>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">Result (SI)</label>
+<div class="w-full bg-surface-container-lowest rounded-lg text-lg px-4 py-3 text-tertiary font-medium">73.23 <span class="text-xs text-on-surface-variant ml-1 font-sans">kg/m³</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Featured Collections -->
+<section class="mt-24">
+<h2 class="text-3xl font-bold mb-12 text-center text-on-surface">Experience Excellence</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="text-center group">
+<div class="text-primary mb-4 flex justify-center group-hover:scale-110 transition-transform"><span class="material-symbols-outlined text-4xl">verified_user</span></div>
+<h4 class="text-xl font-bold mb-2">Privacy First</h4>
+<p class="text-on-surface-variant leading-relaxed">No data is ever stored on our servers. All calculations happen locally on your device.</p>
+</div>
+<div class="text-center group">
+<div class="text-tertiary mb-4 flex justify-center group-hover:scale-110 transition-transform"><span class="material-symbols-outlined text-4xl">bolt</span></div>
+<h4 class="text-xl font-bold mb-2">Instant Execution</h4>
+<p class="text-on-surface-variant leading-relaxed">Zero-latency responses powered by our lightweight, high-performance engine.</p>
+</div>
+<div class="text-center group">
+<div class="text-secondary mb-4 flex justify-center group-hover:scale-110 transition-transform"><span class="material-symbols-outlined text-4xl">auto_awesome</span></div>
+<h4 class="text-xl font-bold mb-2">Elegant Clarity</h4>
+<p class="text-on-surface-variant leading-relaxed">Beautifully structured data visualizations that make complexity easy to digest.</p>
+</div>
+</div>
+</section>
+
+</main>

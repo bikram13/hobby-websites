@@ -1,27 +1,97 @@
 ---
 layout: base.njk
-title: "Health Calculator Tools"
-description: "Free health calculators: BMI calculator, age calculator, and more. Results are for informational purposes only."
-canonical: "https://everyday-tools.pages.dev/health/"
+title: "Health Tools"
 ---
 
-<div class="container">
-  <nav class="breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a> &rsaquo; Health Tools
-  </nav>
+<main class="pt-32 pb-20 px-6 max-w-7xl mx-auto">
 
-  <h1>Health Calculator Tools</h1>
-  <p class="category-intro">Free health metric calculators for personal use. All calculations run locally in your browser. Results are estimates for informational purposes only — consult a qualified healthcare professional for medical advice.</p>
-
-  <div class="tool-list">
-    {%- for tool in tools -%}
-      {%- if tool.category == "health" -%}
-        <div class="tool-card">
-          <h2><a href="/health/{{ tool.slug }}/">{{ tool.name }}</a></h2>
-          <p>{{ tool.description }}</p>
-          <a class="tool-link" href="/health/{{ tool.slug }}/">Open {{ tool.name }} &rarr;</a>
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
-  </div>
+<section class="max-w-7xl mx-auto px-8 mb-24">
+<div class="relative rounded-xl overflow-hidden min-h-[500px] flex items-center p-12 hero-gradient border border-outline-variant/10">
+<div class="absolute inset-0 z-0">
+<img alt="Health Vitality Hero" class="w-full h-full object-cover opacity-40 mix-blend-luminosity" data-alt="Cinematic editorial shot of a serene person meditating in a high-tech minimalist studio with soft emerald light refractions and deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3G77OwmGX_buMnikm8SnB7mJ7hVxjnP6j9BWouMTfwKu0YQ2V-UqI9dAyA-t7isGvrcGmyVeu5ZpLuHITREloyNYLrPXExHcCkmsTjbFAaB5O2JbpiYGcfv-5A5-x72VvW4c6VtvDUnB6iy-A24VBhQxh1vVIWPCG0SWa0086UocR8_F6lSzB2g-uE2XHREjo3lv-znmyqqI8IHfjOuPU8al8nPj8Wz8LO06NKcoU9Dmsi1wSb1o5_cnlj5qKh73YHa6Ymr26w2A"/>
 </div>
+<div class="relative z-10 max-w-2xl">
+<span class="inline-block px-4 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-semibold tracking-widest uppercase mb-6 border border-tertiary/20">Precision Metric Suite</span>
+<h1 class="text-6xl md:text-7xl font-extrabold tracking-tighter mb-6 leading-[0.9] text-on-surface">Precision in Personal Vitality</h1>
+<p class="text-lg text-on-surface-variant leading-relaxed mb-10 max-w-lg">Transforming biological data into actionable clarity. Explore our curated suite of health tools designed for the modern analytical mind.</p>
+<div class="flex items-center space-x-6">
+<button class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-primary-container to-secondary text-on-primary-container font-bold hover:shadow-[0_0_20px_rgba(113,137,246,0.3)] transition-all active:scale-95">Explore Tools</button>
+<button class="text-on-surface font-semibold hover:text-tertiary transition-colors flex items-center gap-2 group">
+                            Learn Methodology 
+                            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section class="max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="md:col-span-8 glass-card rounded-xl p-8 flex flex-col justify-between min-h-[340px] group hover:border-tertiary/30 transition-all duration-500">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-tertiary/10 rounded-xl">
+<span class="material-symbols-outlined text-tertiary text-3xl" style="font-variation-settings: 'FILL' 1;">monitor_weight</span>
+</div>
+<span class="text-xs font-bold text-tertiary tracking-widest uppercase">Available Now</span>
+</div>
+<div>
+<h3 class="text-4xl font-bold tracking-tight mb-2 text-on-surface">BMI Calculator</h3>
+<p class="text-on-surface-variant mb-6 max-w-md">Professional-grade body mass index analysis with age and gender-adjusted interpretations for precise health tracking.</p>
+<button class="px-6 py-2 rounded-full border border-outline-variant hover:bg-surface-container-highest transition-all text-sm font-semibold">Launch Tool</button>
+</div>
+</div>
+<div class="md:col-span-4 glass-card rounded-xl p-8 flex flex-col justify-between min-h-[340px] group hover:border-primary/30 transition-all duration-500">
+<div class="flex justify-between items-start">
+<div class="p-3 bg-primary/10 rounded-xl text-primary">
+<span class="material-symbols-outlined text-3xl">calendar_today</span>
+</div>
+<span class="text-xs font-bold text-primary tracking-widest uppercase">Available Now</span>
+</div>
+<div>
+<h3 class="text-3xl font-bold tracking-tight mb-2 text-on-surface">Age Calculator</h3>
+<p class="text-on-surface-variant text-sm mb-6">Detailed chronological breakdown by years, months, days, and even minutes.</p>
+<button class="w-full py-2.5 rounded-xl bg-surface-container-highest/60 hover:bg-surface-container-highest text-sm font-bold transition-all">Launch Tool</button>
+</div>
+</div>
+<div class="md:col-span-4 glass-card rounded-xl p-8 flex flex-col opacity-60 relative overflow-hidden h-[400px]">
+<div class="absolute top-4 right-4 bg-surface-container-highest px-3 py-1 rounded-full text-[10px] font-bold text-outline uppercase tracking-widest">In Development</div>
+<div class="mt-auto">
+<span class="material-symbols-outlined text-4xl mb-4 text-tertiary">water_drop</span>
+<h3 class="text-2xl font-bold text-on-surface mb-2">Hydration Flow</h3>
+<p class="text-sm text-on-surface-variant">Intelligent fluid intake optimization based on metabolic rate and climate conditions.</p>
+</div>
+</div>
+<div class="md:col-span-4 glass-card rounded-xl p-8 flex flex-col opacity-60 relative h-[400px]">
+<div class="absolute top-4 right-4 bg-surface-container-highest px-3 py-1 rounded-full text-[10px] font-bold text-outline uppercase tracking-widest">In Development</div>
+<div class="mt-auto">
+<span class="material-symbols-outlined text-4xl mb-4 text-secondary">bedtime</span>
+<h3 class="text-2xl font-bold text-on-surface mb-2">Sleep Cycles</h3>
+<p class="text-sm text-on-surface-variant">Circadian rhythm mapping to identify your peak restorative windows and wake-up times.</p>
+</div>
+</div>
+<div class="md:col-span-4 glass-card rounded-xl p-8 flex flex-col opacity-60 relative h-[400px]">
+<div class="absolute top-4 right-4 bg-surface-container-highest px-3 py-1 rounded-full text-[10px] font-bold text-outline uppercase tracking-widest">In Development</div>
+<div class="mt-auto">
+<span class="material-symbols-outlined text-4xl mb-4 text-primary">analytics</span>
+<h3 class="text-2xl font-bold text-on-surface mb-2">Caloric Matrix</h3>
+<p class="text-sm text-on-surface-variant">Macro-nutrient precision forecasting for performance-driven nutritional planning.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="max-w-7xl mx-auto px-8 mt-32">
+<div class="flex flex-col md:flex-row gap-12 items-center bg-surface-container-low rounded-xl p-12 border border-outline-variant/10 shadow-[0_40px_80px_rgba(0,0,0,0.3)]">
+<div class="flex-1">
+<h2 class="text-4xl font-bold tracking-tighter mb-4">Precision insights, delivered with clarity.</h2>
+<p class="text-on-surface-variant max-w-md">Join our early access list for upcoming vitality tools and metabolic insight reports.</p>
+</div>
+<div class="flex-1 w-full max-w-md">
+<form class="flex flex-col sm:flex-row gap-4">
+<input class="flex-1 bg-surface-container-highest border-none rounded-xl px-6 py-4 focus:ring-2 focus:ring-tertiary transition-all" placeholder="vitality@precision.com" type="email"/>
+<button class="bg-tertiary text-on-tertiary font-bold px-8 py-4 rounded-xl hover:bg-tertiary-fixed transition-all active:scale-95">Subscribe</button>
+</form>
+<p class="text-[10px] text-outline mt-3 px-2">By subscribing, you agree to our privacy policy and data governance terms.</p>
+</div>
+</div>
+</section>
+
+</main>
