@@ -2,6 +2,7 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
+import urllib.error
 from unittest.mock import patch, MagicMock
 import xml.etree.ElementTree as ET
 from ml.news_fetcher import fetch_headlines, _build_rss_url, _parse_rss
@@ -85,9 +86,16 @@ def test_fetch_headlines_returns_list_on_success():
         assert isinstance(results, list)
         assert len(results) == 1
         assert results[0][0] == "Reliance Industries posts record revenue"
+        # Verify a Request object pointing to Google News was passed to urlopen
+        call_args = mock_open.call_args
+        assert call_args is not None
+        request_obj = call_args[0][0]
+        assert "news.google.com" in request_obj.full_url
+        assert "RELIANCE" in request_obj.full_url
 
 def test_fetch_headlines_returns_empty_on_network_error():
-    with patch("ml.news_fetcher.urllib.request.urlopen", side_effect=Exception("timeout")):
+    with patch("ml.news_fetcher.urllib.request.urlopen",
+               side_effect=urllib.error.URLError("timeout")):
         results = fetch_headlines("RELIANCE.NS")
         assert results == []
 

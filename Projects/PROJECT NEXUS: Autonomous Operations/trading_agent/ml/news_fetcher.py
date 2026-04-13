@@ -4,9 +4,13 @@ No API key required. Returns recent articles only (not historical).
 
 Used at live inference time only — not during GBM gate training.
 """
+import logging
+import urllib.error
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
+
+_log = logging.getLogger(__name__)
 
 
 def _build_rss_url(symbol: str) -> str:
@@ -55,6 +59,7 @@ def fetch_headlines(symbol: str, max_articles: int = 20) -> list[tuple[str, str]
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=10) as resp:
             content = resp.read()
-        return _parse_rss(content, max_articles)
-    except Exception:
+    except (urllib.error.URLError, OSError, TimeoutError) as exc:
+        _log.warning("news_fetcher: network error for %s: %s", symbol, exc)
         return []
+    return _parse_rss(content, max_articles)
