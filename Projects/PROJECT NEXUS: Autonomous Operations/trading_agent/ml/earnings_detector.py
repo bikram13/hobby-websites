@@ -4,10 +4,9 @@
 # Threshold: gap must be >= 3% to be meaningful.
 
 import pandas as pd
-from typing import List
 
 
-def find_earnings_dates(df: pd.DataFrame, min_gap_pct: float = 0.03) -> List[pd.Timestamp]:
+def find_earnings_dates(df: pd.DataFrame, min_gap_pct: float = 0.03) -> list[pd.Timestamp]:
     """
     Detect earnings announcement dates from OHLCV data.
     Returns list of dates where the largest absolute daily return per
@@ -29,8 +28,9 @@ def find_earnings_dates(df: pd.DataFrame, min_gap_pct: float = 0.03) -> List[pd.
         if group.empty:
             continue
         max_ret = group.max()
-        if max_ret >= min_gap_pct:
-            dates.append(group.idxmax())
+        if pd.isna(max_ret) or max_ret < min_gap_pct:
+            continue
+        dates.append(group.idxmax())
 
     return sorted(dates)
 
@@ -55,6 +55,8 @@ def earnings_momentum_score(
     lookback_days — how far back to search for the most recent earnings date
     forward_days  — days forward to measure post-earnings return
     """
+    if df is None or df.empty:
+        return 0.0
     if nifty_df is None or nifty_df.empty:
         return 0.0
 
@@ -75,7 +77,10 @@ def earnings_momentum_score(
     stock_after = stock_close[stock_close.index > earnings_date].iloc[:forward_days]
     if len(stock_after) < forward_days // 2:
         return 0.0
-    stock_ret = float(stock_after.iloc[-1] / stock_close[stock_close.index <= earnings_date].iloc[-1] - 1)
+    stock_base = stock_close[stock_close.index <= earnings_date]
+    if stock_base.empty or stock_base.iloc[-1] == 0:
+        return 0.0
+    stock_ret = float(stock_after.iloc[-1] / stock_base.iloc[-1] - 1)
 
     # Nifty return: same window
     nifty_close = nifty_df["close"]
