@@ -42,7 +42,8 @@ def label_signal(df: pd.DataFrame, signal_idx: int,
 def build_training_dataset(data: dict, strategy,
                             hold_days: int = 10,
                             win_threshold: float = 0.02,
-                            nifty_df: pd.DataFrame = None) -> pd.DataFrame:
+                            nifty_df: pd.DataFrame = None,
+                            sector_data: dict = None) -> pd.DataFrame:
     """
     Build a labelled feature dataset from cached OHLCV data + a strategy instance.
 
@@ -81,7 +82,8 @@ def build_training_dataset(data: dict, strategy,
 
             # Features: window up to and including signal date
             window = df.iloc[: pos + 1]
-            features = compute_features(window, nifty_df=nifty_df)
+            features = compute_features(window, nifty_df=nifty_df,
+                                        sector_data=sector_data, symbol=sym)
             if features is None:
                 continue
 

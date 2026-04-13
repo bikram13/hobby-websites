@@ -47,7 +47,7 @@ GATE_STRATEGIES = [
 
 
 def download_data(start_date: str, end_date: str) -> tuple:
-    """Returns (stock_data_dict, nifty_df). nifty_df may be empty on failure."""
+    """Returns (stock_data_dict, nifty_df, sector_data). nifty_df may be empty on failure."""
     print(f"  Downloading {len(config.WATCHLIST)} symbols ({start_date} → {end_date})...")
     loader = Backtester(start_date=start_date, end_date=end_date,
                         strategy_name="combined",
@@ -63,12 +63,24 @@ def download_data(start_date: str, end_date: str) -> tuple:
         print("  WARNING: Nifty data unavailable — regime features will use neutral defaults")
     else:
         print(f"  Nifty cached: {len(nifty_df)} rows")
-    return data, nifty_df
+
+    # Download NSE sector indices for sector momentum feature
+    print("  Downloading sector indices...")
+    from ml.sector_fetcher import SECTOR_INDICES
+    sector_raw  = loader._download(list(SECTOR_INDICES.values()))
+    sector_data = {}
+    for sector_name, ticker in SECTOR_INDICES.items():
+        df_sec = sector_raw.get(ticker, pd.DataFrame())
+        if not df_sec.empty:
+            sector_data[sector_name] = df_sec
+    print(f"  Sector data: {len(sector_data)}/{len(SECTOR_INDICES)} indices downloaded")
+    return data, nifty_df, sector_data
 
 
 def collect_signals(data: dict, strategies: list,
                     hold_days: int, win_threshold: float,
-                    nifty_df: pd.DataFrame = None) -> pd.DataFrame:
+                    nifty_df: pd.DataFrame = None,
+                    sector_data: dict = None) -> pd.DataFrame:
     """Collect labelled BUY signals from all strategies."""
     all_frames = []
     for strat in strategies:
@@ -76,7 +88,8 @@ def collect_signals(data: dict, strategies: list,
         df = build_training_dataset(data, strat,
                                     hold_days=hold_days,
                                     win_threshold=win_threshold,
-                                    nifty_df=nifty_df)
+                                    nifty_df=nifty_df,
+                                    sector_data=sector_data)
         if not df.empty:
             all_frames.append(df)
 
@@ -145,10 +158,11 @@ class ParallelGatedStrategy:
 
 def run_gated_backtest(data: dict, gate: SignalGate,
                        start_date: str, end_date: str,
-                       nifty_df: pd.DataFrame = None) -> dict:
+                       nifty_df: pd.DataFrame = None,
+                       sector_data: dict = None) -> dict:
     """Run a backtest with the parallel ADX+BB gated strategy."""
-    # Give the gate access to Nifty data for regime-aware approve()
-    gate.nifty_df = nifty_df
+    gate.nifty_df    = nifty_df
+    gate.sector_data = sector_data or {}
 
     adx_strat = ADXTrendStrategy(ema_fast=9, ema_slow=18, adx_threshold=25)
     bb_strat  = BollingerBandStrategy(period=20, std_dev=1.5, rsi_oversold=30)
@@ -201,7 +215,7 @@ def main():
             print(f"  Threshold: {gate.threshold} (from saved model)")
         print("=" * 70)
 
-        data, nifty_df = download_data(start_date, end_date)
+        data, nifty_df, sector_data = download_data(start_date, end_date)
         if not data:
             print("ERROR: No data. Aborting.")
             return
@@ -216,7 +230,8 @@ def main():
         base_summary = base_result["summary"] if base_result else {}
 
         print("  Running gated backtest (ADX + BB parallel, with gate + ladder buy)...")
-        gated_summary = run_gated_backtest(data, gate, start_date, end_date, nifty_df=nifty_df)
+        gated_summary = run_gated_backtest(data, gate, start_date, end_date,
+                                           nifty_df=nifty_df, sector_data=sector_data)
 
         print("\n" + "=" * 70)
         print("  RESULTS: Baseline vs. Gated")
@@ -278,7 +293,7 @@ def main():
     # 2. Collect labelled signals
     print("\n  Collecting BUY signals and computing features...")
     df_signals = collect_signals(data, GATE_STRATEGIES, args.hold_days, args.win_threshold,
-                                 nifty_df=nifty_df)
+                                 nifty_df=nifty_df, sector_data=sector_data)
     if df_signals.empty:
         print("ERROR: No signals collected.")
         return

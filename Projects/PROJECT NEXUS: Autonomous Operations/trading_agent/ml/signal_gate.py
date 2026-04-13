@@ -41,6 +41,7 @@ class SignalGate:
         self.trained   = False
         self.nifty_df = None   # set before inference so approve() can pass it to features
         self.live_sentiment: float = 0.0  # set by caller before each stock's approve() call
+        self.sector_data: dict = {}  # set before inference; passed to compute_features
 
     # ── Training ──────────────────────────────────────────────────────────────
 
@@ -137,7 +138,9 @@ class SignalGate:
         if not self.trained or raw_signal["signal"] != 1:
             return raw_signal
 
-        features = compute_features(df_window, nifty_df=self.nifty_df)
+        features = compute_features(df_window, nifty_df=self.nifty_df,
+                                    sector_data=self.sector_data,
+                                    symbol=raw_signal.get("symbol"))
         if features is None:
             return {"signal": 0, "strength": 0, "reason": "Gate: insufficient features"}
 
