@@ -40,6 +40,7 @@ class SignalGate:
         self.meta      = {}
         self.trained   = False
         self.nifty_df = None   # set before inference so approve() can pass it to features
+        self.live_sentiment: float = 0.0  # set by caller before each stock's approve() call
 
     # ── Training ──────────────────────────────────────────────────────────────
 
@@ -127,8 +128,11 @@ class SignalGate:
         Given the OHLCV window up to the signal date and the raw strategy signal,
         return the signal if approved, else a zero-signal dict.
 
-        Soft Nifty threshold: when nifty_above_ema200 == 0.0 (bear regime),
-        requires prob >= 0.75 instead of self.threshold (default 0.60).
+        Two-stage filter:
+          Stage 1 — GBM gate: 19 technical features, P(win) >= effective_thresh
+          Stage 2 — Sentiment veto/boost (live only, no effect during training):
+            live_sentiment < -0.4  → veto even if GBM approved
+            live_sentiment > +0.3  → lower effective threshold by 0.05
         """
         if not self.trained or raw_signal["signal"] != 1:
             return raw_signal
@@ -140,16 +144,35 @@ class SignalGate:
         X    = np.array([[features[c] for c in FEATURE_COLS]])
         prob = float(self.model.predict_proba(X)[0, 1])
 
-        # Soft Nifty gate: raise bar in bear regime
+        # Stage 1: Nifty bear-market soft gate
         bear_market      = features.get("nifty_above_ema200", 1.0) == 0.0
         effective_thresh = 0.75 if bear_market else self.threshold
 
+        # Stage 2: Sentiment boost (applied before threshold check)
+        sentiment_boost = False
+        if self.live_sentiment > 0.3:
+            effective_thresh = max(0.40, effective_thresh - 0.05)
+            sentiment_boost  = True
+
         if prob >= effective_thresh:
+            # Stage 2: Sentiment veto (applied after GBM approves)
+            if self.live_sentiment < -0.4:
+                return {
+                    "signal":           0,
+                    "strength":         0,
+                    "reason":           f"Sentiment veto (score={self.live_sentiment:.2f} < -0.40)",
+                    "gate_prob":        round(prob, 3),
+                    "gate_approved":    False,
+                    "sentiment_vetoed": True,
+                    "bear_market":      bear_market,
+                }
             approved = dict(raw_signal)
-            approved["strength"]      = round(prob, 3)
-            approved["gate_prob"]     = round(prob, 3)
-            approved["gate_approved"] = True
-            approved["bear_market"]   = bear_market
+            approved["strength"]        = round(prob, 3)
+            approved["gate_prob"]       = round(prob, 3)
+            approved["gate_approved"]   = True
+            approved["bear_market"]     = bear_market
+            approved["sentiment_boost"] = sentiment_boost
+            approved["sentiment_score"] = self.live_sentiment
             return approved
 
         return {
