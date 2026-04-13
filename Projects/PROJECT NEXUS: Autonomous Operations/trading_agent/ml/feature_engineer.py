@@ -60,6 +60,37 @@ def _atr_pct(df: pd.DataFrame, period: int = 14) -> float:
     return float(atr / close.iloc[-1]) if close.iloc[-1] > 0 else 0.0
 
 
+def _weekly_features(df: pd.DataFrame) -> tuple[float, float]:
+    """
+    Resample daily OHLCV to weekly (Friday close) and compute:
+      - weekly_trend : (last_weekly_close / weekly_EMA13) - 1  (% above/below weekly EMA13)
+      - weekly_rsi   : RSI14 on weekly closes
+
+    Returns (weekly_trend, weekly_rsi). Returns (0.0, 50.0) if insufficient data.
+    """
+    if len(df) < 14 * 5:   # need at least 14 weeks of daily data
+        return 0.0, 50.0
+
+    weekly = df["close"].resample("W-FRI").last().dropna()
+
+    if len(weekly) < 20:   # need at least 20 weekly bars for stable EMA13+RSI14
+        return 0.0, 50.0
+
+    ema13 = float(weekly.ewm(span=13, adjust=False).mean().iloc[-1])
+    last  = float(weekly.iloc[-1])
+    weekly_trend = round((last / ema13 - 1) if ema13 > 0 else 0.0, 5)
+
+    # RSI on weekly closes
+    delta = weekly.diff()
+    gain  = delta.clip(lower=0).ewm(span=14, adjust=False).mean()
+    loss  = (-delta.clip(upper=0)).ewm(span=14, adjust=False).mean()
+    rs    = gain / loss.replace(0, 1e-10)
+    rsi_series = 100 - (100 / (1 + rs))
+    weekly_rsi = round(float(rsi_series.iloc[-1]), 3)
+
+    return weekly_trend, weekly_rsi
+
+
 def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None,
                      sector_data: dict = None, symbol: str = None) -> dict | None:
     """
@@ -127,6 +158,9 @@ def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None,
     else:
         vol_ratio = 1.0
 
+    # ── Weekly timeframe features ─────────────────────────────────────────────
+    weekly_trend, weekly_rsi = _weekly_features(df)
+
     # ── Market / breadth proxy ────────────────────────────────────────────────
     # % of last 20 bars where close > EMA21 (trend consistency)
     ema21_series = _ema(close, 21)
@@ -185,6 +219,9 @@ def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None,
         "earnings_momentum":   round(earn_score, 5),
         # Sector momentum
         "sector_pct_vs_ema20": round(sector_pct_vs_ema20, 5),
+        # Weekly timeframe
+        "weekly_trend":        weekly_trend,
+        "weekly_rsi":          weekly_rsi,
         # Context (not used as feature, useful for debugging)
         "_price":              round(price, 2),
     }
@@ -198,4 +235,5 @@ FEATURE_COLS = [
     "atr_pct", "vol_ratio", "trend_consistency",
     "nifty_above_ema200", "nifty_pct_vs_ema200", "earnings_momentum",
     "sector_pct_vs_ema20",
+    "weekly_trend", "weekly_rsi",
 ]
