@@ -10,11 +10,11 @@ from ml.signal_gate import SignalGate
 
 
 def _make_gate_trained(threshold: float = 0.55) -> SignalGate:
-    """Create a gate with a mock trained model that returns a fixed probability."""
+    """Create a gate with mock XGB+LGBM models that return a fixed probability."""
     gate = SignalGate(threshold=threshold)
     gate.trained = True
-    mock_model = MagicMock()
-    gate.model = mock_model
+    gate.xgb_model = MagicMock()
+    gate.lgbm_model = MagicMock()
     return gate
 
 
@@ -48,9 +48,10 @@ def test_vix_high_raises_threshold_blocks_marginal_signal():
     """VIX > 25 raises threshold by 0.20 — a signal at prob=0.60 should be blocked."""
     gate = _make_gate_trained(threshold=0.55)
     gate.vix_value = 27.0   # > 25: +0.20 → effective_thresh = 0.75
+    gate.xgb_model.predict_proba.return_value = np.array([[0.40, 0.60]])
+    gate.lgbm_model.predict_proba.return_value = np.array([[0.40, 0.60]])
     raw = {"signal": 1, "strength": 0.9, "symbol": "TEST.NS"}
     with patch("ml.signal_gate.compute_features", return_value=_mock_features()):
-        gate.model.predict_proba.return_value = np.array([[0.40, 0.60]])
         result = gate.approve(_make_window(), raw)
     assert result["signal"] == 0, "prob=0.60 < 0.75 should be blocked when VIX > 25"
 
@@ -59,9 +60,10 @@ def test_vix_moderate_raises_threshold_by_10():
     """VIX between 20 and 25 raises threshold by 0.10."""
     gate = _make_gate_trained(threshold=0.55)
     gate.vix_value = 22.0   # > 20 but <= 25: +0.10 → effective_thresh = 0.65
+    gate.xgb_model.predict_proba.return_value = np.array([[0.38, 0.62]])
+    gate.lgbm_model.predict_proba.return_value = np.array([[0.38, 0.62]])
     raw = {"signal": 1, "strength": 0.9, "symbol": "TEST.NS"}
     with patch("ml.signal_gate.compute_features", return_value=_mock_features()):
-        gate.model.predict_proba.return_value = np.array([[0.38, 0.62]])
         blocked = gate.approve(_make_window(), raw)
     assert blocked["signal"] == 0, "prob=0.62 < 0.65 (VIX-adjusted) should be blocked"
 
@@ -70,9 +72,10 @@ def test_vix_moderate_still_passes_strong_signal():
     """VIX = 22 raises threshold to 0.65; prob=0.70 should still pass."""
     gate = _make_gate_trained(threshold=0.55)
     gate.vix_value = 22.0
+    gate.xgb_model.predict_proba.return_value = np.array([[0.30, 0.70]])
+    gate.lgbm_model.predict_proba.return_value = np.array([[0.30, 0.70]])
     raw = {"signal": 1, "strength": 0.9, "symbol": "TEST.NS"}
     with patch("ml.signal_gate.compute_features", return_value=_mock_features()):
-        gate.model.predict_proba.return_value = np.array([[0.30, 0.70]])
         result = gate.approve(_make_window(), raw)
     assert result["signal"] == 1, "prob=0.70 > 0.65 should pass with VIX=22"
 
@@ -81,9 +84,10 @@ def test_vix_normal_no_adjustment():
     """VIX <= 20 applies no additional threshold adjustment."""
     gate = _make_gate_trained(threshold=0.55)
     gate.vix_value = 18.0
+    gate.xgb_model.predict_proba.return_value = np.array([[0.44, 0.56]])
+    gate.lgbm_model.predict_proba.return_value = np.array([[0.44, 0.56]])
     raw = {"signal": 1, "strength": 0.9, "symbol": "TEST.NS"}
     with patch("ml.signal_gate.compute_features", return_value=_mock_features()):
-        gate.model.predict_proba.return_value = np.array([[0.44, 0.56]])
         result = gate.approve(_make_window(), raw)
     assert result["signal"] == 1, "prob=0.56 > 0.55 should pass with normal VIX"
 
@@ -91,9 +95,10 @@ def test_vix_normal_no_adjustment():
 def test_vix_zero_no_adjustment():
     """vix_value == 0.0 (default) applies no adjustment."""
     gate = _make_gate_trained(threshold=0.55)
+    gate.xgb_model.predict_proba.return_value = np.array([[0.44, 0.56]])
+    gate.lgbm_model.predict_proba.return_value = np.array([[0.44, 0.56]])
     raw = {"signal": 1, "strength": 0.9, "symbol": "TEST.NS"}
     with patch("ml.signal_gate.compute_features", return_value=_mock_features()):
-        gate.model.predict_proba.return_value = np.array([[0.44, 0.56]])
         result = gate.approve(_make_window(), raw)
     assert result["signal"] == 1
 
@@ -102,10 +107,11 @@ def test_vix_does_not_weaken_bear_market_threshold():
     """In bear market (thresh=0.75), a low VIX should not lower the threshold."""
     gate = _make_gate_trained(threshold=0.55)
     gate.vix_value = 10.0
+    gate.xgb_model.predict_proba.return_value = np.array([[0.33, 0.67]])
+    gate.lgbm_model.predict_proba.return_value = np.array([[0.33, 0.67]])
     raw = {"signal": 1, "strength": 0.9, "symbol": "TEST.NS"}
     bear_features = _mock_features(nifty_above=0.0)
     with patch("ml.signal_gate.compute_features", return_value=bear_features):
-        gate.model.predict_proba.return_value = np.array([[0.33, 0.67]])
         result = gate.approve(_make_window(), raw)
     assert result["signal"] == 0, "Bear market threshold (0.75) should block prob=0.67"
 
@@ -114,9 +120,10 @@ def test_approve_result_contains_vix_info():
     """Approved signal should include vix_value in the result."""
     gate = _make_gate_trained(threshold=0.55)
     gate.vix_value = 15.0
+    gate.xgb_model.predict_proba.return_value = np.array([[0.30, 0.70]])
+    gate.lgbm_model.predict_proba.return_value = np.array([[0.30, 0.70]])
     raw = {"signal": 1, "strength": 0.9, "symbol": "TEST.NS"}
     with patch("ml.signal_gate.compute_features", return_value=_mock_features()):
-        gate.model.predict_proba.return_value = np.array([[0.30, 0.70]])
         result = gate.approve(_make_window(), raw)
     assert result["signal"] == 1
     assert "vix_value" in result

@@ -9,12 +9,15 @@ from ml.signal_gate import SignalGate
 
 
 def _make_gate_with_mock_model(threshold: float = 0.55):
-    """Create a SignalGate with a mock model that always returns prob=0.70."""
+    """Create a SignalGate with mock XGB+LGBM models that always return prob=0.70."""
     gate = SignalGate(threshold=threshold)
     gate.trained = True
-    mock_model = MagicMock()
-    mock_model.predict_proba.return_value = np.array([[0.30, 0.70]])
-    gate.model = mock_model
+    mock_xgb = MagicMock()
+    mock_xgb.predict_proba.return_value = np.array([[0.30, 0.70]])
+    gate.xgb_model = mock_xgb
+    mock_lgbm = MagicMock()
+    mock_lgbm.predict_proba.return_value = np.array([[0.30, 0.70]])
+    gate.lgbm_model = mock_lgbm
     return gate
 
 

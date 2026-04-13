@@ -1,13 +1,13 @@
-# NEXUS BRAIN — Gradient Boosted Signal Gate (Layer 2)
+# NEXUS BRAIN — XGBoost + LightGBM Ensemble Signal Gate (Layer 2)
 # Filters raw strategy BUY signals — only passes through high-confidence ones.
 #
 # How it works:
-#   Strategy says BUY → Gate computes 16 features → GBM predicts win probability
+#   Strategy says BUY → Gate computes 19 features → Ensemble predicts win probability
+#   Ensemble: 60% XGBoost + 40% LightGBM blended probabilities
 #   If P(win) >= threshold (default 0.60) → pass the signal through
 #   Otherwise → suppress (treat as no signal)
 #
-# Uses sklearn GradientBoostingClassifier (no native lib deps, same algorithm as XGBoost).
-# This is the key to jumping from 42% → 65-80% win rate.
+# Sprint 5: Replaced sklearn GBM with XGBoost+LightGBM ensemble for higher accuracy.
 
 import os
 import json
@@ -35,23 +35,27 @@ class SignalGate:
     """
 
     def __init__(self, threshold: float = 0.60):
-        self.threshold = threshold
-        self.model     = None
-        self.meta      = {}
-        self.trained   = False
-        self.nifty_df = None   # set before inference so approve() can pass it to features
-        self.live_sentiment: float = 0.0  # set by caller before each stock's approve() call
-        self.vix_value: float = 0.0  # set before inference; >20 → +0.10 thresh, >25 → +0.20 thresh
-        self.sector_data: dict = {}  # set before inference; passed to compute_features
+        self.threshold   = threshold
+        self.xgb_model   = None   # XGBoost classifier (60% ensemble weight)
+        self.lgbm_model  = None   # LightGBM classifier (40% ensemble weight)
+        self.model       = None   # kept for backward-compat (unused after Sprint 5)
+        self.meta        = {}
+        self.trained     = False
+        self.nifty_df    = None
+        self.live_sentiment: float = 0.0
+        self.vix_value:     float = 0.0
+        self.sector_data: dict = {}
 
     # ── Training ──────────────────────────────────────────────────────────────
 
     def train(self, df_train: pd.DataFrame, threshold: float = None):
         """
-        Train the XGBoost gate on a labelled feature DataFrame.
+        Train XGBoost + LightGBM ensemble on labelled feature DataFrame.
         df_train must have columns = FEATURE_COLS + ['label'].
+        Ensemble: 60% XGBoost + 40% LightGBM blended probabilities.
         """
-        from sklearn.ensemble import GradientBoostingClassifier
+        from xgboost import XGBClassifier
+        from lightgbm import LGBMClassifier
         from sklearn.utils.class_weight import compute_sample_weight
 
         if threshold is not None:
@@ -59,61 +63,80 @@ class SignalGate:
 
         X = df_train[FEATURE_COLS].values
         y = df_train["label"].values
-
-        # Handle class imbalance via sample weights
         sample_weights = compute_sample_weight("balanced", y)
 
-        self.model = GradientBoostingClassifier(
-            n_estimators   = 300,
-            max_depth      = 4,
-            learning_rate  = 0.05,
-            subsample      = 0.8,
-            random_state   = 42,
+        # XGBoost (60% weight in ensemble)
+        self.xgb_model = XGBClassifier(
+            n_estimators     = 500,
+            max_depth        = 4,
+            learning_rate    = 0.05,
+            subsample        = 0.8,
+            colsample_bytree = 0.8,
+            eval_metric      = "logloss",
+            random_state     = 42,
+            verbosity        = 0,
         )
-        self.model.fit(X, y, sample_weight=sample_weights)
+        self.xgb_model.fit(X, y, sample_weight=sample_weights)
+
+        # LightGBM (40% weight in ensemble)
+        self.lgbm_model = LGBMClassifier(
+            n_estimators     = 500,
+            max_depth        = 4,
+            learning_rate    = 0.05,
+            subsample        = 0.8,
+            colsample_bytree = 0.8,
+            random_state     = 42,
+            verbose          = -1,
+        )
+        self.lgbm_model.fit(X, y, sample_weight=sample_weights)
+
         self.trained = True
 
-        # Feature importances
-        importances = dict(zip(FEATURE_COLS, self.model.feature_importances_))
+        # Feature importances: weighted average of both models
+        xgb_imp  = self.xgb_model.feature_importances_
+        lgbm_imp = self.lgbm_model.feature_importances_
+        avg_imp  = xgb_imp * 0.6 + lgbm_imp * 0.4
+        importances = dict(zip(FEATURE_COLS, avg_imp))
         sorted_imp  = sorted(importances.items(), key=lambda x: x[1], reverse=True)
 
-        # In-sample accuracy (indicative only — real metric is OOS win rate)
-        preds = self.model.predict(X)
-        acc   = float((preds == y).mean())
+        # In-sample accuracy (indicative only)
+        xgb_probs  = self.xgb_model.predict_proba(X)[:, 1]
+        lgbm_probs = self.lgbm_model.predict_proba(X)[:, 1]
+        blended    = 0.6 * xgb_probs + 0.4 * lgbm_probs
+        preds      = (blended >= 0.5).astype(int)
+        acc        = float((preds == y).mean())
 
         n_pos = int(y.sum())
         n_neg = len(y) - n_pos
         self.meta = {
-            "threshold":         self.threshold,
-            "n_train":           len(y),
-            "n_positive":        n_pos,
-            "n_negative":        n_neg,
-            "in_sample_acc":     round(acc, 4),
+            "threshold":          self.threshold,
+            "ensemble":           "xgb60_lgbm40",
+            "n_train":            len(y),
+            "n_positive":         n_pos,
+            "n_negative":         n_neg,
+            "in_sample_acc":      round(acc, 4),
             "feature_importances": {k: round(float(v), 5) for k, v in sorted_imp},
         }
         return self.meta
 
     def find_threshold(self, df_val: pd.DataFrame, target_win_rate: float = 0.70) -> float:
-        """
-        Find the minimum probability threshold that achieves target_win_rate
-        on a validation set, while keeping at least 20% of signals.
-
-        Returns the chosen threshold and updates self.threshold.
-        """
+        """Find minimum threshold achieving target_win_rate on validation set."""
         if not self.trained:
             raise RuntimeError("Train the model first")
 
-        X   = df_val[FEATURE_COLS].values
-        y   = df_val["label"].values
-        probs = self.model.predict_proba(X)[:, 1]
+        X          = df_val[FEATURE_COLS].values
+        y          = df_val["label"].values
+        xgb_probs  = self.xgb_model.predict_proba(X)[:, 1]
+        lgbm_probs = self.lgbm_model.predict_proba(X)[:, 1]
+        probs      = 0.6 * xgb_probs + 0.4 * lgbm_probs
 
         best_thresh = self.threshold
         for t in np.arange(0.45, 0.90, 0.01):
-            mask      = probs >= t
-            kept      = mask.sum()
-            if kept < max(10, len(y) * 0.15):   # need at least 15% of signals
+            mask     = probs >= t
+            kept     = mask.sum()
+            if kept < max(10, len(y) * 0.15):
                 break
-            win_rate  = float(y[mask].mean())
+            win_rate = float(y[mask].mean())
             if win_rate >= target_win_rate:
                 best_thresh = round(float(t), 2)
                 break
@@ -145,8 +168,10 @@ class SignalGate:
         if features is None:
             return {"signal": 0, "strength": 0, "reason": "Gate: insufficient features"}
 
-        X    = np.array([[features[c] for c in FEATURE_COLS]])
-        prob = float(self.model.predict_proba(X)[0, 1])
+        X          = np.array([[features[c] for c in FEATURE_COLS]])
+        xgb_prob   = float(self.xgb_model.predict_proba(X)[0, 1])
+        lgbm_prob  = float(self.lgbm_model.predict_proba(X)[0, 1])
+        prob       = 0.6 * xgb_prob + 0.4 * lgbm_prob
 
         # Stage 1: Nifty bear-market soft gate
         bear_market      = features.get("nifty_above_ema200", 1.0) == 0.0
@@ -196,11 +221,13 @@ class SignalGate:
         }
 
     def predict_proba_batch(self, df_features: pd.DataFrame) -> np.ndarray:
-        """Return win probability for a batch DataFrame of pre-computed features."""
+        """Return blended win probability for a batch DataFrame of pre-computed features."""
         if not self.trained:
             raise RuntimeError("Model not trained")
-        X = df_features[FEATURE_COLS].values
-        return self.model.predict_proba(X)[:, 1]
+        X          = df_features[FEATURE_COLS].values
+        xgb_probs  = self.xgb_model.predict_proba(X)[:, 1]
+        lgbm_probs = self.lgbm_model.predict_proba(X)[:, 1]
+        return 0.6 * xgb_probs + 0.4 * lgbm_probs
 
     # ── Persistence ───────────────────────────────────────────────────────────
 
@@ -209,7 +236,7 @@ class SignalGate:
         meta_path  = meta_path  or META_PATH
         os.makedirs(os.path.dirname(model_path), exist_ok=True)
         with open(model_path, "wb") as f:
-            pickle.dump(self.model, f)
+            pickle.dump({"xgb": self.xgb_model, "lgbm": self.lgbm_model}, f)
         with open(meta_path, "w") as f:
             json.dump(self.meta, f, indent=2)
         return model_path
@@ -220,7 +247,13 @@ class SignalGate:
         if not os.path.exists(model_path):
             return False
         with open(model_path, "rb") as f:
-            self.model = pickle.load(f)
+            saved = pickle.load(f)
+        if isinstance(saved, dict) and "xgb" in saved:
+            self.xgb_model  = saved["xgb"]
+            self.lgbm_model = saved["lgbm"]
+        else:
+            print("WARNING: Old GBM model format detected. Retrain required.")
+            return False
         if os.path.exists(meta_path):
             with open(meta_path) as f:
                 self.meta = json.load(f)
