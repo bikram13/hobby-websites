@@ -41,6 +41,7 @@ class SignalGate:
         self.trained   = False
         self.nifty_df = None   # set before inference so approve() can pass it to features
         self.live_sentiment: float = 0.0  # set by caller before each stock's approve() call
+        self.vix_value: float = 0.0  # set before inference; >20 → +0.10 thresh, >25 → +0.20 thresh
         self.sector_data: dict = {}  # set before inference; passed to compute_features
 
     # ── Training ──────────────────────────────────────────────────────────────
@@ -151,6 +152,12 @@ class SignalGate:
         bear_market      = features.get("nifty_above_ema200", 1.0) == 0.0
         effective_thresh = 0.75 if bear_market else self.threshold
 
+        # VIX-based threshold adjustment (live only — vix_value defaults to 0.0 during training)
+        if self.vix_value > 25:
+            effective_thresh = min(0.95, effective_thresh + 0.20)
+        elif self.vix_value > 20:
+            effective_thresh = min(0.95, effective_thresh + 0.10)
+
         # Sentiment boost: only in bull regime (never weakens bear-market gate)
         sentiment_boost = False
         if self.live_sentiment > 0.3 and not bear_market:
@@ -176,6 +183,7 @@ class SignalGate:
             approved["bear_market"]     = bear_market
             approved["sentiment_boost"] = sentiment_boost
             approved["sentiment_score"] = self.live_sentiment
+            approved["vix_value"] = self.vix_value
             return approved
 
         return {
