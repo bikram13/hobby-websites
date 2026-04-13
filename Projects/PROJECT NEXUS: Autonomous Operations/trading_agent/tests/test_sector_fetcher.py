@@ -27,8 +27,8 @@ def test_sector_indices_dict_has_required_keys():
 
 def test_sector_indices_all_have_yfinance_tickers():
     for sector, ticker in SECTOR_INDICES.items():
-        assert ticker.startswith("^") or ticker.endswith(".NS"), \
-            f"Sector {sector} ticker {ticker} looks wrong"
+        assert ticker.startswith("^"), \
+            f"Sector {sector} ticker {ticker} must start with '^' (yfinance index format)"
 
 
 # ── compute_sector_feature ────────────────────────────────────────────────────
