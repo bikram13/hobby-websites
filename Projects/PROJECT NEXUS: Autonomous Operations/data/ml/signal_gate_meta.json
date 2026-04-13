@@ -1,5 +1,5 @@
 {
-  "threshold": 0.6,
+  "threshold": 0.55,
   "n_train": 12972,
   "n_positive": 8027,
   "n_negative": 4945,

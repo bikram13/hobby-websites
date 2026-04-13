@@ -163,6 +163,13 @@ def run_gated_backtest(data: dict, gate: SignalGate,
     return result["summary"] if result else None
 
 
+def _fmt(v, pct=False):
+    """Format a metric value for the results table."""
+    if v is None:
+        return "N/A"
+    return f"{v:+.1f}%" if pct else f"{v:.3f}"
+
+
 def main():
     parser = argparse.ArgumentParser(description="Train NEXUS signal gate")
     parser.add_argument("--years",           type=int,   default=2,    help="Years of data")
@@ -175,11 +182,6 @@ def main():
 
     end_date   = datetime.today().strftime("%Y-%m-%d")
     start_date = (datetime.today() - timedelta(days=args.years * 365)).strftime("%Y-%m-%d")
-
-    def fmt(v, pct=False):
-        if v is None:
-            return "N/A"
-        return f"{v:+.1f}%" if pct else f"{v:.3f}"
 
     # ── BACKTEST-ONLY mode ────────────────────────────────────────────────────
     if args.backtest_only:
@@ -249,7 +251,7 @@ def main():
                 b = base_summary.get(key)
                 g = gated_summary.get(key)
                 delta = (g - b) if (b is not None and g is not None) else None
-                print(f"  {label:<25} {fmt(b, is_pct):>12} {fmt(g, is_pct):>12} {fmt(delta, is_pct):>10}")
+                print(f"  {label:<25} {_fmt(b, is_pct):>12} {_fmt(g, is_pct):>12} {_fmt(delta, is_pct):>10}")
 
         if gated_summary:
             gwr = gated_summary.get("win_rate", 0)
@@ -378,7 +380,7 @@ def main():
             b = base_summary.get(key)
             g = gated_summary.get(key)
             delta = (g - b) if (b is not None and g is not None) else None
-            print(f"  {label:<25} {fmt(b, is_pct):>12} {fmt(g, is_pct):>12} {fmt(delta, is_pct):>10}")
+            print(f"  {label:<25} {_fmt(b, is_pct):>12} {_fmt(g, is_pct):>12} {_fmt(delta, is_pct):>10}")
 
     # 10. Save model
     os.makedirs("data/ml", exist_ok=True)

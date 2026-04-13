@@ -1,0 +1,52 @@
+# === SECRETS & CREDENTIALS ===
+.env
+*.env
+.env.*
+!.env.template
+client_secrets.json
+youtube_token.json
+*.plist
+token*.json
+
+# === PYTHON ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+.pytest_cache/
+.mypy_cache/
+
+# === DATA & MODELS (large files) ===
+data/ml/signal_gate.pkl
+trading_agent/data/agent.log
+trading_agent/data/launchd*.log
+trading_agent/data/portfolio.json
+trading_agent/data/trade_log.csv
+trading_agent/data/reports/
+faceless_engine_google/outputs/
+faceless_engine_google/assets/
+
+# === TRANSCRIPTS & SESSION ARTIFACTS ===
+transcript.json
+transcript.txt
+SESSION_STATE.md
+
+# === OS & EDITOR ===
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === LOGS ===
+*.log
+logs/
