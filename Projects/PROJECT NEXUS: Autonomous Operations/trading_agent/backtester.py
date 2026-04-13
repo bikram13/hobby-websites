@@ -172,11 +172,15 @@ class Backtester:
             signal_cache = {}
 
         for day_num, date in enumerate(all_dates, 1):
-            current_prices = {
-                sym: float(df.loc[df.index <= date].iloc[-1]["close"])
-                for sym, df in data.items()
-                if not df.loc[df.index <= date].empty
-            }
+            current_prices = {}
+            for sym, df in data.items():
+                slice_ = df.loc[df.index <= date]
+                if slice_.empty:
+                    continue
+                # Use last non-NaN close — guards against partial/holiday rows from yfinance
+                valid = slice_["close"].dropna()
+                if not valid.empty:
+                    current_prices[sym] = float(valid.iloc[-1])
 
             # --- 1. Check exits (stop loss / target) ---
             for sym in list(self.positions.keys()):
@@ -295,11 +299,16 @@ class Backtester:
                       f"Portfolio: ₹{pv:>10,.0f}  ({ret:+.1f}%)  "
                       f"Trades: {len(self.closed_trades)}")
 
-        # Close any remaining open positions at last price
-        final_prices = {
-            sym: float(df.iloc[-1]["close"])
-            for sym, df in data.items() if not df.empty
-        }
+        # Close any remaining open positions at last valid price
+        # yfinance may return NaN close for the current/partial day (e.g. weekend/holiday) —
+        # drop NaNs and use the last real close to avoid poisoning cash with NaN arithmetic.
+        final_prices = {}
+        for sym, df in data.items():
+            if df.empty:
+                continue
+            valid_close = df["close"].dropna()
+            if not valid_close.empty:
+                final_prices[sym] = float(valid_close.iloc[-1])
         for sym in list(self.positions.keys()):
             price = final_prices.get(sym, self.positions[sym]["entry_price"])
             self._close(sym, price, all_dates[-1], "End of backtest")
