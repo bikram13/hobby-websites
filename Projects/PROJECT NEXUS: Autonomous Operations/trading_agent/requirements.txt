@@ -1,0 +1,10 @@
+alpaca-trade-api
+python-dotenv
+pandas
+schedule
+beautifulsoup4
+requests
+finvizfinance
+vaderSentiment
+transformers>=4.40.0
+torch>=2.2.0
