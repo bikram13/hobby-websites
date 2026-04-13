@@ -14,6 +14,7 @@
 import numpy as np
 import pandas as pd
 from ml.earnings_detector import earnings_momentum_score as _earnings_score
+from ml.sector_fetcher import compute_sector_feature as _sector_feature, get_sector_for_symbol
 
 
 def _ema(series: pd.Series, span: int) -> pd.Series:
@@ -59,7 +60,8 @@ def _atr_pct(df: pd.DataFrame, period: int = 14) -> float:
     return float(atr / close.iloc[-1]) if close.iloc[-1] > 0 else 0.0
 
 
-def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None) -> dict | None:
+def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None,
+                     sector_data: dict = None, symbol: str = None) -> dict | None:
     """
     Compute all features using data available up to the signal date.
     Returns a flat dict of floats, or None if insufficient data.
@@ -146,6 +148,13 @@ def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None) -> dict | 
         # Pass aligned nifty_window (not raw nifty_df) to prevent look-ahead bias
         earn_score = float(_earnings_score(df, nifty_window, signal_date=df.index[-1]) or 0.0)
 
+    # ── Sector momentum feature ───────────────────────────────────────────────
+    sector_pct_vs_ema20 = 0.0
+    if sector_data and symbol:
+        sector_name = get_sector_for_symbol(symbol)
+        if sector_name and sector_name in sector_data:
+            sector_pct_vs_ema20 = _sector_feature(sector_data[sector_name], df.index[-1])
+
     return {
         # Trend
         "ema_ratio":           round(ema_ratio, 5),
@@ -174,6 +183,8 @@ def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None) -> dict | 
         "nifty_pct_vs_ema200": nifty_pct_vs_ema200,
         # Fundamental proxy
         "earnings_momentum":   round(earn_score, 5),
+        # Sector momentum
+        "sector_pct_vs_ema20": round(sector_pct_vs_ema20, 5),
         # Context (not used as feature, useful for debugging)
         "_price":              round(price, 2),
     }
@@ -186,4 +197,5 @@ FEATURE_COLS = [
     "bb_zscore", "bb_width", "dist_from_52wk_high",
     "atr_pct", "vol_ratio", "trend_consistency",
     "nifty_above_ema200", "nifty_pct_vs_ema200", "earnings_momentum",
+    "sector_pct_vs_ema20",
 ]
