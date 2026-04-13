@@ -111,6 +111,41 @@ def collect_signals(data: dict, strategies: list,
     return combined.reset_index(drop=True)
 
 
+def run_walk_forward_validation(df_signals: pd.DataFrame, n_folds: int = 3) -> dict:
+    """
+    Walk-forward validation: train on past, predict on future, rolling window.
+    Reports average win rate across folds.
+    """
+    n = len(df_signals)
+    fold_size = n // (n_folds + 1)
+    results = []
+
+    print("\n  Walk-forward validation:")
+    print(f"  {'Fold':<6} {'Train size':>12} {'Val size':>10} {'Val win rate':>14}")
+    print(f"  {'─'*6} {'─'*12} {'─'*10} {'─'*14}")
+
+    for fold in range(n_folds):
+        val_start   = fold_size * (fold + 1)
+        val_end     = val_start + fold_size
+        df_train_wf = df_signals.iloc[:val_start].copy()
+        df_val_wf   = df_signals.iloc[val_start:val_end].copy()
+
+        if len(df_train_wf) < 100 or len(df_val_wf) < 20:
+            continue
+
+        gate_wf = SignalGate(threshold=0.55)
+        gate_wf.train(df_train_wf)
+        probs_wf = gate_wf.predict_proba_batch(df_val_wf)
+        mask_wf  = probs_wf >= 0.55
+        wr_wf    = float(df_val_wf["label"].values[mask_wf].mean()) * 100 if mask_wf.sum() > 0 else 0
+        results.append(wr_wf)
+        print(f"  {fold+1:<6} {len(df_train_wf):>12} {len(df_val_wf):>10} {wr_wf:>13.1f}%")
+
+    avg_wr = sum(results) / len(results) if results else 0
+    print(f"  {'Avg':>6} {'':>12} {'':>10} {avg_wr:>13.1f}%")
+    return {"walk_forward_folds": results, "walk_forward_avg_win_rate": avg_wr}
+
+
 class ParallelGatedStrategy:
     """
     Runs ADX + BB in parallel. Either can fire a BUY signal.
@@ -328,6 +363,9 @@ def main():
 
     val_start = str(df_val["date"].iloc[0].date())
     print(f"\n  Train: {len(df_train)} signals | Val: {len(df_val)} signals (from {val_start})")
+
+    # Walk-forward validation diagnostic
+    run_walk_forward_validation(df_signals)
 
     # 4. Train GBM
     print("\n  Training GBM gate...")
