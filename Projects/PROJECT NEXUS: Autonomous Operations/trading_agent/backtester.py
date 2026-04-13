@@ -216,7 +216,11 @@ class Backtester:
                     if price <= 0:
                         continue
                     pv = self._portfolio_value(current_prices)
-                    full_qty = self.risk.calculate_position_size(pv, price, sig["strength"])
+                    full_qty = self.risk.calculate_position_size(
+                        pv, price,
+                        signal_strength=sig.get("strength", 1.0),
+                        gate_prob=sig.get("gate_prob"),   # None if not gated → falls back to signal_strength
+                    )
                     if full_qty == 0:
                         continue
                     # Ladder: enter with 60% first, reserve 40% for dip add
