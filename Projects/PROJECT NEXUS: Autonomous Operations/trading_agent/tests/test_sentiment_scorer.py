@@ -52,12 +52,13 @@ def test_returns_zero_for_no_headlines():
 def test_caches_result_to_disk(tmp_path):
     cache_file = tmp_path / "sentiment_cache.json"
     with patch.object(scorer_mod, "CACHE_PATH", cache_file):
-        with patch.object(scorer_mod, "_score_headlines", return_value=0.42):
+        with patch.object(scorer_mod, "_score_headlines", return_value=0.42) as mock_score:
             score1 = get_sentiment_score("TCS.NS", ["TCS profit up"], date_str="2026-04-14")
             score2 = get_sentiment_score("TCS.NS", ["TCS profit up"], date_str="2026-04-14")
     assert score1 == 0.42
     assert score2 == 0.42  # served from cache
     assert cache_file.exists()
+    assert mock_score.call_count == 1  # second call must hit cache, not scorer
 
 def test_score_is_in_valid_range(tmp_path):
     cache_file = tmp_path / "sentiment_cache.json"

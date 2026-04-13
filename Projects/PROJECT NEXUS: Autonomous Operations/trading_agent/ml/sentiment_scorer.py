@@ -42,7 +42,7 @@ def _load_finbert() -> bool:
         _model.to(_device)
         _model.eval()
         # Read label mapping from model config (robust to label order changes)
-        _id2label = {v.lower(): k for k, v in _model.config.id2label.items()}
+        _id2label = {v.lower(): int(k) for k, v in _model.config.id2label.items()}
         _finbert_available = True
         return True
     except Exception as exc:
@@ -112,7 +112,8 @@ def _load_cache() -> dict:
     if CACHE_PATH.exists():
         try:
             return json.loads(CACHE_PATH.read_text())
-        except Exception:
+        except Exception as exc:
+            _log.warning("sentiment_scorer: cache read failed (%s), starting fresh", exc)
             return {}
     return {}
 
