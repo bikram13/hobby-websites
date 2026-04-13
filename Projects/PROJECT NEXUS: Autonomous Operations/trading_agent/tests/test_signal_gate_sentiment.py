@@ -111,3 +111,22 @@ def test_zero_signal_passes_through_unchanged():
     raw_hold = {"signal": 0, "strength": 0, "reason": "hold"}
     result = gate.approve(df, raw_hold)
     assert result["signal"] == 0
+
+
+# ── Boundary conditions ──────────────────────────────────────────────────────
+
+def test_sentiment_exactly_at_veto_boundary_does_not_veto():
+    # live_sentiment == -0.4: condition is strictly less-than, so no veto
+    gate = _make_gate_with_mock_model(threshold=0.55)
+    gate.live_sentiment = -0.4   # exactly at boundary — should NOT veto
+    df = _make_df()
+    result = gate.approve(df, _RAW_BUY)
+    assert result["signal"] == 1  # not vetoed
+
+def test_sentiment_exactly_at_boost_boundary_does_not_boost():
+    # live_sentiment == +0.3: condition is strictly greater-than, so no boost
+    gate = _make_gate_with_mock_model(threshold=0.72)
+    gate.live_sentiment = +0.3   # exactly at boundary — should NOT boost
+    df = _make_df()
+    result = gate.approve(df, _RAW_BUY)
+    assert result["signal"] == 0  # not boosted (0.70 < 0.72, no boost fires)

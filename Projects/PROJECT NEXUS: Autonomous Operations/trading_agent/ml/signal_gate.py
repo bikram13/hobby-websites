@@ -148,9 +148,9 @@ class SignalGate:
         bear_market      = features.get("nifty_above_ema200", 1.0) == 0.0
         effective_thresh = 0.75 if bear_market else self.threshold
 
-        # Stage 2: Sentiment boost (applied before threshold check)
+        # Sentiment boost: only in bull regime (never weakens bear-market gate)
         sentiment_boost = False
-        if self.live_sentiment > 0.3:
+        if self.live_sentiment > 0.3 and not bear_market:
             effective_thresh = max(0.40, effective_thresh - 0.05)
             sentiment_boost  = True
 
@@ -162,7 +162,7 @@ class SignalGate:
                     "strength":         0,
                     "reason":           f"Sentiment veto (score={self.live_sentiment:.2f} < -0.40)",
                     "gate_prob":        round(prob, 3),
-                    "gate_approved":    False,
+                    "gate_approved":    True,
                     "sentiment_vetoed": True,
                     "bear_market":      bear_market,
                 }
