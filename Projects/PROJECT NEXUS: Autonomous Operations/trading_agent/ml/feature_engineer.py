@@ -130,11 +130,12 @@ def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None) -> dict | 
     ema21_series = _ema(close, 21)
     trend_consistency = float((close.iloc[-20:] > ema21_series.iloc[-20:]).mean())
 
-    # ── Nifty regime features ─────────────────────────────────────────────────────
+    # ── Nifty regime + earnings momentum features ────────────────────────────
     nifty_above_ema200  = 1.0   # default: neutral (assume uptrend)
     nifty_pct_vs_ema200 = 0.0   # default: neutral
-    if nifty_df is not None and not nifty_df.empty:
-        # Align to signal date: use Nifty data up to and including signal date
+    earn_score          = 0.0   # default: neutral
+    if nifty_df is not None and not nifty_df.empty and "close" in nifty_df.columns:
+        # Align to signal date: no future Nifty data leaks into features
         nifty_window = nifty_df[nifty_df.index <= df.index[-1]]
         if len(nifty_window) >= 200:
             nifty_close  = nifty_window["close"]
@@ -142,11 +143,8 @@ def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None) -> dict | 
             nifty_last   = float(nifty_close.iloc[-1])
             nifty_above_ema200  = 1.0 if nifty_last > nifty_ema200 else 0.0
             nifty_pct_vs_ema200 = round((nifty_last - nifty_ema200) / nifty_ema200, 5)
-
-    # ── Earnings momentum (fundamental proxy) ────────────────────────────────
-    earn_score = 0.0   # default: neutral
-    if nifty_df is not None and not nifty_df.empty:
-        earn_score = _earnings_score(df, nifty_df, signal_date=df.index[-1])
+        # Pass aligned nifty_window (not raw nifty_df) to prevent look-ahead bias
+        earn_score = float(_earnings_score(df, nifty_window, signal_date=df.index[-1]) or 0.0)
 
     return {
         # Trend
