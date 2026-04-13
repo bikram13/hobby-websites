@@ -74,7 +74,17 @@ def download_data(start_date: str, end_date: str) -> tuple:
         if not df_sec.empty:
             sector_data[sector_name] = df_sec
     print(f"  Sector data: {len(sector_data)}/{len(SECTOR_INDICES)} indices downloaded")
-    return data, nifty_df, sector_data
+
+    # Download India VIX for live inference threshold adjustment
+    print("  Downloading ^INDIAVIX (India Volatility Index)...")
+    vix_raw = loader._download(["^INDIAVIX"])
+    vix_df  = vix_raw.get("^INDIAVIX", pd.DataFrame())
+    if vix_df.empty:
+        print("  WARNING: India VIX data unavailable — VIX gate will use 0.0 (no adjustment)")
+    else:
+        print(f"  India VIX cached: {len(vix_df)} rows")
+
+    return data, nifty_df, sector_data, vix_df
 
 
 def collect_signals(data: dict, strategies: list,
@@ -159,10 +169,16 @@ class ParallelGatedStrategy:
 def run_gated_backtest(data: dict, gate: SignalGate,
                        start_date: str, end_date: str,
                        nifty_df: pd.DataFrame = None,
-                       sector_data: dict = None) -> dict:
+                       sector_data: dict = None,
+                       vix_df: pd.DataFrame = None) -> dict:
     """Run a backtest with the parallel ADX+BB gated strategy."""
     gate.nifty_df    = nifty_df
     gate.sector_data = sector_data or {}
+    # Set gate VIX to the latest reading in the backtest window
+    if vix_df is not None and not vix_df.empty and "close" in vix_df.columns:
+        gate.vix_value = float(vix_df["close"].iloc[-1])
+    else:
+        gate.vix_value = 0.0
 
     adx_strat = ADXTrendStrategy(ema_fast=9, ema_slow=18, adx_threshold=25)
     bb_strat  = BollingerBandStrategy(period=20, std_dev=1.5, rsi_oversold=30)
@@ -215,7 +231,7 @@ def main():
             print(f"  Threshold: {gate.threshold} (from saved model)")
         print("=" * 70)
 
-        data, nifty_df, sector_data = download_data(start_date, end_date)
+        data, nifty_df, sector_data, vix_df = download_data(start_date, end_date)
         if not data:
             print("ERROR: No data. Aborting.")
             return
@@ -231,7 +247,8 @@ def main():
 
         print("  Running gated backtest (ADX + BB parallel, with gate + ladder buy)...")
         gated_summary = run_gated_backtest(data, gate, start_date, end_date,
-                                           nifty_df=nifty_df, sector_data=sector_data)
+                                           nifty_df=nifty_df, sector_data=sector_data,
+                                           vix_df=vix_df)
 
         print("\n" + "=" * 70)
         print("  RESULTS: Baseline vs. Gated")
@@ -285,7 +302,7 @@ def main():
     print("=" * 70)
 
     # 1. Data
-    data, nifty_df = download_data(start_date, end_date)
+    data, nifty_df, sector_data, vix_df = download_data(start_date, end_date)
     if not data:
         print("ERROR: No data. Aborting.")
         return
@@ -357,7 +374,9 @@ def main():
     base_summary = base_result["summary"] if base_result else {}
 
     print("  Running gated backtest (ADX + BB parallel, with gate + ladder buy)...")
-    gated_summary = run_gated_backtest(data, gate, start_date, end_date, nifty_df=nifty_df)
+    gated_summary = run_gated_backtest(data, gate, start_date, end_date,
+                                       nifty_df=nifty_df, sector_data=sector_data,
+                                       vix_df=vix_df)
 
     # 9. Print comparison
     print("\n" + "=" * 70)
