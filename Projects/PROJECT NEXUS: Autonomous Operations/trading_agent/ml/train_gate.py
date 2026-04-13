@@ -5,12 +5,15 @@
 # Process:
 #   1. Download N years of data (or use cached)
 #   2. Run ADX + BB strategies in parallel to collect all BUY signals
-#   3. Compute 16 features at each signal date
+#   3. Compute 19 features at each signal date
 #   4. Label each signal: 1=win if 10d forward return >= +2%
 #   5. Train/val split (80/20 by time — NO future leakage)
 #   6. Train GBM, find optimal threshold on validation set
 #   7. Run backtest WITH parallel gated strategy vs baseline
 #   8. Save model to data/ml/
+#
+# --backtest-only  : skip training, load saved model, run backtest only
+#                    (use this to test threshold changes without retraining)
 
 import sys
 import os
@@ -161,16 +164,102 @@ def run_gated_backtest(data: dict, gate: SignalGate,
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train XGBoost signal gate")
-    parser.add_argument("--years",          type=int,   default=2,    help="Years of data")
-    parser.add_argument("--hold-days",      type=int,   default=10,   help="Forward window for labelling")
-    parser.add_argument("--win-threshold",  type=float, default=0.02, help="Min forward return to label as win")
-    parser.add_argument("--target-win-rate",type=float, default=0.70, help="Target win rate for threshold tuning")
+    parser = argparse.ArgumentParser(description="Train NEXUS signal gate")
+    parser.add_argument("--years",           type=int,   default=2,    help="Years of data")
+    parser.add_argument("--hold-days",       type=int,   default=10,   help="Forward window for labelling")
+    parser.add_argument("--win-threshold",   type=float, default=0.02, help="Min forward return to label as win")
+    parser.add_argument("--target-win-rate", type=float, default=0.70, help="Target win rate for threshold tuning")
+    parser.add_argument("--threshold",       type=float, default=None, help="Override gate threshold (backtest-only mode)")
+    parser.add_argument("--backtest-only",   action="store_true",      help="Skip training; load saved model and backtest only")
     args = parser.parse_args()
 
     end_date   = datetime.today().strftime("%Y-%m-%d")
     start_date = (datetime.today() - timedelta(days=args.years * 365)).strftime("%Y-%m-%d")
 
+    def fmt(v, pct=False):
+        if v is None:
+            return "N/A"
+        return f"{v:+.1f}%" if pct else f"{v:.3f}"
+
+    # ── BACKTEST-ONLY mode ────────────────────────────────────────────────────
+    if args.backtest_only:
+        print("\n" + "=" * 70)
+        print("  NEXUS BRAIN — BACKTEST ONLY (saved model)")
+        print(f"  Period   : {start_date} → {end_date}")
+
+        gate = SignalGate()
+        if not gate.load():
+            print("ERROR: No saved model found. Run without --backtest-only to train first.")
+            return
+
+        if args.threshold is not None:
+            gate.threshold = args.threshold
+            print(f"  Threshold: {gate.threshold} (overridden via --threshold)")
+        else:
+            print(f"  Threshold: {gate.threshold} (from saved model)")
+        print("=" * 70)
+
+        data, nifty_df = download_data(start_date, end_date)
+        if not data:
+            print("ERROR: No data. Aborting.")
+            return
+
+        print("\n  Running baseline backtest (ADX only, no gate)...")
+        base_strat = ADXTrendStrategy(ema_fast=9, ema_slow=18, adx_threshold=25)
+        bt_base    = Backtester(start_date=start_date, end_date=end_date,
+                                strategy_name="_custom",
+                                initial_capital=config.INITIAL_CAPITAL, verbose=False)
+        bt_base.strategy = base_strat
+        base_result  = bt_base.run_with_data(data)
+        base_summary = base_result["summary"] if base_result else {}
+
+        print("  Running gated backtest (ADX + BB parallel, with gate + ladder buy)...")
+        gated_summary = run_gated_backtest(data, gate, start_date, end_date, nifty_df=nifty_df)
+
+        print("\n" + "=" * 70)
+        print("  RESULTS: Baseline vs. Gated")
+        print(f"  {'Metric':<25} {'Baseline':>12} {'Gated':>12} {'Delta':>10}")
+        print(f"  {'─'*25} {'─'*12} {'─'*12} {'─'*10}")
+
+        from datetime import datetime as dt
+        d0 = dt.strptime(start_date, "%Y-%m-%d")
+        d1 = dt.strptime(end_date,   "%Y-%m-%d")
+        num_months = max((d1 - d0).days / 30.44, 1)
+
+        if base_summary and gated_summary:
+            base_summary["monthly_profit_pct"]  = base_summary["total_return_pct"]  / num_months
+            base_summary["monthly_trades"]       = base_summary["total_trades"]       / num_months
+            gated_summary["monthly_profit_pct"] = gated_summary["total_return_pct"] / num_months
+            gated_summary["monthly_trades"]      = gated_summary["total_trades"]      / num_months
+
+            metrics = [
+                ("Win rate",        "win_rate",          True),
+                ("Sharpe ratio",    "sharpe_ratio",       False),
+                ("Total return",    "total_return_pct",   True),
+                ("Max drawdown",    "max_drawdown_pct",   True),
+                ("─── Monthly ───", None,                 False),
+                ("Profit / month",  "monthly_profit_pct", True),
+                ("Trades / month",  "monthly_trades",     False),
+                ("Total trades",    "total_trades",       False),
+            ]
+            for label, key, is_pct in metrics:
+                if key is None:
+                    print(f"  {label}")
+                    continue
+                b = base_summary.get(key)
+                g = gated_summary.get(key)
+                delta = (g - b) if (b is not None and g is not None) else None
+                print(f"  {label:<25} {fmt(b, is_pct):>12} {fmt(g, is_pct):>12} {fmt(delta, is_pct):>10}")
+
+        if gated_summary:
+            gwr = gated_summary.get("win_rate", 0)
+            if gwr >= args.target_win_rate * 100:
+                print(f"\n  ✅ TARGET REACHED: {gwr:.1f}% win rate (target {args.target_win_rate*100:.0f}%)")
+            else:
+                print(f"\n  Win rate: {gwr:.1f}% (target {args.target_win_rate*100:.0f}%) — gap: {args.target_win_rate*100 - gwr:.1f}pp")
+        return
+
+    # ── FULL TRAINING mode ────────────────────────────────────────────────────
     print("\n" + "=" * 70)
     print("  NEXUS BRAIN — ML GATE TRAINING (Layer 2)")
     print(f"  Period   : {start_date} → {end_date}")
@@ -206,8 +295,8 @@ def main():
     val_start = str(df_val["date"].iloc[0].date())
     print(f"\n  Train: {len(df_train)} signals | Val: {len(df_val)} signals (from {val_start})")
 
-    # 4. Train XGBoost
-    print("\n  Training XGBoost gate...")
+    # 4. Train GBM
+    print("\n  Training GBM gate...")
     gate = SignalGate(threshold=0.60)
     meta = gate.train(df_train)
     print(f"  In-sample accuracy: {meta['in_sample_acc']*100:.1f}%")
@@ -258,11 +347,6 @@ def main():
     print("  RESULTS: Baseline vs. Gated")
     print(f"  {'Metric':<25} {'Baseline':>12} {'Gated':>12} {'Delta':>10}")
     print(f"  {'─'*25} {'─'*12} {'─'*12} {'─'*10}")
-
-    def fmt(v, pct=False):
-        if v is None:
-            return "N/A"
-        return f"{v:+.1f}%" if pct else f"{v:.3f}"
 
     # Calculate months in backtest window
     from datetime import datetime as dt
