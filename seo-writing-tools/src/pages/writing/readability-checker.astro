@@ -124,9 +124,10 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     const text = input.value.trim()
 
     if (text === '') {
+      elHint.style.display         = ''
       elEaseScore.textContent      = '—'
       elEaseScore.className        = 'text-4xl font-bold text-blue-600'
-      elEaseLabel.textContent      = 'Enter text above to see your score'
+      elEaseLabel.textContent      = 'Paste text above to analyze'
       elGradeScore.textContent     = '—'
       elGradeLabel.textContent     = 'Estimated US school grade'
       elAvgWords.textContent       = '—'
@@ -134,6 +135,7 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
       elTotalSentences.textContent = '—'
       return
     }
+    elHint.style.display = 'none'
 
     // Sentences
     const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0)
