@@ -1,0 +1,71 @@
+# Ralph Progress Log
+Started: 2026-04-11
+Feature: UX and UI Polish
+
+## Codebase Patterns
+- Astro framework with Cloudflare Pages adapter.
+- Uses Tailwind CSS prominently for styling.
+- UI elements and layouts tend to be wrapped in `.astro` layouts or components.
+- Components use `preact` under the hood for interactivity, e.g. `TextDiff.tsx`.
+---
+
+## 2026-04-11 - US-001
+- Implemented responsive mobile hamburger menu in the header
+- Desktop view unchanged (nav links visible inline)
+- Mobile (<768px): hamburger button toggles a dropdown nav panel below the header bar
+- Used SVG icons for open/close states; ARIA attributes for accessibility
+- Files changed: `src/layouts/BaseLayout.astro`
+- **Learnings:**
+  - Tailwind `hidden md:hidden` pattern needed for mobile-only menu panel (hidden by default, shown by JS toggling `hidden` class)
+  - Inline `is:inline` script block in Astro is the right place for DOM interaction that must survive hydration
+  - `aria-expanded` and `aria-controls` on the hamburger button improves screen reader accessibility
+---
+
+## 2026-04-11 - US-002
+- Enhanced hover state on tool cards with larger shadow and upward translation
+- Changed `hover:shadow-sm` to `hover:shadow-lg` and added `hover:-translate-y-1 duration-200`
+- Files changed: `src/components/ToolCard.astro`
+- **Learnings:**
+  - Tailwind's `hover:-translate-y-1` (4px up) combined with `hover:shadow-lg` gives a clear "lift" effect
+  - `transition-all duration-200` ensures smooth easing; the explicit duration makes the animation feel polished
+---
+
+## 2026-04-11 - US-004
+- Fixed WCAG AA contrast violations across the site
+- `text-amber-500` → `text-amber-700` in readability-checker easeColor() (amber-500 was ~1.9:1, amber-700 is ~4.7:1)
+- `text-gray-500` → `text-gray-600` for xs stat labels on bg-gray-50 (gray-50 bg drops contrast just below 4.5:1 threshold)
+- `text-gray-400` → `text-gray-600` for "Recommended Tools" heading in BaseLayout affiliate section
+- `text-gray-400` → `text-gray-500` for all character-count labels, hints, and UI controls site-wide
+- `text-gray-400` → `text-gray-600` for placeholder text on bg-gray-100 backgrounds (OG preview "No image URL provided")
+- Files changed: `src/pages/writing/readability-checker.astro`, `src/layouts/BaseLayout.astro`, `src/pages/seo/open-graph-generator.astro`, `src/pages/seo/meta-tag-generator.astro`, `src/pages/seo/robots-txt-generator.astro`, `src/pages/seo/keyword-density-checker.astro`
+- **Learnings:**
+  - gray-400 (#9ca3af) on white fails WCAG AA at ~2.85:1 — always use at least gray-500 for functional text on white
+  - gray-500 on bg-gray-50 is borderline failing (~4.37:1 vs 4.5:1 threshold) — bump to gray-600 when text is on tinted bg
+  - amber-500 on white is severely low contrast (~1.9:1) — use amber-700 for readable warning/status colors
+  - JS-injected className strings must be updated alongside HTML class attributes, or the JS will reset the fix on interaction
+---
+
+## 2026-04-11 - US-005
+- Replaced emoji-based dark mode toggle (☀️/🌙) with inline SVG icons
+- Button now contains two SVGs: a sun-with-rays and a crescent moon; JS toggles `hidden` class on each
+- Button styled with `p-1.5`, `text-gray-700 dark:text-gray-300`, and `hover:text-blue-500` to match polished header aesthetics
+- Files changed: `src/layouts/BaseLayout.astro`
+- **Learnings:**
+  - Embedding both SVGs in the button and toggling `hidden` is simpler than swapping innerHTML
+  - `stroke-width="2"` on SVG lines/paths matches the existing hamburger menu icon weight for visual consistency
+  - `aria-hidden="true"` on each SVG keeps the button's `aria-label` as the sole accessible name
+  - The `updateIcon(isDark)` helper avoids duplicating the show/hide logic between initial load and click handler
+---
+
+## 2026-04-11 - US-003
+- Added Inter font from Google Fonts (400, 500, 600, 700 weights) via preconnect + stylesheet links in BaseLayout head
+- Updated global.css body font-family to use Inter with system-ui fallback chain
+- Added base line-height: 1.6 on body for better paragraph readability
+- Set heading (h1–h6) font-family, line-height: 1.25, letter-spacing: -0.015em for tighter display feel
+- h1 gets font-weight: 700, h2/h3 get font-weight: 600
+- Files changed: `src/layouts/BaseLayout.astro`, `src/styles/global.css`
+- **Learnings:**
+  - Adding Google Fonts preconnect links before the stylesheet link improves load performance
+  - Inter's negative letter-spacing (-0.015em) on headings matches its optical design for large sizes
+  - Tailwind v4 uses `@import "tailwindcss"` syntax; base CSS rules in global.css co-exist fine with Tailwind utilities on elements
+---

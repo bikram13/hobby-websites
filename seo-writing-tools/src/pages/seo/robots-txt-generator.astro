@@ -9,54 +9,58 @@ const description = tool.description
 const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 ---
 <BaseLayout title={title} description={description} jsonLd={jsonLd} affiliateLinks={affiliates['SEO']}>
-  <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
-  <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
-  <p class="text-gray-600 text-lg mb-6">{tool.description}</p>
+  <nav style="margin-bottom:1.5rem;">
+    <a href="/" style="color:#b9c3ff; text-decoration:none; font-size:0.875rem;">← All Tools</a>
+  </nav>
+  <div style="margin-bottom:2.5rem;">
+    <h1 style="font-size:clamp(2rem,5vw,3rem); font-weight:900; letter-spacing:-0.025em; color:#e4e2e4; margin:0 0 0.75rem;">{tool.title}</h1>
+    <p style="color:#c5c5d5; font-size:1.05rem; margin:0; max-width:36rem; line-height:1.6;">{tool.description}</p>
+  </div>
 
   <div class="grid gap-6 lg:grid-cols-2">
     <!-- Rule Builder -->
-    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-5">
+    <div class="glass-card space-y-5" style="padding:1.5rem;">
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Sitemap URL <span class="font-normal text-gray-500">(optional)</span></label>
+        <label class="block text-sm font-medium mb-1" style="color:#c5c5d5;">Sitemap URL <span class="font-normal" style="color:#8f909e;">(optional)</span></label>
         <input id="rb-sitemap" type="url" placeholder="https://yoursite.com/sitemap.xml"
-          class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200" />
+          class="w-full" style="border-radius:0.5rem; padding:0.5rem 0.75rem; font-size:0.875rem; width:100%;" />
       </div>
 
       <div id="rb-rules" class="space-y-3">
         <!-- Rules added dynamically -->
       </div>
 
-      <button id="rb-add" class="text-sm text-blue-600 hover:text-blue-800 font-medium">+ Add rule</button>
+      <button id="rb-add" class="text-sm font-medium" style="color:#b9c3ff; background:none; border:none; cursor:pointer; padding:0;">+ Add rule</button>
     </div>
 
     <!-- Output -->
     <div class="space-y-3">
       <!-- Warning banner -->
-      <div id="rb-warning" class="hidden rounded-lg border-2 border-red-500 bg-red-50 p-4 shadow-md" role="alert" aria-live="assertive">
+      <div id="rb-warning" class="hidden rounded-lg p-4" style="border:2px solid #f87171; background:rgba(248,113,113,0.08);" role="alert" aria-live="assertive">
         <div class="flex items-start gap-2">
-          <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="color:#f87171;">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
           </svg>
           <div>
-            <p class="text-sm font-bold text-red-700">WARNING: Disallow: / will block ALL crawlers</p>
-            <p class="text-sm text-red-600 mt-1">This will prevent search engines from indexing your entire site. Only use this if you intentionally want the site de-indexed.</p>
+            <p class="text-sm font-bold" style="color:#f87171;">WARNING: Disallow: / will block ALL crawlers</p>
+            <p class="text-sm mt-1" style="color:#fca5a5;">This will prevent search engines from indexing your entire site. Only use this if you intentionally want the site de-indexed.</p>
           </div>
         </div>
       </div>
       <style>
         @keyframes rb-flash {
-          0%, 100% { background-color: rgb(254 242 242); }
-          25%, 75% { background-color: rgb(254 202 202); }
-          50% { background-color: rgb(252 165 165); }
+          0%, 100% { background-color: rgba(248,113,113,0.08); }
+          25%, 75% { background-color: rgba(248,113,113,0.15); }
+          50% { background-color: rgba(248,113,113,0.22); }
         }
         #rb-warning.rb-flash-anim { animation: rb-flash 0.6s ease-in-out; }
       </style>
 
       <div class="flex items-center justify-between">
-        <h2 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Generated robots.txt</h2>
-        <button id="rb-copy" class="rounded-md border border-gray-300 bg-white px-3 py-1 text-xs text-gray-600 hover:border-blue-400 hover:text-blue-600">Copy</button>
+        <h2 class="text-sm font-semibold uppercase tracking-wide" style="color:#8f909e;">Generated robots.txt</h2>
+        <button id="rb-copy" class="rounded-md px-3 py-1 text-xs" style="background:rgba(53,52,55,0.8); color:#c5c5d5; border:1px solid rgba(68,70,83,0.4); cursor:pointer;">Copy</button>
       </div>
-      <pre id="rb-output" class="rounded-lg bg-gray-900 text-green-400 text-sm p-4 overflow-x-auto whitespace-pre-wrap min-h-[160px] font-mono"></pre>
+      <pre id="rb-output" class="rounded-lg text-sm p-4 overflow-x-auto whitespace-pre-wrap min-h-[160px] font-mono" style="background:#0d0d0f; color:#4edea3; border:1px solid rgba(68,70,83,0.4);"></pre>
     </div>
   </div>
 
@@ -76,19 +80,19 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
       div.className = 'grid grid-cols-[1fr_1fr_1fr_auto] gap-2 items-center'
       div.id = `rule-${id}`
       div.innerHTML = `
-        <select class="rb-agent rounded border border-gray-300 px-2 py-1.5 text-sm bg-white focus:outline-none focus:border-blue-400">
+        <select class="rb-agent" style="border-radius:0.375rem; padding:0.375rem 0.5rem; font-size:0.875rem;">
           <option value="*"${userAgent==='*'?' selected':''}>All bots (*)</option>
           <option value="Googlebot"${userAgent==='Googlebot'?' selected':''}>Googlebot</option>
           <option value="Bingbot"${userAgent==='Bingbot'?' selected':''}>Bingbot</option>
           <option value="GPTBot"${userAgent==='GPTBot'?' selected':''}>GPTBot (OpenAI)</option>
           <option value="Claude-Web"${userAgent==='Claude-Web'?' selected':''}>Claude-Web</option>
         </select>
-        <select class="rb-directive rounded border border-gray-300 px-2 py-1.5 text-sm bg-white focus:outline-none focus:border-blue-400">
+        <select class="rb-directive" style="border-radius:0.375rem; padding:0.375rem 0.5rem; font-size:0.875rem;">
           <option value="Disallow"${directive==='Disallow'?' selected':''}>Disallow</option>
           <option value="Allow"${directive==='Allow'?' selected':''}>Allow</option>
         </select>
-        <input type="text" class="rb-path rounded border border-gray-300 px-2 py-1.5 text-sm focus:outline-none focus:border-blue-400" placeholder="/path/" value="${path}" />
-        <button class="rb-remove text-gray-500 hover:text-red-500 text-lg leading-none px-1">×</button>
+        <input type="text" class="rb-path" style="border-radius:0.375rem; padding:0.375rem 0.5rem; font-size:0.875rem;" placeholder="/path/" value="${path}" />
+        <button class="rb-remove" style="color:#8f909e; background:none; border:none; cursor:pointer; font-size:1.25rem; line-height:1; padding:0 0.25rem;">×</button>
       `
       div.querySelector('.rb-remove').addEventListener('click', () => { div.remove(); generate() })
       div.querySelectorAll('select, input').forEach(el => el.addEventListener('input', generate))
@@ -145,11 +149,11 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     addRule('*', 'Allow', '/')
   </script>
 
-  <section class="mt-12 border-t border-gray-200 pt-8 text-gray-600 text-sm leading-relaxed space-y-4">
-    <h2 class="text-xl font-semibold text-gray-800">How to use the Robots.txt Generator</h2>
-    <p>Add rules using the "Add rule" button. Choose which bot the rule applies to, whether to Allow or Disallow, and the path. The output updates instantly. Copy and save the result as <code class="bg-gray-100 px-1 rounded">robots.txt</code> in your site's root.</p>
-    <h2 class="text-xl font-semibold text-gray-800">What is robots.txt?</h2>
-    <p>The robots.txt file tells search engine crawlers which pages they can and can't access on your site. It's placed at the root of your domain (e.g. <code class="bg-gray-100 px-1 rounded">https://yoursite.com/robots.txt</code>). Note: robots.txt is advisory — malicious bots may ignore it. It does not provide security, only crawl guidance.</p>
-    <p class="text-red-600 font-medium">Never use <code class="bg-red-50 px-1 rounded">Disallow: /</code> on a production site unless you want it completely removed from search engines.</p>
+  <section class="glass-card" style="margin-top:2.5rem; padding:1.5rem;">
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">How to use the Robots.txt Generator</h2>
+    <p style="color:#c5c5d5; margin:0 0 1rem;">Add rules using the "Add rule" button. Choose which bot the rule applies to, whether to Allow or Disallow, and the path. The output updates instantly. Copy and save the result as <code style="background:rgba(185,195,255,0.1); border-radius:0.25rem; padding:0.1rem 0.3rem; color:#b9c3ff;">robots.txt</code> in your site's root.</p>
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">What is robots.txt?</h2>
+    <p style="color:#c5c5d5; margin:0 0 0.75rem;">The robots.txt file tells search engine crawlers which pages they can and can't access on your site. It's placed at the root of your domain (e.g. <code style="background:rgba(185,195,255,0.1); border-radius:0.25rem; padding:0.1rem 0.3rem; color:#b9c3ff;">https://yoursite.com/robots.txt</code>). Note: robots.txt is advisory — malicious bots may ignore it. It does not provide security, only crawl guidance.</p>
+    <p style="color:#f87171; font-weight:500; margin:0;">Never use <code style="background:rgba(248,113,113,0.1); border-radius:0.25rem; padding:0.1rem 0.3rem;">Disallow: /</code> on a production site unless you want it completely removed from search engines.</p>
   </section>
 </BaseLayout>

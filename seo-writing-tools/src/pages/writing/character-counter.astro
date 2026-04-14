@@ -9,60 +9,64 @@ const description = tool.description
 const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 ---
 <BaseLayout title={title} description={description} jsonLd={jsonLd} affiliateLinks={affiliates['Writing']}>
-  <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
-  <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
-  <p class="text-gray-600 text-lg mb-6">{tool.description}</p>
+  <nav style="margin-bottom:1.5rem;">
+    <a href="/" style="color:#b9c3ff; text-decoration:none; font-size:0.875rem;">← All Tools</a>
+  </nav>
+  <div style="margin-bottom:2.5rem;">
+    <h1 style="font-size:clamp(2rem,5vw,3rem); font-weight:900; letter-spacing:-0.025em; color:#e4e2e4; margin:0 0 0.75rem;">{tool.title}</h1>
+    <p style="color:#c5c5d5; font-size:1.05rem; margin:0; max-width:36rem; line-height:1.6;">{tool.description}</p>
+  </div>
 
   <textarea
     id="cc-input"
     rows="12"
     placeholder="Paste or type your text here…"
-    class="w-full rounded-lg border border-gray-300 bg-white p-4 text-base text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-y"
+    class="w-full" style="border-radius:0.5rem; padding:1rem; font-size:1rem; resize:vertical; width:100%;"
   ></textarea>
 
   <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-    <div class="rounded-lg border border-gray-200 bg-white p-6 text-center shadow-sm">
-      <p id="cc-with-spaces" class="text-4xl font-bold text-blue-600">0</p>
-      <p class="mt-2 text-base font-medium text-gray-700">Characters with spaces</p>
-      <p class="mt-1 text-sm text-gray-500">Total length of your text</p>
+    <div class="glass-card" style="padding:1.5rem; text-align:center;">
+      <p id="cc-with-spaces" style="font-size:2.25rem; font-weight:700; color:#b9c3ff; margin:0;">0</p>
+      <p class="mt-2 text-base font-medium" style="color:#e4e2e4;">Characters with spaces</p>
+      <p class="mt-1 text-sm" style="color:#8f909e;">Total length of your text</p>
     </div>
-    <div class="rounded-lg border border-gray-200 bg-white p-6 text-center shadow-sm">
-      <p id="cc-without-spaces" class="text-4xl font-bold text-blue-600">0</p>
-      <p class="mt-2 text-base font-medium text-gray-700">Characters without spaces</p>
-      <p class="mt-1 text-sm text-gray-500">Spaces and newlines excluded</p>
+    <div class="glass-card" style="padding:1.5rem; text-align:center;">
+      <p id="cc-without-spaces" style="font-size:2.25rem; font-weight:700; color:#b9c3ff; margin:0;">0</p>
+      <p class="mt-2 text-base font-medium" style="color:#e4e2e4;">Characters without spaces</p>
+      <p class="mt-1 text-sm" style="color:#8f909e;">Spaces and newlines excluded</p>
     </div>
   </div>
 
   <!-- Common limits reference -->
-  <div class="mt-6 rounded-lg border border-blue-100 bg-blue-50 p-5">
-    <h2 class="text-sm font-semibold text-blue-800 mb-3 uppercase tracking-wide">Common character limits</h2>
+  <div class="mt-6 glass-card" style="padding:1.25rem; background:rgba(185,195,255,0.05);">
+    <h2 class="text-sm font-semibold uppercase tracking-wide mb-3" style="color:#b9c3ff;">Common character limits</h2>
     <div class="grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
       <div class="flex justify-between">
-        <span class="text-gray-700">Twitter / X post</span>
-        <span id="limit-twitter" class="font-medium text-gray-900">280 remaining</span>
+        <span style="color:#c5c5d5;">Twitter / X post</span>
+        <span id="limit-twitter" class="font-medium" style="color:#e4e2e4;">280 remaining</span>
       </div>
       <div class="flex justify-between">
-        <span class="text-gray-700">Meta description</span>
-        <span id="limit-meta" class="font-medium text-gray-900">160 remaining</span>
+        <span style="color:#c5c5d5;">Meta description</span>
+        <span id="limit-meta" class="font-medium" style="color:#e4e2e4;">160 remaining</span>
       </div>
       <div class="flex justify-between">
-        <span class="text-gray-700">Meta title</span>
-        <span id="limit-title" class="font-medium text-gray-900">60 remaining</span>
+        <span style="color:#c5c5d5;">Meta title</span>
+        <span id="limit-title" class="font-medium" style="color:#e4e2e4;">60 remaining</span>
       </div>
       <div class="flex justify-between">
-        <span class="text-gray-700">LinkedIn post</span>
-        <span id="limit-linkedin" class="font-medium text-gray-900">3000 remaining</span>
+        <span style="color:#c5c5d5;">LinkedIn post</span>
+        <span id="limit-linkedin" class="font-medium" style="color:#e4e2e4;">3000 remaining</span>
       </div>
     </div>
   </div>
 
-  <section class="mt-10 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-    <h2 class="text-xl font-semibold text-gray-800 mb-3">When does character count matter?</h2>
-    <ul class="space-y-2 text-sm text-gray-600">
-      <li><span class="font-medium text-gray-700">SEO meta descriptions</span> — Google typically truncates after ~160 characters in search results.</li>
-      <li><span class="font-medium text-gray-700">Page titles</span> — keep titles under 60 characters to avoid truncation in SERPs.</li>
-      <li><span class="font-medium text-gray-700">Social posts</span> — Twitter/X enforces a 280-character hard limit; LinkedIn allows up to 3,000.</li>
-      <li><span class="font-medium text-gray-700">Without spaces</span> — useful when a platform counts only visible characters, or for comparing raw content density.</li>
+  <section class="glass-card" style="margin-top:2.5rem; padding:1.5rem;">
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">When does character count matter?</h2>
+    <ul class="space-y-2 text-sm" style="color:#c5c5d5;">
+      <li><span style="color:#e4e2e4; font-weight:600;">SEO meta descriptions</span> — Google typically truncates after ~160 characters in search results.</li>
+      <li><span style="color:#e4e2e4; font-weight:600;">Page titles</span> — keep titles under 60 characters to avoid truncation in SERPs.</li>
+      <li><span style="color:#e4e2e4; font-weight:600;">Social posts</span> — Twitter/X enforces a 280-character hard limit; LinkedIn allows up to 3,000.</li>
+      <li><span style="color:#e4e2e4; font-weight:600;">Without spaces</span> — useful when a platform counts only visible characters, or for comparing raw content density.</li>
     </ul>
   </section>
 </BaseLayout>

@@ -9,24 +9,28 @@ const description = tool.description
 const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 ---
 <BaseLayout title={title} description={description} jsonLd={jsonLd} affiliateLinks={affiliates['SEO']}>
-  <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
-  <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
-  <p class="text-gray-600 text-lg mb-6">{tool.description}</p>
+  <nav style="margin-bottom:1.5rem;">
+    <a href="/" style="color:#b9c3ff; text-decoration:none; font-size:0.875rem;">← All Tools</a>
+  </nav>
+  <div style="margin-bottom:2.5rem;">
+    <h1 style="font-size:clamp(2rem,5vw,3rem); font-weight:900; letter-spacing:-0.025em; color:#e4e2e4; margin:0 0 0.75rem;">{tool.title}</h1>
+    <p style="color:#c5c5d5; font-size:1.05rem; margin:0; max-width:36rem; line-height:1.6;">{tool.description}</p>
+  </div>
 
   <textarea
     id="kd-input"
     rows="10"
     placeholder="Paste your content here to analyze keyword frequency…"
-    class="w-full rounded-lg border border-gray-300 bg-white p-4 text-base text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-y"
+    class="w-full" style="border-radius:0.5rem; padding:1rem; font-size:1rem; resize:vertical; width:100%;"
   ></textarea>
 
-  <div id="kd-stats" class="mt-3 text-sm text-gray-500"></div>
+  <div id="kd-stats" class="mt-3 text-sm" style="color:#8f909e;"></div>
 
   <div id="kd-results" class="mt-6 hidden">
-    <h2 class="text-lg font-semibold text-gray-800 mb-3">Top Keywords</h2>
-    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+    <h2 class="text-lg font-semibold mb-3" style="color:#e4e2e4;">Top Keywords</h2>
+    <div class="overflow-x-auto rounded-lg" style="border:1px solid rgba(68,70,83,0.4);">
       <table class="w-full text-sm text-left">
-        <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+        <thead style="background:#1b1b1d; color:#8f909e; text-transform:uppercase; font-size:0.75rem;">
           <tr>
             <th class="px-4 py-3 w-8">#</th>
             <th class="px-4 py-3">Keyword</th>
@@ -35,7 +39,7 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
             <th class="px-4 py-3 w-32">Bar</th>
           </tr>
         </thead>
-        <tbody id="kd-tbody" class="divide-y divide-gray-100 bg-white"></tbody>
+        <tbody id="kd-tbody" style="color:#c5c5d5;"></tbody>
       </table>
     </div>
   </div>
@@ -71,12 +75,12 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
       tbody.innerHTML = sorted.map(([word, count], i) => {
         const pct = (count / totalWords * 100).toFixed(2)
         const bar = Math.round(count / max * 100)
-        return `<tr class="hover:bg-gray-50">
-          <td class="px-4 py-2 text-gray-500">${i + 1}</td>
-          <td class="px-4 py-2 font-medium text-gray-800">${word}</td>
-          <td class="px-4 py-2 text-right text-gray-700">${count}</td>
-          <td class="px-4 py-2 text-right text-gray-700">${pct}%</td>
-          <td class="px-4 py-2"><div class="h-2 rounded-full bg-blue-100"><div class="h-2 rounded-full bg-blue-500" style="width:${bar}%"></div></div></td>
+        return `<tr style="border-bottom:1px solid rgba(68,70,83,0.2);">
+          <td class="px-4 py-2" style="color:#8f909e;">${i + 1}</td>
+          <td class="px-4 py-2 font-medium" style="color:#e4e2e4;">${word}</td>
+          <td class="px-4 py-2 text-right" style="color:#c5c5d5;">${count}</td>
+          <td class="px-4 py-2 text-right" style="color:#c5c5d5;">${pct}%</td>
+          <td class="px-4 py-2"><div style="height:0.5rem;border-radius:9999px;background:rgba(185,195,255,0.12);"><div style="height:0.5rem;border-radius:9999px;background:linear-gradient(90deg,#7189f6,#b9c3ff);width:${bar}%"></div></div></td>
         </tr>`
       }).join('')
 
@@ -84,11 +88,11 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     }
   </script>
 
-  <section class="mt-12 border-t border-gray-200 pt-8 text-gray-600 text-sm leading-relaxed space-y-4">
-    <h2 class="text-xl font-semibold text-gray-800">How to use the Keyword Density Checker</h2>
-    <p>Paste your article, blog post, or web page content into the text area. The tool instantly shows you the top 20 most-used meaningful words along with their frequency count and density percentage.</p>
-    <h2 class="text-xl font-semibold text-gray-800">What is keyword density?</h2>
-    <p>Keyword density is the percentage of times a specific word appears relative to the total word count. A density of 1–3% for a target keyword is generally considered healthy for SEO. Higher densities may be flagged as keyword stuffing by search engines.</p>
-    <p>This tool filters out common English stopwords (the, and, is, etc.) so you see only meaningful content words.</p>
+  <section class="glass-card" style="margin-top:2.5rem; padding:1.5rem;">
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">How to use the Keyword Density Checker</h2>
+    <p style="color:#c5c5d5; margin:0 0 1rem;">Paste your article, blog post, or web page content into the text area. The tool instantly shows you the top 20 most-used meaningful words along with their frequency count and density percentage.</p>
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">What is keyword density?</h2>
+    <p style="color:#c5c5d5; margin:0 0 0.75rem;">Keyword density is the percentage of times a specific word appears relative to the total word count. A density of 1–3% for a target keyword is generally considered healthy for SEO. Higher densities may be flagged as keyword stuffing by search engines.</p>
+    <p style="color:#c5c5d5; margin:0;">This tool filters out common English stopwords (the, and, is, etc.) so you see only meaningful content words.</p>
   </section>
 </BaseLayout>

@@ -9,30 +9,34 @@ const description = tool.description
 const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 ---
 <BaseLayout title={title} description={description} jsonLd={jsonLd} affiliateLinks={affiliates['Writing']}>
-  <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
-  <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
-  <p class="text-gray-600 text-lg mb-8">{tool.description}</p>
+  <nav style="margin-bottom:1.5rem;">
+    <a href="/" style="color:#b9c3ff; text-decoration:none; font-size:0.875rem;">← All Tools</a>
+  </nav>
+  <div style="margin-bottom:2.5rem;">
+    <h1 style="font-size:clamp(2rem,5vw,3rem); font-weight:900; letter-spacing:-0.025em; color:#e4e2e4; margin:0 0 0.75rem;">{tool.title}</h1>
+    <p style="color:#c5c5d5; font-size:1.05rem; margin:0; max-width:36rem; line-height:1.6;">{tool.description}</p>
+  </div>
 
   <div id="diff-app">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
       <div>
-        <label class="block font-semibold text-sm mb-1 text-gray-700">Original Text</label>
-        <textarea id="diff-original" style="width:100%;min-height:160px;padding:.6rem .75rem;border:1px solid #d1d5db;border-radius:.5rem;font-size:.9rem;line-height:1.6;resize:vertical;box-sizing:border-box" placeholder="Paste original text here…"></textarea>
+        <label class="block font-semibold text-sm mb-1" style="color:#c5c5d5;">Original Text</label>
+        <textarea id="diff-original" style="width:100%;min-height:160px;padding:.6rem .75rem;border:1px solid rgba(68,70,83,0.4);border-radius:.5rem;font-size:.9rem;line-height:1.6;resize:vertical;box-sizing:border-box" placeholder="Paste original text here…"></textarea>
       </div>
       <div>
-        <label class="block font-semibold text-sm mb-1 text-gray-700">New Text</label>
-        <textarea id="diff-revised" style="width:100%;min-height:160px;padding:.6rem .75rem;border:1px solid #d1d5db;border-radius:.5rem;font-size:.9rem;line-height:1.6;resize:vertical;box-sizing:border-box" placeholder="Paste revised text here…"></textarea>
+        <label class="block font-semibold text-sm mb-1" style="color:#c5c5d5;">New Text</label>
+        <textarea id="diff-revised" style="width:100%;min-height:160px;padding:.6rem .75rem;border:1px solid rgba(68,70,83,0.4);border-radius:.5rem;font-size:.9rem;line-height:1.6;resize:vertical;box-sizing:border-box" placeholder="Paste revised text here…"></textarea>
       </div>
     </div>
 
     <div style="display:flex;gap:.5rem;margin-bottom:1rem;align-items:center;flex-wrap:wrap">
-      <span style="font-size:.8rem;color:#6b7280">View:</span>
-      <button id="btn-side" style="padding:.3rem .75rem;border-radius:999px;border:1px solid #2563eb;background:#2563eb;color:#fff;font-size:.8rem;cursor:pointer">Side-by-side</button>
-      <button id="btn-unified" style="padding:.3rem .75rem;border-radius:999px;border:1px solid #d1d5db;background:#fff;color:#374151;font-size:.8rem;cursor:pointer">Unified</button>
+      <span style="font-size:.8rem;color:#8f909e">View:</span>
+      <button id="btn-side" style="padding:.3rem .75rem;border-radius:999px;border:1px solid #7189f6;background:#7189f6;color:#fff;font-size:.8rem;cursor:pointer">Side-by-side</button>
+      <button id="btn-unified" style="padding:.3rem .75rem;border-radius:999px;border:1px solid rgba(68,70,83,0.4);background:rgba(53,52,55,0.55);color:#c5c5d5;font-size:.8rem;cursor:pointer">Unified</button>
       <span id="diff-stats" style="font-size:.85rem;margin-left:.5rem"></span>
     </div>
 
-    <div id="diff-output" style="padding:2rem;text-align:center;color:#9ca3af;background:#f9fafb;border-radius:.75rem;border:1px solid #e5e7eb">
+    <div id="diff-output" style="padding:2rem;text-align:center;color:#8f909e;background:#1b1b1d;border-radius:.75rem;border:1px solid rgba(68,70,83,0.4)">
       Paste text in both boxes to see differences
     </div>
   </div>
@@ -57,12 +61,12 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 
       function setView(v) {
         view = v;
-        btnSide.style.background = v === 'side' ? '#2563eb' : '#fff';
-        btnSide.style.color = v === 'side' ? '#fff' : '#374151';
-        btnSide.style.borderColor = v === 'side' ? '#2563eb' : '#d1d5db';
-        btnUnified.style.background = v === 'unified' ? '#2563eb' : '#fff';
-        btnUnified.style.color = v === 'unified' ? '#fff' : '#374151';
-        btnUnified.style.borderColor = v === 'unified' ? '#2563eb' : '#d1d5db';
+        btnSide.style.background = v === 'side' ? '#7189f6' : 'rgba(53,52,55,0.55)';
+        btnSide.style.color = v === 'side' ? '#fff' : '#c5c5d5';
+        btnSide.style.borderColor = v === 'side' ? '#7189f6' : 'rgba(68,70,83,0.4)';
+        btnUnified.style.background = v === 'unified' ? '#7189f6' : 'rgba(53,52,55,0.55)';
+        btnUnified.style.color = v === 'unified' ? '#fff' : '#c5c5d5';
+        btnUnified.style.borderColor = v === 'unified' ? '#7189f6' : 'rgba(68,70,83,0.4)';
         if (lastChanges) render(lastChanges);
       }
 
@@ -78,29 +82,29 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
           else if (c.removed) removed += w;
           else unchanged += w;
         });
-        statsEl.innerHTML = `<span style="color:#16a34a;font-weight:600">+${added} added</span> &nbsp; <span style="color:#dc2626;font-weight:600">−${removed} removed</span> &nbsp; <span style="color:#6b7280">${unchanged} unchanged</span>`;
+        statsEl.innerHTML = `<span style="color:#4edea3;font-weight:600">+${added} added</span> &nbsp; <span style="color:#f87171;font-weight:600">−${removed} removed</span> &nbsp; <span style="color:#8f909e">${unchanged} unchanged</span>`;
 
         if (view === 'side') {
           let left = '', right = '';
           changes.forEach(c => {
             const safe = c.value.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-            if (c.removed) left += `<del style="background:#fecaca;border-radius:2px;text-decoration:line-through">${safe}</del>`;
-            else if (c.added) right += `<mark style="background:#bbf7d0;border-radius:2px">${safe}</mark>`;
+            if (c.removed) left += `<del style="background:rgba(248,113,113,0.2);border-radius:2px;text-decoration:line-through;color:#fca5a5">${safe}</del>`;
+            else if (c.added) right += `<mark style="background:rgba(78,222,163,0.2);border-radius:2px;color:#4edea3">${safe}</mark>`;
             else { left += safe; right += safe; }
           });
           outEl.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
-            <div style="background:#fff7f7;border:1px solid #fecaca;border-radius:.5rem;padding:.75rem;line-height:1.7;font-size:.9rem;white-space:pre-wrap;word-break:break-word"><div style="font-weight:600;margin-bottom:.5rem;color:#dc2626;font-size:.75rem;text-transform:uppercase">Original</div>${left}</div>
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:.5rem;padding:.75rem;line-height:1.7;font-size:.9rem;white-space:pre-wrap;word-break:break-word"><div style="font-weight:600;margin-bottom:.5rem;color:#16a34a;font-size:.75rem;text-transform:uppercase">Revised</div>${right}</div>
+            <div style="background:rgba(248,113,113,0.05);border:1px solid rgba(248,113,113,0.2);border-radius:.5rem;padding:.75rem;line-height:1.7;font-size:.9rem;white-space:pre-wrap;word-break:break-word;color:#c5c5d5"><div style="font-weight:600;margin-bottom:.5rem;color:#f87171;font-size:.75rem;text-transform:uppercase">Original</div>${left}</div>
+            <div style="background:rgba(78,222,163,0.05);border:1px solid rgba(78,222,163,0.2);border-radius:.5rem;padding:.75rem;line-height:1.7;font-size:.9rem;white-space:pre-wrap;word-break:break-word;color:#c5c5d5"><div style="font-weight:600;margin-bottom:.5rem;color:#4edea3;font-size:.75rem;text-transform:uppercase">Revised</div>${right}</div>
           </div>`;
         } else {
           let out = '';
           changes.forEach(c => {
             const safe = c.value.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-            if (c.added) out += `<mark style="background:#bbf7d0;border-radius:2px">${safe}</mark>`;
-            else if (c.removed) out += `<del style="background:#fecaca;border-radius:2px;text-decoration:line-through">${safe}</del>`;
+            if (c.added) out += `<mark style="background:rgba(78,222,163,0.2);border-radius:2px;color:#4edea3">${safe}</mark>`;
+            else if (c.removed) out += `<del style="background:rgba(248,113,113,0.2);border-radius:2px;text-decoration:line-through;color:#fca5a5">${safe}</del>`;
             else out += safe;
           });
-          outEl.innerHTML = `<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:.5rem;padding:.75rem;line-height:1.7;font-size:.9rem;white-space:pre-wrap;word-break:break-word">${out}</div>`;
+          outEl.innerHTML = `<div style="background:#1b1b1d;border:1px solid rgba(68,70,83,0.4);border-radius:.5rem;padding:.75rem;line-height:1.7;font-size:.9rem;white-space:pre-wrap;word-break:break-word;color:#c5c5d5">${out}</div>`;
         }
       }
 
@@ -123,13 +127,13 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     }
   </script>
 
-  <section class="mt-12 prose prose-gray max-w-none">
-    <h2>How the Text Diff Tool Works</h2>
-    <p>Paste your original and revised text into the two boxes. The tool compares them word-by-word and highlights changes instantly. Added words appear with a green background; removed words appear with a red strikethrough.</p>
-    <h2>Side-by-side vs Unified view</h2>
-    <p><strong>Side-by-side</strong> shows original on the left with removals highlighted, and revised on the right with additions highlighted. <strong>Unified</strong> shows both in a single stream.</p>
-    <h2>Common uses</h2>
-    <ul>
+  <section class="glass-card" style="margin-top:2.5rem; padding:1.5rem;">
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">How the Text Diff Tool Works</h2>
+    <p style="color:#c5c5d5; margin:0 0 1rem;">Paste your original and revised text into the two boxes. The tool compares them word-by-word and highlights changes instantly. Added words appear with a green background; removed words appear with a red strikethrough.</p>
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">Side-by-side vs Unified view</h2>
+    <p style="color:#c5c5d5; margin:0 0 1rem;"><strong style="color:#e4e2e4;">Side-by-side</strong> shows original on the left with removals highlighted, and revised on the right with additions highlighted. <strong style="color:#e4e2e4;">Unified</strong> shows both in a single stream.</p>
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">Common uses</h2>
+    <ul style="color:#c5c5d5; padding-left:1.25rem; margin:0;">
       <li>Comparing draft versions of an article or email</li>
       <li>Checking what changed in a copied document</li>
       <li>Reviewing edits before sending to a client</li>

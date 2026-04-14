@@ -6,35 +6,30 @@ const { categories } = Astro.props
 ---
 <div class="flex gap-2 mb-8 flex-wrap" id="category-filter">
   <button
-    class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-gray-900 text-white"
+    class="filter-btn active"
     data-filter="All"
+    style="padding:0.5rem 1.25rem; border-radius:9999px; font-size:0.875rem; font-weight:600; background:rgba(113,137,246,0.2); border:1px solid rgba(185,195,255,0.35); color:#b9c3ff; cursor:pointer;"
   >All</button>
   {categories.map(cat => (
     <button
-      class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white border border-gray-300 text-gray-700 hover:border-gray-500"
+      class="filter-btn"
       data-filter={cat}
+      style="padding:0.5rem 1.25rem; border-radius:9999px; font-size:0.875rem; font-weight:500; background:rgba(53,52,55,0.55); border:1px solid rgba(68,70,83,0.4); color:#c5c5d5; cursor:pointer;"
     >{cat}</button>
   ))}
 </div>
 
 <script>
-  // Vanilla JS — no framework. Runs after DOMContentLoaded.
   const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn')
-  const cards = document.querySelectorAll<HTMLElement>('.tool-card')
+  const cards   = document.querySelectorAll<HTMLElement>('.tool-card')
+
+  const ACTIVE_STYLE   = 'background:rgba(113,137,246,0.2); border:1px solid rgba(185,195,255,0.35); color:#b9c3ff;'
+  const INACTIVE_STYLE = 'background:rgba(53,52,55,0.55); border:1px solid rgba(68,70,83,0.4); color:#c5c5d5;'
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       const filter = btn.dataset.filter ?? 'All'
-
-      // Update active button styles
-      buttons.forEach(b => {
-        b.classList.remove('active', 'bg-gray-900', 'text-white')
-        b.classList.add('bg-white', 'border', 'border-gray-300', 'text-gray-700')
-      })
-      btn.classList.add('active', 'bg-gray-900', 'text-white')
-      btn.classList.remove('bg-white', 'border-gray-300', 'text-gray-700')
-
-      // Show/hide cards
+      buttons.forEach(b => { b.setAttribute('style', `padding:0.5rem 1.25rem; border-radius:9999px; font-size:0.875rem; font-weight:${b === btn ? '600' : '500'}; cursor:pointer; ${b === btn ? ACTIVE_STYLE : INACTIVE_STYLE}`) })
       cards.forEach(card => {
         const match = filter === 'All' || card.dataset.category === filter
         card.style.display = match ? 'block' : 'none'

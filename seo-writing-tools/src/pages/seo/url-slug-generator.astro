@@ -9,37 +9,41 @@ const description = tool.description
 const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 ---
 <BaseLayout title={title} description={description} jsonLd={jsonLd} affiliateLinks={affiliates['SEO']}>
-  <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
-  <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
-  <p class="text-gray-600 text-lg mb-6">{tool.description}</p>
+  <nav style="margin-bottom:1.5rem;">
+    <a href="/" style="color:#b9c3ff; text-decoration:none; font-size:0.875rem;">← All Tools</a>
+  </nav>
+  <div style="margin-bottom:2.5rem;">
+    <h1 style="font-size:clamp(2rem,5vw,3rem); font-weight:900; letter-spacing:-0.025em; color:#e4e2e4; margin:0 0 0.75rem;">{tool.title}</h1>
+    <p style="color:#c5c5d5; font-size:1.05rem; margin:0; max-width:36rem; line-height:1.6;">{tool.description}</p>
+  </div>
 
-  <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 space-y-4">
+  <div class="glass-card space-y-4" style="padding:1.5rem;">
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Input Text</label>
+      <label class="block text-sm font-medium mb-1" style="color:#c5c5d5;">Input Text</label>
       <input
         id="slug-input"
         type="text"
         placeholder="Best Running Shoes for Beginners 2025"
-        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base text-gray-800 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        class="w-full" style="border-radius:0.5rem; padding:0.5rem 0.75rem; font-size:1rem; width:100%;"
       />
     </div>
 
-    <label class="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none">
-      <input id="slug-stopwords" type="checkbox" class="rounded text-blue-600" />
+    <label class="flex items-center gap-2 text-sm cursor-pointer select-none" style="color:#c5c5d5;">
+      <input id="slug-stopwords" type="checkbox" class="rounded" style="accent-color:#b9c3ff;" />
       Remove common stopwords (the, and, for, of…)
     </label>
 
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Generated Slug</label>
+      <label class="block text-sm font-medium mb-1" style="color:#c5c5d5;">Generated Slug</label>
       <div class="flex gap-2">
         <input
           id="slug-output"
           type="text"
           readonly
-          class="flex-1 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-base font-mono text-blue-700 focus:outline-none"
+          class="flex-1" style="border-radius:0.5rem; padding:0.5rem 0.75rem; font-size:1rem; font-family:monospace; color:#b9c3ff; background:#1b1b1d; border:1px solid rgba(68,70,83,0.4); width:100%;"
           placeholder="your-slug-will-appear-here"
         />
-        <button id="slug-copy" class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:border-blue-400 hover:text-blue-600">Copy</button>
+        <button id="slug-copy" class="btn-ghost" style="padding:0.5rem 1rem; border-radius:0.5rem; font-size:0.875rem; white-space:nowrap;">Copy</button>
       </div>
     </div>
   </div>
@@ -84,11 +88,11 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     })
   </script>
 
-  <section class="mt-12 border-t border-gray-200 pt-8 text-gray-600 text-sm leading-relaxed space-y-4">
-    <h2 class="text-xl font-semibold text-gray-800">How to use the URL Slug Generator</h2>
-    <p>Type or paste your page title or any text into the input. The slug is generated instantly — lowercase, spaces replaced with hyphens, special characters removed. Toggle "Remove stopwords" to strip filler words like "the", "and", and "for" for a cleaner, shorter URL.</p>
-    <h2 class="text-xl font-semibold text-gray-800">What makes a good URL slug?</h2>
-    <p>A clean URL slug improves both SEO and readability. Best practices: use lowercase letters and hyphens only, include your primary keyword, keep it concise (3–5 meaningful words), and avoid dates unless they're essential for the content type.</p>
-    <p>Example: "Best Running Shoes for Beginners in 2025" → <code class="bg-gray-100 px-1 rounded">best-running-shoes-beginners-2025</code></p>
+  <section class="glass-card" style="margin-top:2.5rem; padding:1.5rem;">
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">How to use the URL Slug Generator</h2>
+    <p style="color:#c5c5d5; margin:0 0 1rem;">Type or paste your page title or any text into the input. The slug is generated instantly — lowercase, spaces replaced with hyphens, special characters removed. Toggle "Remove stopwords" to strip filler words like "the", "and", and "for" for a cleaner, shorter URL.</p>
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">What makes a good URL slug?</h2>
+    <p style="color:#c5c5d5; margin:0 0 0.75rem;">A clean URL slug improves both SEO and readability. Best practices: use lowercase letters and hyphens only, include your primary keyword, keep it concise (3–5 meaningful words), and avoid dates unless they're essential for the content type.</p>
+    <p style="color:#c5c5d5; margin:0;">Example: "Best Running Shoes for Beginners in 2025" → <code style="background:rgba(185,195,255,0.1); border-radius:0.25rem; padding:0.1rem 0.3rem; color:#b9c3ff;">best-running-shoes-beginners-2025</code></p>
   </section>
 </BaseLayout>

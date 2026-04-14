@@ -9,21 +9,22 @@ const description = tool.description
 const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 ---
 <BaseLayout title={title} description={description} jsonLd={jsonLd} affiliateLinks={affiliates['Writing']}>
-  <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
-  <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
-  <p class="text-gray-600 text-lg mb-6">{tool.description}</p>
+  <nav style="margin-bottom:1.5rem;">
+    <a href="/" style="color:#b9c3ff; text-decoration:none; font-size:0.875rem;">← All Tools</a>
+  </nav>
+  <div style="margin-bottom:2.5rem;">
+    <h1 style="font-size:clamp(2rem,5vw,3rem); font-weight:900; letter-spacing:-0.025em; color:#e4e2e4; margin:0 0 0.75rem;">{tool.title}</h1>
+    <p style="color:#c5c5d5; font-size:1.05rem; margin:0; max-width:36rem; line-height:1.6;">{tool.description}</p>
+  </div>
 
   <!-- Controls -->
-  <div class="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+  <div class="glass-card" style="padding:1.25rem;">
     <div class="flex flex-wrap gap-6 items-end">
 
       <!-- Mode selector -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="li-mode">Generate</label>
-        <select
-          id="li-mode"
-          class="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-        >
+        <label class="block text-sm font-medium mb-1" style="color:#c5c5d5;" for="li-mode">Generate</label>
+        <select id="li-mode" class="w-full" style="border-radius:0.375rem; padding:0.5rem 0.75rem; font-size:0.875rem; width:auto;">
           <option value="paragraphs">Paragraphs</option>
           <option value="sentences">Sentences</option>
           <option value="words">Words</option>
@@ -32,14 +33,14 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 
       <!-- Number input -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1" for="li-count">Amount</label>
+        <label class="block text-sm font-medium mb-1" style="color:#c5c5d5;" for="li-count">Amount</label>
         <input
           id="li-count"
           type="number"
           value="3"
           min="1"
           max="20"
-          class="w-24 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+          style="width:6rem; border-radius:0.375rem; padding:0.5rem 0.75rem; font-size:0.875rem;"
         />
       </div>
 
@@ -49,15 +50,17 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
           id="li-classic"
           type="checkbox"
           checked
-          class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+          class="h-4 w-4 rounded"
+          style="accent-color:#b9c3ff;"
         />
-        <label for="li-classic" class="text-sm text-gray-700">Start with "Lorem ipsum…"</label>
+        <label for="li-classic" class="text-sm" style="color:#c5c5d5;">Start with "Lorem ipsum…"</label>
       </div>
 
       <!-- Generate button -->
       <button
         id="li-generate"
-        class="rounded-md bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+        class="btn-primary"
+        style="padding:0.5rem 1.25rem; border-radius:0.5rem; font-size:0.875rem;"
       >Generate</button>
     </div>
   </div>
@@ -68,25 +71,26 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
       id="li-output"
       rows="14"
       readonly
-      class="w-full rounded-lg border border-gray-300 bg-gray-50 p-4 text-base text-gray-700 shadow-sm resize-y focus:outline-none leading-relaxed"
+      class="w-full" style="border-radius:0.5rem; padding:1rem; font-size:1rem; resize:vertical; width:100%; background:#1b1b1d; line-height:1.7;"
     ></textarea>
     <button
       id="li-copy"
-      class="absolute top-3 right-3 rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 transition-colors"
+      class="absolute top-3 right-3"
+      style="background:linear-gradient(135deg,#7189f6,#5c3187); color:#fff; border:none; border-radius:0.375rem; padding:0.375rem 0.75rem; font-size:0.75rem; font-weight:700; cursor:pointer;"
     >Copy</button>
   </div>
 
   <!-- Explanation -->
-  <section class="mt-10 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-    <h2 class="text-xl font-semibold text-gray-800 mb-3">About Lorem Ipsum</h2>
-    <p class="text-sm text-gray-600 mb-3">
+  <section class="glass-card" style="margin-top:2.5rem; padding:1.5rem;">
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">About Lorem Ipsum</h2>
+    <p class="text-sm mb-3" style="color:#c5c5d5;">
       Lorem ipsum dummy text has been the industry's standard placeholder text since the 1500s when an unknown printer scrambled a passage of Cicero's <em>De Finibus Bonorum et Malorum</em>. It remains widely used in graphic design, web development, and publishing to fill layouts without drawing attention to the content itself.
     </p>
-    <ul class="space-y-2 text-sm text-gray-600">
-      <li><span class="font-medium text-gray-700">Paragraphs</span> — 1–20 paragraphs, each 4–8 sentences long.</li>
-      <li><span class="font-medium text-gray-700">Sentences</span> — 1–50 individual sentences.</li>
-      <li><span class="font-medium text-gray-700">Words</span> — 10–500 words in a single block.</li>
-      <li><span class="font-medium text-gray-700">"Lorem ipsum…" opener</span> — when checked, the first output always begins with the classic opening line.</li>
+    <ul class="space-y-2 text-sm" style="color:#c5c5d5;">
+      <li><span style="color:#e4e2e4; font-weight:600;">Paragraphs</span> — 1–20 paragraphs, each 4–8 sentences long.</li>
+      <li><span style="color:#e4e2e4; font-weight:600;">Sentences</span> — 1–50 individual sentences.</li>
+      <li><span style="color:#e4e2e4; font-weight:600;">Words</span> — 10–500 words in a single block.</li>
+      <li><span style="color:#e4e2e4; font-weight:600;">"Lorem ipsum…" opener</span> — when checked, the first output always begins with the classic opening line.</li>
     </ul>
   </section>
 </BaseLayout>

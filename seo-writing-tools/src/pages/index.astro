@@ -8,17 +8,42 @@ const title = 'Free SEO & Writing Tools — No Signup Required'
 const description = 'Fast, free browser-based tools for writers and SEOs. Word counter, readability checker, keyword density analyzer, meta tag generator, and more — real-time results, no data sent to any server.'
 ---
 <BaseLayout title={title} description={description}>
-  <section class="mb-10">
-    <h1 class="text-3xl font-bold text-gray-900 mb-3">Free SEO &amp; Writing Tools</h1>
-    <p class="text-gray-600 text-lg max-w-2xl">
+
+  <!-- Hero -->
+  <section style="margin-bottom:3.5rem;">
+    <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+      <span class="material-symbols-outlined" style="color:#b9c3ff; font-size:1.25rem;">edit_note</span>
+      <span style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.15em; color:#c5c5d5;">SEO &amp; Writing Tools</span>
+    </div>
+    <h1 style="font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; letter-spacing:-0.03em; line-height:1.05; margin:0 0 1.25rem; background:linear-gradient(135deg,#e4e2e4,#b9c3ff); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">
+      Free SEO &amp;<br>Writing Tools
+    </h1>
+    <p style="font-size:1.1rem; color:#c5c5d5; max-width:38rem; line-height:1.65; margin:0;">
       Fast, free tools that run entirely in your browser.
       No signup. No data sent to any server. Real-time results.
     </p>
   </section>
 
+  <!-- Category filter -->
   <CategoryFilter categories={['Writing', 'SEO']} />
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <!-- Tool grid -->
+  <div id="writing" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {tools.map(tool => <ToolCard tool={tool} />)}
   </div>
+
+  <!-- Bottom feature strip -->
+  <section style="margin-top:5rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem;">
+    {[
+      { icon: 'lock', label: 'Privacy First', desc: 'All processing happens in your browser. Nothing is stored or sent.' },
+      { icon: 'bolt', label: 'Instant Results', desc: 'Real-time feedback as you type. No loading spinners.' },
+      { icon: 'payments', label: 'Always Free', desc: 'No paywalls, no hidden limits, no account required.' },
+    ].map(f => (
+      <div style="display:flex; flex-direction:column; gap:0.75rem;">
+        <span class="material-symbols-outlined" style="color:#b9c3ff; font-size:2rem;">{f.icon}</span>
+        <h4 style="font-size:1rem; font-weight:700; color:#e4e2e4; margin:0;">{f.label}</h4>
+        <p style="font-size:0.875rem; color:#c5c5d5; margin:0; line-height:1.5;">{f.desc}</p>
+      </div>
+    ))}
+  </section>
 </BaseLayout>

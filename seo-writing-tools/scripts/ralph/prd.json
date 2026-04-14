@@ -1,0 +1,77 @@
+{
+  "project": "SEO Writing Tools",
+  "branchName": "ralph/ui-ux-polish",
+  "description": "UX and UI Polish based on visual audit findings.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Improve mobile viewport header layout",
+      "description": "As a mobile user, the header links (Writing, SEO) are cramped near the main site title, causing a cluttered header space.",
+      "acceptanceCriteria": [
+        "Header spacing is adjusted on screens under 768px to prevent overlapping and clustering.",
+        "Implement a mobile hamburger menu if spacing cannot be optimized in a single row.",
+        "Check build passes",
+        "Verify functionally in browser"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Provide distinct interactive states for cards",
+      "description": "As a user, hover effects on tool cards are too subtle, making it less clear that they are interactive elements.",
+      "acceptanceCriteria": [
+        "Increase hover shadow depth/elevation for tool cards.",
+        "Add subtle upward translation (e.g. translateY(-2px)) with transition on hover for cards.",
+        "Check build passes",
+        "Verify functionally in browser"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Refine typography and heading weights",
+      "description": "As a user, the typography feels a bit generic. Improving font families, headings weights, and line heights will make the site read better.",
+      "acceptanceCriteria": [
+        "Import and apply a modern sans-serif font (e.g., Inter, Roboto).",
+        "Adjust heading (h1, h2, h3) font-weights and line-heights for better readability.",
+        "Check build passes",
+        "Verify functionally in browser"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Fix accessibility text contrast",
+      "description": "As an accessible user, secondary text elements (like '10th-12th grade' in the readability tool) do not contrast highly enough against their backgrounds.",
+      "acceptanceCriteria": [
+        "Identify and fix low contrast text colors, particularly in the Readability Checker.",
+        "Text and component colors meet WCAG AA contrast ratios.",
+        "Check build passes",
+        "Verify functionally in browser"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Polish Dark Mode Toggle",
+      "description": "As a user, the current dark mode toggle relies on simple emoji (🌙), which breaks the sophisticated visual language.",
+      "acceptanceCriteria": [
+        "Replace text-emoji based toggle with SVG icons representing sun/moon or light/dark.",
+        "Match the toggle styling to the rest of the polished UI.",
+        "Check build passes",
+        "Verify functionally in browser"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": ""
+    }
+  ]
+}

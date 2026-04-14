@@ -9,51 +9,55 @@ const description = tool.description
 const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 ---
 <BaseLayout title={title} description={description} jsonLd={jsonLd} affiliateLinks={affiliates['SEO']}>
-  <nav class="mb-6"><a href="/" class="text-blue-600 hover:text-blue-800 text-sm">← All Tools</a></nav>
-  <h1 class="text-3xl font-bold text-gray-900 mb-3">{tool.title}</h1>
-  <p class="text-gray-600 text-lg mb-6">{tool.description}</p>
+  <nav style="margin-bottom:1.5rem;">
+    <a href="/" style="color:#b9c3ff; text-decoration:none; font-size:0.875rem;">← All Tools</a>
+  </nav>
+  <div style="margin-bottom:2.5rem;">
+    <h1 style="font-size:clamp(2rem,5vw,3rem); font-weight:900; letter-spacing:-0.025em; color:#e4e2e4; margin:0 0 0.75rem;">{tool.title}</h1>
+    <p style="color:#c5c5d5; font-size:1.05rem; margin:0; max-width:36rem; line-height:1.6;">{tool.description}</p>
+  </div>
 
-  <div class="space-y-4 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+  <div class="glass-card space-y-4" style="padding:1.5rem;">
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Page Title <span id="mt-title-count" class="font-normal text-gray-500">0 / 60</span>
+      <label class="block text-sm font-medium mb-1" style="color:#c5c5d5;">
+        Page Title <span id="mt-title-count" class="font-normal" style="color:#8f909e;">0 / 60</span>
       </label>
       <input
         id="mt-title"
         type="text"
         maxlength="100"
         placeholder="Best Running Shoes for Beginners in 2025"
-        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base text-gray-800 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        class="w-full" style="border-radius:0.5rem; padding:0.5rem 0.75rem; font-size:1rem; width:100%;"
       />
     </div>
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">
-        Meta Description <span id="mt-desc-count" class="font-normal text-gray-500">0 / 160</span>
+      <label class="block text-sm font-medium mb-1" style="color:#c5c5d5;">
+        Meta Description <span id="mt-desc-count" class="font-normal" style="color:#8f909e;">0 / 160</span>
       </label>
       <textarea
         id="mt-desc"
         rows="3"
         maxlength="300"
         placeholder="Discover the top-rated running shoes for beginners. Compare cushioning, fit, and durability to find your perfect first pair."
-        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-base text-gray-800 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-none"
+        class="w-full" style="border-radius:0.5rem; padding:0.5rem 0.75rem; font-size:1rem; resize:none; width:100%;"
       ></textarea>
     </div>
   </div>
 
   <div class="mt-6">
-    <h2 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-3">SERP Preview</h2>
-    <div id="mt-serp" class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm max-w-2xl" style="font-family:Arial,sans-serif">
-      <div id="mt-serp-title" class="text-[18px] truncate cursor-pointer" style="color:#1a0dab">Your page title will appear here</div>
-      <div class="text-[13px] my-1" style="color:#006621">https://yoursite.com/page/</div>
-      <div id="mt-serp-desc" class="text-[13px] leading-snug" style="color:#545454;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Your meta description will appear here. Make it compelling and under 160 characters.</div>
+    <h2 class="text-sm font-semibold uppercase tracking-wide mb-3" style="color:#8f909e;">SERP Preview</h2>
+    <div id="mt-serp" class="glass-card max-w-2xl" style="padding:1.25rem; font-family:Arial,sans-serif;">
+      <div id="mt-serp-title" class="text-[18px] truncate cursor-pointer" style="color:#b9c3ff; font-size:1.125rem;">Your page title will appear here</div>
+      <div class="text-[13px] my-1" style="color:#4edea3; font-size:0.8rem;">https://yoursite.com/page/</div>
+      <div id="mt-serp-desc" class="text-[13px] leading-snug" style="color:#c5c5d5;font-size:0.8rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Your meta description will appear here. Make it compelling and under 160 characters.</div>
     </div>
   </div>
 
   <div class="mt-6">
-    <h2 class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-3">Generated Tags</h2>
+    <h2 class="text-sm font-semibold uppercase tracking-wide mb-3" style="color:#8f909e;">Generated Tags</h2>
     <div class="relative">
-      <pre id="mt-output" class="rounded-lg bg-gray-900 text-green-400 text-sm p-4 overflow-x-auto whitespace-pre-wrap min-h-[80px]"></pre>
-      <button id="mt-copy" class="absolute top-2 right-2 rounded-md bg-gray-700 px-3 py-1 text-xs text-gray-200 hover:bg-gray-600">Copy</button>
+      <pre id="mt-output" class="rounded-lg text-sm p-4 overflow-x-auto whitespace-pre-wrap min-h-[80px]" style="background:#0d0d0f; color:#4edea3; border:1px solid rgba(68,70,83,0.4);"></pre>
+      <button id="mt-copy" class="absolute top-2 right-2 rounded-md px-3 py-1 text-xs" style="background:rgba(53,52,55,0.8); color:#c5c5d5; border:1px solid rgba(68,70,83,0.4); cursor:pointer;">Copy</button>
     </div>
   </div>
 
@@ -98,11 +102,11 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     update()
   </script>
 
-  <section class="mt-12 border-t border-gray-200 pt-8 text-gray-600 text-sm leading-relaxed space-y-4">
-    <h2 class="text-xl font-semibold text-gray-800">How to use the Meta Tag Generator</h2>
-    <p>Enter your page title and meta description in the fields above. The live SERP preview shows exactly how your result will appear in Google search. Copy the generated HTML tags and paste them into the <code class="bg-gray-100 px-1 rounded">&lt;head&gt;</code> of your page.</p>
-    <h2 class="text-xl font-semibold text-gray-800">Title and description best practices</h2>
-    <p><strong>Title:</strong> Keep it under 60 characters. Include your primary keyword near the start. Make it descriptive and click-worthy.</p>
-    <p><strong>Description:</strong> Aim for 150–160 characters. Summarize the page value and include a call to action. Google may rewrite it, but a good description improves click-through rates.</p>
+  <section class="glass-card" style="margin-top:2.5rem; padding:1.5rem;">
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">How to use the Meta Tag Generator</h2>
+    <p style="color:#c5c5d5; margin:0 0 1rem;">Enter your page title and meta description in the fields above. The live SERP preview shows exactly how your result will appear in Google search. Copy the generated HTML tags and paste them into the <code style="background:rgba(185,195,255,0.1); border-radius:0.25rem; padding:0.1rem 0.3rem; color:#b9c3ff;">&lt;head&gt;</code> of your page.</p>
+    <h2 style="color:#e4e2e4; font-size:1.125rem; font-weight:600; margin:0 0 0.75rem;">Title and description best practices</h2>
+    <p style="color:#c5c5d5; margin:0 0 0.75rem;"><strong style="color:#e4e2e4;">Title:</strong> Keep it under 60 characters. Include your primary keyword near the start. Make it descriptive and click-worthy.</p>
+    <p style="color:#c5c5d5; margin:0;"><strong style="color:#e4e2e4;">Description:</strong> Aim for 150–160 characters. Summarize the page value and include a call to action. Google may rewrite it, but a good description improves click-through rates.</p>
   </section>
 </BaseLayout>
