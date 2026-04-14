@@ -161,6 +161,15 @@ def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None,
     # ── Weekly timeframe features ─────────────────────────────────────────────
     weekly_trend, weekly_rsi = _weekly_features(df)
 
+    # Volume × price trend confirmation (breakout quality)
+    vol_price_trend = 0.0
+    if len(close) >= 21 and volume is not None and len(volume) >= 21:
+        price_chg_20d = float(close.iloc[-1] / close.iloc[-21]) - 1.0
+        avg_vol_20d   = float(volume.iloc[-21:-1].mean())
+        if avg_vol_20d > 0:
+            vol_ratio_20d   = float(volume.iloc[-1]) / avg_vol_20d
+            vol_price_trend = round(price_chg_20d * vol_ratio_20d, 5)
+
     # ── Market / breadth proxy ────────────────────────────────────────────────
     # % of last 20 bars where close > EMA21 (trend consistency)
     ema21_series = _ema(close, 21)
@@ -181,6 +190,15 @@ def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None,
             nifty_pct_vs_ema200 = round((nifty_last - nifty_ema200) / nifty_ema200, 5)
         # Pass aligned nifty_window (not raw nifty_df) to prevent look-ahead bias
         earn_score = float(_earnings_score(df, nifty_window, signal_date=df.index[-1]) or 0.0)
+
+    # Relative strength: stock outperformance vs Nifty over 20 days
+    stock_rs_vs_nifty = 0.0
+    if nifty_df is not None and not nifty_df.empty and "close" in nifty_df.columns:
+        nifty_window20 = nifty_df[nifty_df.index <= df.index[-1]]
+        if len(nifty_window20) >= 21 and len(close) >= 21:
+            stock_ret_20d  = float(close.iloc[-1] / close.iloc[-21] - 1)
+            nifty_ret_20d  = float(nifty_window20["close"].iloc[-1] / nifty_window20["close"].iloc[-21] - 1)
+            stock_rs_vs_nifty = round(stock_ret_20d - nifty_ret_20d, 5)
 
     # ── Sector momentum feature ───────────────────────────────────────────────
     sector_pct_vs_ema20 = 0.0
@@ -222,6 +240,9 @@ def compute_features(df: pd.DataFrame, nifty_df: pd.DataFrame = None,
         # Weekly timeframe
         "weekly_trend":        weekly_trend,
         "weekly_rsi":          weekly_rsi,
+        # Relative strength
+        "stock_rs_vs_nifty":   stock_rs_vs_nifty,
+        "vol_price_trend":     vol_price_trend,
         # Context (not used as feature, useful for debugging)
         "_price":              round(price, 2),
     }
@@ -236,4 +257,5 @@ FEATURE_COLS = [
     "nifty_above_ema200", "nifty_pct_vs_ema200", "earnings_momentum",
     "sector_pct_vs_ema20",
     "weekly_trend", "weekly_rsi",
+    "stock_rs_vs_nifty", "vol_price_trend",
 ]
