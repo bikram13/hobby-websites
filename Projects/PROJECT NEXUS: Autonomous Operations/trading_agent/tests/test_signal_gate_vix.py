@@ -39,6 +39,7 @@ def _mock_features(nifty_above=1.0):
         "nifty_above_ema200": nifty_above, "nifty_pct_vs_ema200": 0.02,
         "earnings_momentum": 0.0, "sector_pct_vs_ema20": 0.0,
         "weekly_trend": 0.0, "weekly_rsi": 50.0,
+        "stock_rs_vs_nifty": 0.0, "vol_price_trend": 0.0,
     }
 
 
