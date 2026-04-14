@@ -144,4 +144,189 @@ title: "Loan EMI Calculator"
 </div>
 </div>
 
+
+<script>
+(function () {
+  const main = document.querySelector('main');
+
+  // --- Input elements ---
+  const sliders     = main.querySelectorAll('input[type="range"]');
+  const amtSlider   = sliders[0];   // Loan Amount slider
+  const rateSlider  = sliders[1];   // Interest Rate slider
+  const tenureSlider = sliders[2];  // Tenure slider
+
+  // Text inputs (3 of them)
+  const textInputs   = main.querySelectorAll('input[type="text"]');
+  const amtText      = textInputs[0];   // "50,000"
+  const rateText     = textInputs[1];   // "8.5"
+  const tenureText   = textInputs[2];   // "5"
+
+  // Tenure display span ("5 Years")
+  const tenureDisplay = main.querySelector('.text-on-surface.font-bold.text-lg');
+
+  // Years / Months toggle buttons
+  const tenureToggle  = main.querySelector('.flex.bg-surface-container-highest.rounded-full.p-1');
+  const yearsBtn      = tenureToggle.querySelectorAll('button')[0];
+  const monthsBtn     = tenureToggle.querySelectorAll('button')[1];
+
+  // --- Result display elements ---
+  // Monthly EMI
+  const emiEl       = main.querySelector('.text-5xl.font-black.text-primary');
+  // The stats block
+  const statPs      = main.querySelectorAll('.font-bold');
+  // We identify them by sibling context:
+  // "Principal Amount" p.font-bold -> right sibling of the dot+label div
+  const resultsBlock = main.querySelector('.bg-surface-container-low\\/50');
+  const statEls      = resultsBlock.querySelectorAll('p.font-bold');
+  // statEls[0] = Principal Amount value
+  // statEls[1] = Total Interest value
+  // statEls[2] = Total Payment value
+  const principalEl  = statEls[0];
+  const interestEl   = statEls[1];
+  const totalEl      = statEls[2];
+
+  // Distribution bar
+  const bars         = main.querySelectorAll('.h-full.rounded-full');
+  const principalBar = bars[0];
+  const interestBar  = bars[1];
+
+  // Distribution labels
+  const distLabels   = main.querySelectorAll('.flex.gap-6 span.text-xs.text-on-surface-variant');
+  const principalPctLabel = distLabels[0];
+  const interestPctLabel  = distLabels[1];
+
+  // State
+  let tenureInYears = true;
+
+  function fmt(num) {
+    return '₹' + Math.round(num).toLocaleString('en-IN');
+  }
+
+  function fmtDecimal(num) {
+    return '₹' + num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function parseAmount(str) {
+    return parseFloat(str.replace(/,/g, '')) || 0;
+  }
+
+  function calculate() {
+    const P = parseAmount(amtText.value);
+    const annualRate = parseFloat(rateText.value) || 0;
+    const tenureVal  = parseFloat(tenureText.value) || 0;
+    const n = tenureInYears ? tenureVal * 12 : tenureVal;   // months
+    const r = annualRate / 12 / 100;
+
+    let emi, totalPayment, totalInterest;
+
+    if (r === 0 || annualRate === 0) {
+      // Zero interest
+      emi          = n > 0 ? P / n : 0;
+      totalPayment = P;
+      totalInterest = 0;
+    } else {
+      const pow    = Math.pow(1 + r, n);
+      emi          = P * r * pow / (pow - 1);
+      totalPayment = emi * n;
+      totalInterest = totalPayment - P;
+    }
+
+    // Update EMI display
+    if (emiEl) emiEl.textContent = fmtDecimal(emi);
+
+    // Update breakdown
+    if (principalEl) principalEl.textContent = fmt(P);
+    if (interestEl)  interestEl.textContent  = fmtDecimal(totalInterest);
+    if (totalEl)     totalEl.textContent     = fmtDecimal(totalPayment);
+
+    // Distribution bar
+    const principalPct = totalPayment > 0 ? (P / totalPayment) * 100 : 100;
+    const interestPct  = 100 - principalPct;
+    if (principalBar) principalBar.style.width = principalPct.toFixed(1) + '%';
+    if (interestBar)  interestBar.style.width  = Math.max(0, interestPct - 1).toFixed(1) + '%';
+    if (principalPctLabel) principalPctLabel.textContent = principalPct.toFixed(1) + '% Principal';
+    if (interestPctLabel)  interestPctLabel.textContent  = interestPct.toFixed(1) + '% Interest';
+  }
+
+  function syncAmountSlider() {
+    const raw = parseAmount(amtText.value);
+    if (!isNaN(raw)) {
+      amtSlider.value = Math.min(Math.max(raw, +amtSlider.min), +amtSlider.max);
+    }
+  }
+
+  function syncRateSlider() {
+    const raw = parseFloat(rateText.value);
+    if (!isNaN(raw)) {
+      rateSlider.value = Math.min(Math.max(raw, +rateSlider.min), +rateSlider.max);
+    }
+  }
+
+  function syncTenureSlider() {
+    const raw = parseFloat(tenureText.value);
+    if (!isNaN(raw)) {
+      tenureSlider.value = Math.min(Math.max(raw, +tenureSlider.min), +tenureSlider.max);
+      if (tenureDisplay) {
+        const unit = tenureInYears ? 'Years' : 'Months';
+        tenureDisplay.innerHTML = raw + ' <span class="text-xs text-on-surface-variant font-normal">' + unit + '</span>';
+      }
+    }
+  }
+
+  // Slider → text input sync
+  amtSlider.addEventListener('input', function () {
+    const v = parseInt(amtSlider.value);
+    amtText.value = v.toLocaleString('en-IN');
+    calculate();
+  });
+
+  rateSlider.addEventListener('input', function () {
+    rateText.value = rateSlider.value;
+    calculate();
+  });
+
+  tenureSlider.addEventListener('input', function () {
+    tenureText.value = tenureSlider.value;
+    const unit = tenureInYears ? 'Years' : 'Months';
+    if (tenureDisplay) {
+      tenureDisplay.innerHTML = tenureSlider.value + ' <span class="text-xs text-on-surface-variant font-normal">' + unit + '</span>';
+    }
+    calculate();
+  });
+
+  // Text input → slider sync
+  amtText.addEventListener('input', function () { syncAmountSlider(); calculate(); });
+  rateText.addEventListener('input', function () { syncRateSlider();  calculate(); });
+  tenureText.addEventListener('input', function () { syncTenureSlider(); calculate(); });
+
+  // Tenure toggle
+  function setTenureMode(isYears) {
+    tenureInYears = isYears;
+    if (isYears) {
+      yearsBtn.classList.add('bg-primary', 'text-on-primary');
+      yearsBtn.classList.remove('text-on-surface-variant');
+      monthsBtn.classList.remove('bg-primary', 'text-on-primary');
+      monthsBtn.classList.add('text-on-surface-variant');
+      tenureSlider.max  = 30;
+      tenureSlider.min  = 1;
+      if (parseFloat(tenureText.value) > 30) tenureText.value = 30;
+    } else {
+      monthsBtn.classList.add('bg-primary', 'text-on-primary');
+      monthsBtn.classList.remove('text-on-surface-variant');
+      yearsBtn.classList.remove('bg-primary', 'text-on-primary');
+      yearsBtn.classList.add('text-on-surface-variant');
+      tenureSlider.max  = 360;
+      tenureSlider.min  = 1;
+    }
+    syncTenureSlider();
+    calculate();
+  }
+
+  yearsBtn.addEventListener('click', function () { setTenureMode(true); });
+  monthsBtn.addEventListener('click', function () { setTenureMode(false); });
+
+  // Initial render
+  calculate();
+})();
+</script>
 </main>

@@ -20,8 +20,10 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     class="w-full rounded-lg border border-gray-300 bg-white p-4 text-base text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 resize-y"
   ></textarea>
 
+  <p id="rc-hint" class="mt-4 text-sm text-gray-400 italic">Paste text above to analyze</p>
+
   <!-- Score cards -->
-  <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+  <div class="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
     <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
       <p class="text-sm font-semibold uppercase tracking-wide text-gray-500 mb-1">Flesch Reading Ease</p>
       <p id="rc-ease-score" class="text-4xl font-bold text-blue-600">—</p>
@@ -85,6 +87,7 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 
 <script>
   const input = document.getElementById('rc-input') as HTMLTextAreaElement
+  const elHint            = document.getElementById('rc-hint')!
 
   const elEaseScore       = document.getElementById('rc-ease-score')!
   const elEaseLabel       = document.getElementById('rc-ease-label')!
