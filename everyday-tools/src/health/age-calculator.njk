@@ -26,17 +26,17 @@ title: "Age Calculator"
 <div class="space-y-2">
 <label class="block text-sm font-medium text-on-surface-variant ml-1">Date of Birth</label>
 <div class="relative">
-<input class="w-full bg-surface-container-highest border-none rounded-2xl py-4 px-6 text-on-surface focus:ring-0 focus:border-b focus:border-primary transition-all" type="date" value="1995-06-15"/>
+<input id="ac-dob" class="w-full bg-surface-container-highest border-none rounded-2xl py-4 px-6 text-on-surface focus:ring-0 focus:border-b focus:border-primary transition-all" type="date" value="1995-06-15"/>
 </div>
 </div>
 <div class="space-y-2">
 <label class="block text-sm font-medium text-on-surface-variant ml-1">Target Date</label>
 <div class="relative">
-<input class="w-full bg-surface-container-highest border-none rounded-2xl py-4 px-6 text-on-surface focus:ring-0 focus:border-b focus:border-primary transition-all" type="date" value="2024-05-20"/>
+<input id="ac-target" class="w-full bg-surface-container-highest border-none rounded-2xl py-4 px-6 text-on-surface focus:ring-0 focus:border-b focus:border-primary transition-all" type="date"/>
 </div>
 </div>
 </div>
-<button class="w-full hero-gradient py-4 rounded-2xl text-on-primary-container font-bold text-lg hover:shadow-[0_0_30px_rgba(185,195,255,0.3)] active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
+<button id="ac-calc-btn" class="w-full hero-gradient py-4 rounded-2xl text-on-primary-container font-bold text-lg hover:shadow-[0_0_30px_rgba(185,195,255,0.3)] active:scale-[0.98] transition-all flex items-center justify-center space-x-2">
 <span>Calculate Chronology</span>
 <span class="material-symbols-outlined" data-icon="hourglass_empty">hourglass_empty</span>
 </button>
@@ -65,15 +65,15 @@ title: "Age Calculator"
 <!-- Age Main Display -->
 <div class="grid grid-cols-3 gap-4">
 <div class="text-center p-6 bg-surface-container-low rounded-3xl border border-outline-variant/10">
-<div class="text-4xl md:text-5xl font-black text-on-surface tracking-tighter">28</div>
+<div id="ac-years" class="text-4xl md:text-5xl font-black text-on-surface tracking-tighter">—</div>
 <div class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mt-2">Years</div>
 </div>
 <div class="text-center p-6 bg-surface-container-low rounded-3xl border border-outline-variant/10">
-<div class="text-4xl md:text-5xl font-black text-on-surface tracking-tighter">11</div>
+<div id="ac-months" class="text-4xl md:text-5xl font-black text-on-surface tracking-tighter">—</div>
 <div class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mt-2">Months</div>
 </div>
 <div class="text-center p-6 bg-surface-container-low rounded-3xl border border-outline-variant/10">
-<div class="text-4xl md:text-5xl font-black text-on-surface tracking-tighter">05</div>
+<div id="ac-days" class="text-4xl md:text-5xl font-black text-on-surface tracking-tighter">—</div>
 <div class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mt-2">Days</div>
 </div>
 </div>
@@ -82,14 +82,14 @@ title: "Age Calculator"
 <div class="glass-panel p-6 rounded-2xl flex justify-between items-center bg-white/5">
 <div class="space-y-1">
 <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Total Months</p>
-<p class="text-2xl font-bold text-on-surface">347</p>
+<p id="ac-total-months" class="text-2xl font-bold text-on-surface">—</p>
 </div>
 <span class="material-symbols-outlined text-tertiary" data-icon="calendar_view_month">calendar_view_month</span>
 </div>
 <div class="glass-panel p-6 rounded-2xl flex justify-between items-center bg-white/5">
 <div class="space-y-1">
 <p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Total Days</p>
-<p class="text-2xl font-bold text-on-surface">10,568</p>
+<p id="ac-total-days" class="text-2xl font-bold text-on-surface">—</p>
 </div>
 <span class="material-symbols-outlined text-tertiary" data-icon="event_note">event_note</span>
 </div>
@@ -106,11 +106,11 @@ title: "Age Calculator"
 </div>
 </div>
 <div class="flex items-end space-x-2">
-<span class="text-5xl font-black text-indigo-300 tracking-tighter leading-none">26</span>
+<span id="ac-bday-days" class="text-5xl font-black text-indigo-300 tracking-tighter leading-none">—</span>
 <span class="text-indigo-400 font-bold mb-1">Days Remaining</span>
 </div>
 <div class="mt-6 w-full h-2 bg-indigo-950 rounded-full overflow-hidden">
-<div class="h-full bg-indigo-400 w-[92%] rounded-full shadow-[0_0_10px_rgba(129,140,248,0.5)]"></div>
+<div id="ac-bday-bar" class="h-full bg-indigo-400 rounded-full shadow-[0_0_10px_rgba(129,140,248,0.5)]" style="width:0%"></div>
 </div>
 </div>
 </div>
@@ -136,3 +136,106 @@ title: "Age Calculator"
 </div>
 
 </main>
+
+<script>
+(function () {
+  'use strict';
+
+  // Set target date default to today
+  var todayISO = new Date().toISOString().slice(0, 10);
+  document.getElementById('ac-target').value = todayISO;
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function calcAge(dobStr, targetStr) {
+    if (!dobStr || !targetStr) return null;
+
+    // Parse as local dates (avoid UTC offset issues)
+    var dobParts    = dobStr.split('-').map(Number);
+    var targetParts = targetStr.split('-').map(Number);
+
+    var dob    = new Date(dobParts[0], dobParts[1] - 1, dobParts[2]);
+    var target = new Date(targetParts[0], targetParts[1] - 1, targetParts[2]);
+
+    if (isNaN(dob) || isNaN(target) || target < dob) return null;
+
+    // Total days
+    var msPerDay  = 86400000;
+    var totalDays = Math.floor((target - dob) / msPerDay);
+
+    // Years / months / days — careful end-of-month handling
+    var years  = target.getFullYear() - dob.getFullYear();
+    var months = target.getMonth() - dob.getMonth();
+    var days   = target.getDate() - dob.getDate();
+
+    if (days < 0) {
+      months -= 1;
+      // How many days in the previous month of target?
+      var prevMonth = new Date(target.getFullYear(), target.getMonth(), 0);
+      days += prevMonth.getDate();
+    }
+    if (months < 0) {
+      years  -= 1;
+      months += 12;
+    }
+
+    var totalMonths = years * 12 + months;
+
+    // Next birthday from DOB using target year
+    var bdayThisYear = new Date(target.getFullYear(), dob.getMonth(), dob.getDate());
+    var nextBday, prevBday;
+    if (bdayThisYear >= target) {
+      nextBday = bdayThisYear;
+      prevBday = new Date(target.getFullYear() - 1, dob.getMonth(), dob.getDate());
+    } else {
+      nextBday = new Date(target.getFullYear() + 1, dob.getMonth(), dob.getDate());
+      prevBday = bdayThisYear;
+    }
+
+    var daysUntilBday = Math.round((nextBday - target) / msPerDay);
+    // progress in current year (0=birthday, 1=full year remaining)
+    var yearMs = nextBday - prevBday;
+    var elapsed = target - prevBday;
+    var bdayPct = Math.max(0, Math.min(100, Math.round((elapsed / yearMs) * 100)));
+
+    return {
+      years: years,
+      months: months,
+      days: days,
+      totalDays: totalDays,
+      totalMonths: totalMonths,
+      daysUntilBday: daysUntilBday,
+      bdayPct: bdayPct
+    };
+  }
+
+  function calculate() {
+    var dob    = document.getElementById('ac-dob').value;
+    var target = document.getElementById('ac-target').value;
+    var r = calcAge(dob, target);
+
+    if (!r) {
+      ['ac-years','ac-months','ac-days','ac-total-months','ac-total-days','ac-bday-days'].forEach(function (id) {
+        document.getElementById(id).textContent = '—';
+      });
+      document.getElementById('ac-bday-bar').style.width = '0%';
+      return;
+    }
+
+    document.getElementById('ac-years').textContent       = r.years;
+    document.getElementById('ac-months').textContent      = pad(r.months);
+    document.getElementById('ac-days').textContent        = pad(r.days);
+    document.getElementById('ac-total-months').textContent = r.totalMonths.toLocaleString();
+    document.getElementById('ac-total-days').textContent   = r.totalDays.toLocaleString();
+    document.getElementById('ac-bday-days').textContent    = r.daysUntilBday;
+    document.getElementById('ac-bday-bar').style.width     = r.bdayPct + '%';
+  }
+
+  document.getElementById('ac-dob').addEventListener('change', calculate);
+  document.getElementById('ac-target').addEventListener('change', calculate);
+  document.getElementById('ac-calc-btn').addEventListener('click', calculate);
+
+  // Auto-calculate on load
+  calculate();
+})();
+</script>

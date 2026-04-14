@@ -60,38 +60,38 @@ title: "Time Zone Converter"
 <h3 class="text-xl font-bold mb-6">Add Time Zone</h3>
 <div class="relative mb-6">
 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-<input class="w-full bg-surface-container-highest rounded-lg py-3 pl-12 pr-4 text-sm focus:ring-1 focus:ring-primary border-none shadow-inner" placeholder="Search city or country..." type="text"/>
+<input id="tz-search" class="w-full bg-surface-container-highest rounded-lg py-3 pl-12 pr-4 text-sm focus:ring-1 focus:ring-primary border-none shadow-inner" placeholder="Search city or timezone..." type="text"/>
 </div>
-<div class="space-y-3">
-<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-colors border border-white/5 group">
+<div id="tz-list" class="space-y-3">
+<div class="tz-list-item flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-colors border border-white/5 group" data-tz="America/New_York" data-label="New York, NY">
 <div class="flex items-center space-x-3">
 <span class="material-symbols-outlined text-primary group-hover:rotate-12 transition-transform">schedule</span>
 <div>
 <p class="text-sm font-bold">New York, NY</p>
-<p class="text-xs text-on-surface-variant">EDT (GMT-4)</p>
+<p class="tz-abbr text-xs text-on-surface-variant">EST</p>
 </div>
 </div>
-<span class="text-sm font-medium">1:42 PM</span>
+<span class="tz-time text-sm font-medium">—</span>
 </div>
-<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-colors border border-white/5 group">
+<div class="tz-list-item flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-colors border border-white/5 group" data-tz="Europe/London" data-label="London, UK">
 <div class="flex items-center space-x-3">
 <span class="material-symbols-outlined text-primary group-hover:rotate-12 transition-transform">schedule</span>
 <div>
 <p class="text-sm font-bold">London, UK</p>
-<p class="text-xs text-on-surface-variant">BST (GMT+1)</p>
+<p class="tz-abbr text-xs text-on-surface-variant">GMT</p>
 </div>
 </div>
-<span class="text-sm font-medium">6:42 PM</span>
+<span class="tz-time text-sm font-medium">—</span>
 </div>
-<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-colors border border-white/5 group">
+<div class="tz-list-item flex items-center justify-between p-3 rounded-lg bg-surface-container-low hover:bg-surface-container-high cursor-pointer transition-colors border border-white/5 group" data-tz="Asia/Tokyo" data-label="Tokyo, JP">
 <div class="flex items-center space-x-3">
 <span class="material-symbols-outlined text-primary group-hover:rotate-12 transition-transform">schedule</span>
 <div>
 <p class="text-sm font-bold">Tokyo, JP</p>
-<p class="text-xs text-on-surface-variant">JST (GMT+9)</p>
+<p class="tz-abbr text-xs text-on-surface-variant">JST</p>
 </div>
 </div>
-<span class="text-sm font-medium">2:42 AM</span>
+<span class="tz-time text-sm font-medium">—</span>
 </div>
 </div>
 <button class="w-full mt-6 py-4 rounded-xl bg-gradient-to-r from-primary-container to-secondary text-on-primary-container font-bold shadow-lg hover:shadow-primary/20 active:scale-95 transition-all">
@@ -119,37 +119,138 @@ title: "Time Zone Converter"
 <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-4 gap-6">
 <div class="glass-panel p-6 rounded-xl border-l-4 border-primary">
 <p class="text-xs font-bold text-primary uppercase mb-2">Dubai, UAE</p>
-<div class="text-3xl font-bold">9:42 PM</div>
+<div id="tz-dubai" class="text-3xl font-bold">—</div>
 <div class="flex items-center space-x-2 text-xs text-on-surface-variant mt-2">
 <span class="material-symbols-outlined text-sm">wb_twilight</span>
-<span>Night Owl</span>
+<span id="tz-dubai-label">—</span>
 </div>
 </div>
 <div class="glass-panel p-6 rounded-xl border-l-4 border-secondary">
 <p class="text-xs font-bold text-secondary uppercase mb-2">Berlin, DE</p>
-<div class="text-3xl font-bold">7:42 PM</div>
+<div id="tz-berlin" class="text-3xl font-bold">—</div>
 <div class="flex items-center space-x-2 text-xs text-on-surface-variant mt-2">
 <span class="material-symbols-outlined text-sm">dinner_dining</span>
-<span>Dinner Time</span>
+<span id="tz-berlin-label">—</span>
 </div>
 </div>
 <div class="glass-panel p-6 rounded-xl border-l-4 border-tertiary">
 <p class="text-xs font-bold text-tertiary uppercase mb-2">Sydney, AU</p>
-<div class="text-3xl font-bold">4:42 AM</div>
+<div id="tz-sydney" class="text-3xl font-bold">—</div>
 <div class="flex items-center space-x-2 text-xs text-on-surface-variant mt-2">
 <span class="material-symbols-outlined text-sm">bedtime</span>
-<span>Sleeping</span>
+<span id="tz-sydney-label">—</span>
 </div>
 </div>
 <div class="glass-panel p-6 rounded-xl border-l-4 border-primary-container">
 <p class="text-xs font-bold text-primary-container uppercase mb-2">Mumbai, IN</p>
-<div class="text-3xl font-bold">11:12 PM</div>
+<div id="tz-mumbai" class="text-3xl font-bold">—</div>
 <div class="flex items-center space-x-2 text-xs text-on-surface-variant mt-2">
 <span class="material-symbols-outlined text-sm">nights_stay</span>
-<span>Late Night</span>
+<span id="tz-mumbai-label">—</span>
 </div>
 </div>
 </div>
 </div>
 
 </main>
+
+<script>
+(function () {
+  'use strict';
+
+  function fmt(tz, opts) {
+    return new Intl.DateTimeFormat('en-US', Object.assign({ timeZone: tz }, opts));
+  }
+
+  function timeStr(tz) {
+    return fmt(tz, { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true }).format(new Date());
+  }
+
+  function shortTimeStr(tz) {
+    return fmt(tz, { hour: 'numeric', minute: '2-digit', hour12: true }).format(new Date());
+  }
+
+  function dateStr(tz) {
+    return fmt(tz, { weekday: 'long', month: 'short', day: 'numeric' }).format(new Date());
+  }
+
+  function hourOf(tz) {
+    return parseInt(fmt(tz, { hour: 'numeric', hour12: false }).format(new Date()), 10);
+  }
+
+  function timeLabel(tz) {
+    var h = hourOf(tz);
+    if (h >= 22 || h < 5)  return 'Night Owl';
+    if (h >= 5  && h < 9)  return 'Early Bird';
+    if (h >= 9  && h < 12) return 'Morning';
+    if (h >= 12 && h < 14) return 'Midday';
+    if (h >= 14 && h < 18) return 'Afternoon';
+    if (h >= 18 && h < 21) return 'Evening';
+    return 'Late Night';
+  }
+
+  function offsetStr(tz) {
+    // e.g. "PDT (GMT-7)"
+    var parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: tz,
+      timeZoneName: 'short'
+    }).formatToParts(new Date());
+    var abbr = (parts.find(function (p) { return p.type === 'timeZoneName'; }) || {}).value || '';
+    var offsetMs = -new Date().getTimezoneOffset() * 60000;
+    var now = new Date();
+    var localOff = now.getTimezoneOffset();
+    // Get actual UTC offset for the tz via formatting trick
+    var utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
+    var tzDate  = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+    var diffHrs = (tzDate - utcDate) / 3600000;
+    var sign = diffHrs >= 0 ? '+' : '-';
+    var absH = Math.floor(Math.abs(diffHrs));
+    var absM = Math.round((Math.abs(diffHrs) - absH) * 60);
+    var gmtPart = 'GMT' + sign + absH + (absM ? ':' + String(absM).padStart(2,'0') : '');
+    return abbr + ' (' + gmtPart + ')';
+  }
+
+  // Update all clocks
+  function tick() {
+    // SF hero
+    document.getElementById('tz-sf-time').textContent = timeStr('America/Los_Angeles');
+    document.getElementById('tz-sf-date').textContent = dateStr('America/Los_Angeles');
+    document.getElementById('tz-sf-offset').textContent = offsetStr('America/Los_Angeles');
+
+    // Map tooltips
+    document.getElementById('tz-map-sf').textContent     = 'SF ' + shortTimeStr('America/Los_Angeles');
+    document.getElementById('tz-map-london').textContent = 'London ' + shortTimeStr('Europe/London');
+    document.getElementById('tz-map-tokyo').textContent  = 'Tokyo ' + shortTimeStr('Asia/Tokyo');
+
+    // Sidebar list items
+    document.querySelectorAll('.tz-list-item').forEach(function (el) {
+      var tz = el.dataset.tz;
+      el.querySelector('.tz-time').textContent = shortTimeStr(tz);
+      el.querySelector('.tz-abbr').textContent = offsetStr(tz);
+    });
+
+    // Comparison grid
+    document.getElementById('tz-dubai').textContent        = shortTimeStr('Asia/Dubai');
+    document.getElementById('tz-dubai-label').textContent  = timeLabel('Asia/Dubai');
+    document.getElementById('tz-berlin').textContent       = shortTimeStr('Europe/Berlin');
+    document.getElementById('tz-berlin-label').textContent = timeLabel('Europe/Berlin');
+    document.getElementById('tz-sydney').textContent       = shortTimeStr('Australia/Sydney');
+    document.getElementById('tz-sydney-label').textContent = timeLabel('Australia/Sydney');
+    document.getElementById('tz-mumbai').textContent       = shortTimeStr('Asia/Kolkata');
+    document.getElementById('tz-mumbai-label').textContent = timeLabel('Asia/Kolkata');
+  }
+
+  // Search / filter sidebar list
+  document.getElementById('tz-search').addEventListener('input', function () {
+    var q = this.value.toLowerCase().trim();
+    document.querySelectorAll('.tz-list-item').forEach(function (el) {
+      var label = (el.dataset.label || '').toLowerCase();
+      var tz    = (el.dataset.tz   || '').toLowerCase();
+      el.style.display = (!q || label.includes(q) || tz.includes(q)) ? '' : 'none';
+    });
+  });
+
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
