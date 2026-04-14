@@ -109,13 +109,24 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
 
   function apply(caseType: string) {
     const text = input.value
-    const converted = converters[caseType]?.(text) ?? text
+    if (!converters[caseType]) {
+      output.value = ''
+      output.placeholder = `Unknown case type: "${caseType}"`
+      return
+    }
+    const converted = converters[caseType](text)
     output.value = converted
     updateStats(converted)
   }
 
-  // Update stats as user types
-  input.addEventListener('input', () => updateStats(input.value))
+  // localStorage persistence
+  const LS_KEY = 'cc-input'
+  const saved = localStorage.getItem(LS_KEY)
+  if (saved) { input.value = saved; updateStats(saved) }
+  input.addEventListener('input', () => {
+    localStorage.setItem(LS_KEY, input.value)
+    updateStats(input.value)
+  })
 
   // Case buttons
   document.querySelectorAll<HTMLButtonElement>('.cc-btn').forEach(btn => {
@@ -144,6 +155,6 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     setTimeout(() => {
       copyBtn.textContent = 'Copy'
       copyBtn.classList.replace('bg-green-600', 'bg-blue-600')
-    }, 1800)
+    }, 1500)
   })
 </script>

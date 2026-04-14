@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, useRef } from "react"
+import { useState, useCallback, useRef, useEffect } from "react"
 import { ResumeForm } from "@/components/resume/ResumeForm"
 import { ResumePreview } from "@/components/resume/ResumePreview"
 import type { ResumeContent } from "@/components/resume/types"
@@ -32,6 +32,18 @@ export function ResumeEditor({ id, initialTitle, initialTemplate, initialContent
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(true)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Warn the user before leaving the page if there are unsaved changes
+  useEffect(() => {
+    function onBeforeUnload(e: BeforeUnloadEvent) {
+      if (!saved) {
+        e.preventDefault()
+        e.returnValue = ""
+      }
+    }
+    window.addEventListener("beforeunload", onBeforeUnload)
+    return () => window.removeEventListener("beforeunload", onBeforeUnload)
+  }, [saved])
 
   const save = useCallback(
     async (patch: { title?: string; template?: string; content?: ResumeContent }) => {

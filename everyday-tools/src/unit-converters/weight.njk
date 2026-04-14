@@ -167,4 +167,75 @@ title: "Weight Converter"
 </div>
 </section>
 
+
+<script>
+(function () {
+  // Conversion factors to kilograms (base unit)
+  const toKg = {
+    'Kilograms (kg)':    1,
+    'Pounds (lb)':       0.45359237,
+    'Grams (g)':         0.001,
+    'Ounces (oz)':       0.028349523125,
+    'Metric Tons (t)':   1000,
+    'Stone (st)':        6.35029318
+  };
+
+  const unitLabel = {
+    'Kilograms (kg)': 'kg',
+    'Pounds (lb)':    'lb',
+    'Grams (g)':      'g',
+    'Ounces (oz)':    'oz',
+    'Metric Tons (t)':'t',
+    'Stone (st)':     'st'
+  };
+
+  const main       = document.querySelector('main');
+  const valueInput = main.querySelector('input[type="number"]');
+  const selects    = main.querySelectorAll('select');
+  const fromSelect = selects[0];
+  const toSelect   = selects[1];
+
+  // Result display: "0.453592 <span ...>kg</span>"
+  const resultWrapper = main.querySelector('.text-tertiary');
+  const resultSpan    = resultWrapper.querySelector('span');
+
+  // Formula text
+  const formulaEl = main.querySelector('.font-label');
+
+  const swapBtn = main.querySelector('button.rounded-full');
+
+  function convert() {
+    const val = parseFloat(valueInput.value);
+    if (isNaN(val)) {
+      resultWrapper.childNodes[0].textContent = '— ';
+      resultSpan.textContent = '';
+      return;
+    }
+    const from   = fromSelect.value;
+    const to     = toSelect.value;
+    const kg     = val * toKg[from];
+    const result = kg / toKg[to];
+    const formatted = parseFloat(result.toPrecision(8)).toString();
+    // The result span contains "0.453592 <span>kg</span>"
+    // Set via childNodes[0] for the number text node
+    resultWrapper.childNodes[0].textContent = formatted + ' ';
+    resultSpan.textContent = unitLabel[to] || to;
+    if (formulaEl) formulaEl.textContent = 'Formula: ' + val + ' ' + unitLabel[from] + ' → ' + formatted + ' ' + unitLabel[to];
+  }
+
+  valueInput.addEventListener('input', convert);
+  fromSelect.addEventListener('change', convert);
+  toSelect.addEventListener('change', convert);
+
+  swapBtn.addEventListener('click', function () {
+    const fromVal = fromSelect.value;
+    fromSelect.value = toSelect.value;
+    toSelect.value   = fromVal;
+    convert();
+  });
+
+  // Initial calculation
+  convert();
+})();
+</script>
 </main>

@@ -179,5 +179,12 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     elTotalSentences.textContent = sentenceCount.toString()
   }
 
-  input.addEventListener('input', update)
+  // localStorage persistence
+  const LS_KEY = 'rc-input'
+  const saved = localStorage.getItem(LS_KEY)
+  if (saved) { input.value = saved; update() }
+  input.addEventListener('input', () => {
+    localStorage.setItem(LS_KEY, input.value)
+    update()
+  })
 </script>

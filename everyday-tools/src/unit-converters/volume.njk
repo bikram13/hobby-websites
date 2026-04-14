@@ -135,4 +135,110 @@ title: "Volume Converter"
 </div>
 </section>
 
+
+<script>
+(function () {
+  // Conversion factors to litres (base unit)
+  const toLitres = {
+    'Liters':       1,
+    'Milliliters':  0.001,
+    'Gallons (US)': 3.785411784,
+    'Quarts':       0.946352946,
+    'Cups':         0.2365882365,
+    'Fluid Ounces': 0.0295735296
+  };
+
+  // Map button label text to unit key
+  function labelToKey(text) {
+    const t = text.trim();
+    if (t === 'Liters')       return 'Liters';
+    if (t === 'Milliliters')  return 'Milliliters';
+    if (t === 'Gallons (US)') return 'Gallons (US)';
+    if (t === 'Quarts')       return 'Quarts';
+    if (t === 'Cups')         return 'Cups';
+    if (t === 'Fluid Ounces') return 'Fluid Ounces';
+    return t;
+  }
+
+  // Short labels for result display
+  const shortLabel = {
+    'Liters':       'L',
+    'Milliliters':  'mL',
+    'Gallons (US)': 'gal',
+    'Quarts':       'qt',
+    'Cups':         'cup',
+    'Fluid Ounces': 'fl oz'
+  };
+
+  const main       = document.querySelector('main');
+  const valueInput = main.querySelector('input[type="number"]');
+
+  // The two grid groups of buttons
+  const btnGrids   = main.querySelectorAll('.grid.grid-cols-2.gap-2');
+  const fromBtns   = Array.from(btnGrids[0].querySelectorAll('button'));
+  const toBtns     = Array.from(btnGrids[1].querySelectorAll('button'));
+
+  // Result: big number + unit label
+  const resultNumber = main.querySelector('.text-6xl');
+  const resultUnit   = main.querySelector('.text-xl.font-medium.text-secondary');
+
+  // Active / inactive styles
+  const activeFromClass   = ['bg-primary/10', 'border', 'border-primary/30', 'text-primary'];
+  const activeToClass     = ['bg-secondary/10', 'border', 'border-secondary/30', 'text-secondary'];
+  const inactiveClass     = ['bg-surface-container-highest/50', 'text-on-surface-variant'];
+
+  let fromUnit = 'Liters';
+  let toUnit   = 'Gallons (US)';
+
+  function setActive(btns, selectedText, activeClasses) {
+    btns.forEach(function (btn) {
+      const key = labelToKey(btn.textContent);
+      // Remove all possible state classes
+      btn.classList.remove('bg-primary/10', 'border', 'border-primary/30', 'text-primary',
+                           'bg-secondary/10', 'border-secondary/30', 'text-secondary',
+                           'bg-surface-container-highest/50', 'text-on-surface-variant',
+                           'font-semibold', 'font-medium');
+      if (key === selectedText) {
+        activeClasses.forEach(function (c) { btn.classList.add(c); });
+        btn.classList.add('font-semibold');
+      } else {
+        inactiveClass.forEach(function (c) { btn.classList.add(c); });
+        btn.classList.add('font-medium');
+      }
+    });
+  }
+
+  function convert() {
+    const val = parseFloat(valueInput.value);
+    if (isNaN(val)) { resultNumber.textContent = '—'; resultUnit.textContent = ''; return; }
+    const litres = val * toLitres[fromUnit];
+    const result = litres / toLitres[toUnit];
+    resultNumber.textContent = parseFloat(result.toPrecision(8)).toString();
+    resultUnit.textContent   = shortLabel[toUnit] || toUnit;
+  }
+
+  fromBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      fromUnit = labelToKey(btn.textContent);
+      setActive(fromBtns, fromUnit, activeFromClass);
+      convert();
+    });
+  });
+
+  toBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      toUnit = labelToKey(btn.textContent);
+      setActive(toBtns, toUnit, activeToClass);
+      convert();
+    });
+  });
+
+  valueInput.addEventListener('input', convert);
+
+  // Initialise active states
+  setActive(fromBtns, fromUnit, activeFromClass);
+  setActive(toBtns, toUnit, activeToClass);
+  convert();
+})();
+</script>
 </main>

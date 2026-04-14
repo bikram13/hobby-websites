@@ -126,4 +126,76 @@ title: "Length Converter"
 </div>
 </div>
 
+
+<script>
+(function () {
+  // Conversion factors to metres (base unit)
+  const toMetres = {
+    'Meters (m)': 1,
+    'Kilometers (km)': 1000,
+    'Centimeters (cm)': 0.01,
+    'Millimeters (mm)': 0.001,
+    'Miles (mi)': 1609.344,
+    'Feet (ft)': 0.3048,
+    'Inches (in)': 0.0254,
+    'Yards (yd)': 0.9144
+  };
+
+  // Short label map
+  const unitLabel = {
+    'Meters (m)': 'Meters',
+    'Kilometers (km)': 'Kilometers',
+    'Centimeters (cm)': 'Centimeters',
+    'Millimeters (mm)': 'Millimeters',
+    'Miles (mi)': 'Miles',
+    'Feet (ft)': 'Feet',
+    'Inches (in)': 'Inches',
+    'Yards (yd)': 'Yards'
+  };
+
+  const main = document.querySelector('main');
+  const valueInput  = main.querySelector('input[type="number"]');
+  const selects     = main.querySelectorAll('select');
+  const fromSelect  = selects[0];
+  const toSelect    = selects[1];
+  const swapBtn     = main.querySelector('button .material-symbols-outlined[data-icon="swap_horiz"]').closest('button');
+  const resultValue = main.querySelector('.text-secondary');
+  const resultLabel = resultValue.nextElementSibling;
+  const copyBtn     = main.querySelector('button .material-symbols-outlined[data-icon="content_copy"]').closest('button');
+
+  function convert() {
+    const val  = parseFloat(valueInput.value);
+    if (isNaN(val)) { resultValue.textContent = '—'; resultLabel.textContent = ''; return; }
+    const from = fromSelect.value;
+    const to   = toSelect.value;
+    const metres  = val * toMetres[from];
+    const result  = metres / toMetres[to];
+    const formatted = parseFloat(result.toPrecision(10)).toString();
+    resultValue.textContent = formatted;
+    resultLabel.textContent = unitLabel[to] || to;
+  }
+
+  valueInput.addEventListener('input', convert);
+  fromSelect.addEventListener('change', convert);
+  toSelect.addEventListener('change', convert);
+
+  swapBtn.addEventListener('click', function () {
+    const fromVal = fromSelect.value;
+    fromSelect.value = toSelect.value;
+    toSelect.value   = fromVal;
+    convert();
+  });
+
+  copyBtn.addEventListener('click', function () {
+    navigator.clipboard.writeText(resultValue.textContent).then(function () {
+      const orig = copyBtn.textContent;
+      copyBtn.querySelector('.material-symbols-outlined').textContent = 'check';
+      setTimeout(function () { copyBtn.querySelector('.material-symbols-outlined').textContent = 'content_copy'; }, 1500);
+    });
+  });
+
+  // Initial calculation
+  convert();
+})();
+</script>
 </main>

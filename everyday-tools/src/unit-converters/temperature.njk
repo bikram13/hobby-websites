@@ -115,4 +115,105 @@ title: "Temperature Converter"
 </section>
 </div>
 
+
+<script>
+(function () {
+  // Convert any value to Celsius first, then from Celsius to target
+  function toCelsius(val, from) {
+    if (from === 'C') return val;
+    if (from === 'F') return (val - 32) * 5 / 9;
+    if (from === 'K') return val - 273.15;
+  }
+
+  function fromCelsius(celsius, to) {
+    if (to === 'C') return celsius;
+    if (to === 'F') return (celsius * 9 / 5) + 32;
+    if (to === 'K') return celsius + 273.15;
+  }
+
+  function fmt(val) {
+    return parseFloat(val.toFixed(4)).toString();
+  }
+
+  const main       = document.querySelector('main');
+  const valueInput = main.querySelector('input[type="number"]');
+
+  // The pill button group has 3 buttons: CELSIUS, FAHRENHEIT, KELVIN
+  const unitBtns   = Array.from(main.querySelectorAll('.rounded-full .rounded-full'));
+  // These are nested — get the pill buttons from the toggle bar
+  const toggleBar  = main.querySelector('.flex.gap-2.bg-surface-container-highest.p-1.rounded-full');
+  const pillBtns   = Array.from(toggleBar.querySelectorAll('button'));
+
+  // Unit symbol shown next to input
+  const unitSymbol = main.querySelector('.absolute.right-8 span.text-4xl, .absolute.right-8 span.text-6xl');
+
+  // Result display: Fahrenheit card value & Kelvin card value
+  // Fahrenheit card is first .text-6xl in result area; Kelvin is second
+  const resultCards  = main.querySelectorAll('.text-6xl.font-black.tracking-tighter.text-on-background');
+  const fCard = resultCards[0];  // Fahrenheit
+  const kCard = resultCards[1];  // Kelvin
+
+  // Symbols per unit
+  const symbols = { C: '°C', F: '°F', K: 'K' };
+  const unitMap  = ['C', 'F', 'K'];
+
+  let activeUnit = 'C';
+
+  function setActivePill(selected) {
+    pillBtns.forEach(function (btn, i) {
+      if (unitMap[i] === selected) {
+        btn.classList.add('bg-primary', 'text-on-primary');
+        btn.classList.remove('text-on-surface-variant');
+      } else {
+        btn.classList.remove('bg-primary', 'text-on-primary');
+        btn.classList.add('text-on-surface-variant');
+      }
+    });
+    if (unitSymbol) unitSymbol.textContent = symbols[selected];
+  }
+
+  function convert() {
+    const val = parseFloat(valueInput.value);
+    if (isNaN(val)) {
+      if (fCard) fCard.textContent = '—';
+      if (kCard) kCard.textContent = '—';
+      return;
+    }
+
+    const celsius = toCelsius(val, activeUnit);
+
+    // Fahrenheit result card
+    if (fCard) {
+      if (activeUnit === 'F') {
+        fCard.textContent = fmt(val);
+      } else {
+        fCard.textContent = fmt(fromCelsius(celsius, 'F'));
+      }
+    }
+
+    // Kelvin result card
+    if (kCard) {
+      if (activeUnit === 'K') {
+        kCard.textContent = fmt(val);
+      } else {
+        kCard.textContent = fmt(fromCelsius(celsius, 'K'));
+      }
+    }
+  }
+
+  pillBtns.forEach(function (btn, i) {
+    btn.addEventListener('click', function () {
+      activeUnit = unitMap[i];
+      setActivePill(activeUnit);
+      convert();
+    });
+  });
+
+  valueInput.addEventListener('input', convert);
+
+  // Initialise
+  setActivePill(activeUnit);
+  convert();
+})();
+</script>
 </main>

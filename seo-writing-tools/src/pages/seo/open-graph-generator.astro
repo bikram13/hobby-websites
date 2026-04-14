@@ -119,8 +119,9 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
       $('tw-preview-url').textContent = getDomain(u)
 
       if (img) {
-        $('og-preview-img').innerHTML = `<img src="${img}" class="w-full h-full object-cover" onerror="this.parentElement.textContent='Image failed to load'" />`
-        $('tw-preview-img').innerHTML = `<img src="${img}" class="w-full h-full object-cover" onerror="this.parentElement.textContent='Image failed to load'" />`
+        const errHtml = `<div class="flex flex-col items-center gap-2"><span class="text-sm text-red-500">Image failed to load</span><button onclick="document.getElementById('og-image').value='';document.getElementById('og-image').dispatchEvent(new Event('input',{bubbles:true}))" class="text-xs bg-red-100 hover:bg-red-200 text-red-700 rounded px-2 py-1 transition-colors">Clear image URL</button></div>`
+        $('og-preview-img').innerHTML = `<img src="${img}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='${errHtml.replace(/'/g,"\\'")}'" />`
+        $('tw-preview-img').innerHTML = `<img src="${img}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='${errHtml.replace(/'/g,"\\'")}'" />`
       } else {
         $('og-preview-img').textContent = 'No image URL provided'
         $('tw-preview-img').textContent = 'No image URL provided'

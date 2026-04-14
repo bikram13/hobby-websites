@@ -2,6 +2,7 @@ import { streamText } from "ai"
 import { anthropic } from "@ai-sdk/anthropic"
 import { auth } from "@/auth"
 import { aiRatelimit } from "@/lib/ratelimit"
+import { db } from "@/lib/prisma"
 
 export async function POST(req: Request) {
   const session = await auth()
@@ -9,9 +10,20 @@ export async function POST(req: Request) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 })
   }
 
-  const { success } = await aiRatelimit.limit(`coverletter:${session.user.id}`)
-  if (!success) {
-    return new Response(JSON.stringify({ error: "Daily limit reached. You can generate 3 times per day on the free plan." }), { status: 429 })
+  const subscription = await db.subscription.findUnique({
+    where: { userId: session.user.id },
+    select: { status: true, currentPeriodEnd: true },
+  })
+  const isSubscribed =
+    subscription?.status === "active" &&
+    subscription.currentPeriodEnd != null &&
+    subscription.currentPeriodEnd > new Date()
+
+  if (!isSubscribed) {
+    const { success } = await aiRatelimit.limit(`coverletter:${session.user.id}`)
+    if (!success) {
+      return new Response(JSON.stringify({ error: "Daily limit reached (3/day). Resets at midnight." }), { status: 429 })
+    }
   }
 
   const { jobTitle = "", company = "", jobDescription = "", background = "" } = await req.json().catch(() => ({}))

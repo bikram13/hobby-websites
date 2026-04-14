@@ -32,10 +32,25 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
     <!-- Output -->
     <div class="space-y-3">
       <!-- Warning banner -->
-      <div id="rb-warning" class="hidden rounded-lg border border-red-300 bg-red-50 p-4">
-        <p class="text-sm font-semibold text-red-700">Warning: Disallow: / blocks ALL crawlers</p>
-        <p class="text-sm text-red-600 mt-1">This will prevent search engines from indexing your entire site. Only use this if you intentionally want the site de-indexed.</p>
+      <div id="rb-warning" class="hidden rounded-lg border-2 border-red-500 bg-red-50 p-4 shadow-md" role="alert" aria-live="assertive">
+        <div class="flex items-start gap-2">
+          <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+          </svg>
+          <div>
+            <p class="text-sm font-bold text-red-700">WARNING: Disallow: / will block ALL crawlers</p>
+            <p class="text-sm text-red-600 mt-1">This will prevent search engines from indexing your entire site. Only use this if you intentionally want the site de-indexed.</p>
+          </div>
+        </div>
       </div>
+      <style>
+        @keyframes rb-flash {
+          0%, 100% { background-color: rgb(254 242 242); }
+          25%, 75% { background-color: rgb(254 202 202); }
+          50% { background-color: rgb(252 165 165); }
+        }
+        #rb-warning.rb-flash-anim { animation: rb-flash 0.6s ease-in-out; }
+      </style>
 
       <div class="flex items-center justify-between">
         <h2 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Generated robots.txt</h2>
@@ -106,7 +121,15 @@ const jsonLd = toolJsonLd(tool.slug, tool.title, tool.description, tool.path)
       if (sitemap) lines.push(`Sitemap: ${sitemap}`)
 
       output.textContent = lines.join('\n').trim()
+      const wasHidden = warning.classList.contains('hidden')
       warning.classList.toggle('hidden', !hasDisallowAll)
+      if (hasDisallowAll && wasHidden) {
+        warning.classList.remove('rb-flash-anim')
+        // Force reflow to restart animation
+        void (warning as HTMLElement).offsetWidth
+        warning.classList.add('rb-flash-anim')
+        warning.addEventListener('animationend', () => warning.classList.remove('rb-flash-anim'), { once: true })
+      }
     }
 
     addBtn.addEventListener('click', () => addRule())

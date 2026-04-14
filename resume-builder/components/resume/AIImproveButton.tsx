@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 
 interface Props {
   section: string
@@ -15,6 +15,15 @@ export function AIImproveButton({ section, currentContent, jobTitle = "", onAppl
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
+  useEffect(() => {
+    if (!open) return
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false)
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [open])
+
   const generate = useCallback(async () => {
     setLoading(true)
     setOutput("")
@@ -27,7 +36,7 @@ export function AIImproveButton({ section, currentContent, jobTitle = "", onAppl
       })
       if (res.status === 429) {
         const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || "Daily limit reached. Try again tomorrow.")
+        throw new Error(data.error || "Daily limit reached (3/day). Resets at midnight.")
       }
       if (!res.ok) throw new Error("Generation failed")
       const reader = res.body?.getReader()
@@ -38,8 +47,8 @@ export function AIImproveButton({ section, currentContent, jobTitle = "", onAppl
         if (done) break
         setOutput((prev) => prev + decoder.decode(value))
       }
-    } catch {
-      setError("Generation failed. Please try again.")
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Generation failed. Please try again.")
     } finally {
       setLoading(false)
     }
