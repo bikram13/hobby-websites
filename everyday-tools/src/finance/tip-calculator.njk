@@ -28,26 +28,26 @@ title: "Tip Calculator"
 <label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-widest mb-3">Bill Total</label>
 <div class="relative">
 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-primary font-bold">$</span>
-<input class="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-10 pr-4 text-2xl font-bold focus:ring-0 border-b-2 border-transparent focus:border-primary transition-all text-on-surface" type="number" value="125.50"/>
+<input id="tc-bill" class="w-full bg-surface-container-highest border-none rounded-lg py-4 pl-10 pr-4 text-2xl font-bold focus:ring-0 border-b-2 border-transparent focus:border-primary transition-all text-on-surface" type="number" value="125.50" min="0" step="0.01"/>
 </div>
 </div>
 <div class="group">
 <label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-widest mb-3">Tip Percentage</label>
 <div class="flex gap-2 mb-4">
-<button class="flex-1 bg-surface-container-highest hover:bg-primary-container/20 text-on-surface py-3 rounded-full text-sm font-medium transition-colors">15%</button>
-<button class="flex-1 bg-primary-container text-on-primary-container py-3 rounded-full text-sm font-bold shadow-lg shadow-primary/20">20%</button>
-<button class="flex-1 bg-surface-container-highest hover:bg-primary-container/20 text-on-surface py-3 rounded-full text-sm font-medium transition-colors">25%</button>
+<button id="tc-preset-15" class="tc-preset flex-1 bg-surface-container-highest hover:bg-primary-container/20 text-on-surface py-3 rounded-full text-sm font-medium transition-colors" data-tip="15">15%</button>
+<button id="tc-preset-20" class="tc-preset flex-1 bg-primary-container text-on-primary-container py-3 rounded-full text-sm font-bold shadow-lg shadow-primary/20" data-tip="20">20%</button>
+<button id="tc-preset-25" class="tc-preset flex-1 bg-surface-container-highest hover:bg-primary-container/20 text-on-surface py-3 rounded-full text-sm font-medium transition-colors" data-tip="25">25%</button>
 </div>
 <div class="relative">
-<input class="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="20"/>
+<input id="tc-slider" class="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" max="100" min="0" type="range" value="20"/>
 </div>
 </div>
 <div class="group">
 <label class="block text-xs font-semibold text-on-surface-variant uppercase tracking-widest mb-3">Number of People</label>
 <div class="flex items-center bg-surface-container-highest rounded-lg p-1">
-<button class="w-12 h-12 flex items-center justify-center text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined">remove</span></button>
-<input class="flex-1 bg-transparent border-none text-center text-xl font-bold focus:ring-0 text-on-surface" type="number" value="4"/>
-<button class="w-12 h-12 flex items-center justify-center text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined">add</span></button>
+<button id="tc-minus" class="w-12 h-12 flex items-center justify-center text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined">remove</span></button>
+<input id="tc-people" class="flex-1 bg-transparent border-none text-center text-xl font-bold focus:ring-0 text-on-surface" type="number" value="4" min="1"/>
+<button id="tc-plus" class="w-12 h-12 flex items-center justify-center text-on-surface hover:text-primary transition-colors"><span class="material-symbols-outlined">add</span></button>
 </div>
 </div>
 </div>
@@ -57,15 +57,15 @@ title: "Tip Calculator"
 <div class="relative z-10">
 <div class="mb-12">
 <p class="text-on-primary-container/70 text-sm font-semibold uppercase tracking-widest mb-1">Tip Amount</p>
-<h2 class="text-5xl font-bold text-on-primary-container tracking-tighter">$25.10</h2>
+<h2 id="tc-tip-amount" class="text-5xl font-bold text-on-primary-container tracking-tighter">$25.10</h2>
 </div>
 <div class="mb-12">
 <p class="text-on-primary-container/70 text-sm font-semibold uppercase tracking-widest mb-1">Total with Tip</p>
-<h2 class="text-4xl font-bold text-on-primary-container tracking-tighter opacity-80">$150.60</h2>
+<h2 id="tc-total" class="text-4xl font-bold text-on-primary-container tracking-tighter opacity-80">$150.60</h2>
 </div>
 <div class="pt-8 border-t border-on-primary-container/10">
 <p class="text-on-primary-container/70 text-sm font-semibold uppercase tracking-widest mb-1">Per Person</p>
-<h2 class="text-6xl font-black text-on-primary-container tracking-tighter">$37.65</h2>
+<h2 id="tc-per-person" class="text-6xl font-black text-on-primary-container tracking-tighter">$37.65</h2>
 </div>
 </div>
 <div class="absolute -right-12 -bottom-12 opacity-10">
@@ -161,4 +161,75 @@ title: "Tip Calculator"
 </aside>
 </div>
 
+
+<script>
+(function () {
+  'use strict';
+  var billEl    = document.getElementById('tc-bill');
+  var sliderEl  = document.getElementById('tc-slider');
+  var peopleEl  = document.getElementById('tc-people');
+  var minusBtn  = document.getElementById('tc-minus');
+  var plusBtn   = document.getElementById('tc-plus');
+  var tipAmtEl  = document.getElementById('tc-tip-amount');
+  var totalEl   = document.getElementById('tc-total');
+  var perPsnEl  = document.getElementById('tc-per-person');
+  var presets   = document.querySelectorAll('.tc-preset');
+
+  var ACTIVE_CLS   = ['bg-primary-container', 'text-on-primary-container', 'font-bold', 'shadow-lg', 'shadow-primary/20'];
+  var INACTIVE_CLS = ['bg-surface-container-highest', 'text-on-surface', 'font-medium'];
+
+  function fmt(n) { return '$' + n.toFixed(2); }
+
+  function calculate() {
+    var bill   = parseFloat(billEl.value) || 0;
+    var tip    = parseFloat(sliderEl.value) || 0;
+    var people = Math.max(1, parseInt(peopleEl.value) || 1);
+    var tipAmt = bill * tip / 100;
+    var total  = bill + tipAmt;
+    tipAmtEl.textContent = fmt(tipAmt);
+    totalEl.textContent  = fmt(total);
+    perPsnEl.textContent = fmt(total / people);
+  }
+
+  function setPreset(val) {
+    sliderEl.value = val;
+    presets.forEach(function (btn) {
+      var isActive = btn.dataset.tip === String(val);
+      ACTIVE_CLS.forEach(function (c) { btn.classList.toggle(c, isActive); });
+      INACTIVE_CLS.forEach(function (c) { btn.classList.toggle(c, !isActive); });
+    });
+    calculate();
+  }
+
+  presets.forEach(function (btn) {
+    btn.addEventListener('click', function () { setPreset(btn.dataset.tip); });
+  });
+
+  sliderEl.addEventListener('input', function () {
+    // Deselect presets if slider moved manually
+    var val = sliderEl.value;
+    var matchedPreset = Array.from(presets).find(function (b) { return b.dataset.tip === val; });
+    presets.forEach(function (btn) {
+      var isActive = btn === matchedPreset;
+      ACTIVE_CLS.forEach(function (c) { btn.classList.toggle(c, isActive); });
+      INACTIVE_CLS.forEach(function (c) { btn.classList.toggle(c, !isActive); });
+    });
+    calculate();
+  });
+
+  billEl.addEventListener('input', calculate);
+  peopleEl.addEventListener('input', calculate);
+
+  minusBtn.addEventListener('click', function () {
+    var v = parseInt(peopleEl.value) || 1;
+    if (v > 1) { peopleEl.value = v - 1; calculate(); }
+  });
+  plusBtn.addEventListener('click', function () {
+    peopleEl.value = (parseInt(peopleEl.value) || 1) + 1;
+    calculate();
+  });
+
+  calculate();
+})();
+</script>
 </main>
