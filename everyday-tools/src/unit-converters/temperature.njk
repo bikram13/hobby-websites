@@ -57,7 +57,7 @@ title: "Temperature Converter"
 <span class="material-symbols-outlined text-secondary">mode_heat</span>
 </div>
 <div class="flex items-baseline gap-2">
-<span class="text-6xl font-black tracking-tighter text-on-background">71.6</span>
+<span id="tc-f-result" class="text-6xl font-black tracking-tighter text-on-background">71.6</span>
 <span class="text-2xl font-medium text-secondary">°F</span>
 </div>
 </div>
@@ -72,7 +72,7 @@ title: "Temperature Converter"
 <span class="material-symbols-outlined text-tertiary">science</span>
 </div>
 <div class="flex items-baseline gap-2">
-<span class="text-6xl font-black tracking-tighter text-on-background">295.15</span>
+<span id="tc-k-result" class="text-6xl font-black tracking-tighter text-on-background">295.15</span>
 <span class="text-2xl font-medium text-tertiary">K</span>
 </div>
 </div>
@@ -148,10 +148,8 @@ title: "Temperature Converter"
   const unitSymbol = main.querySelector('.absolute.right-8 span.text-4xl, .absolute.right-8 span.text-6xl');
 
   // Result display: Fahrenheit card value & Kelvin card value
-  // Fahrenheit card is first .text-6xl in result area; Kelvin is second
-  const resultCards  = main.querySelectorAll('.text-6xl.font-black.tracking-tighter.text-on-background');
-  const fCard = resultCards[0];  // Fahrenheit
-  const kCard = resultCards[1];  // Kelvin
+  const fCard = document.getElementById('tc-f-result');
+  const kCard = document.getElementById('tc-k-result');
 
   // Symbols per unit
   const symbols = { C: '°C', F: '°F', K: 'K' };
