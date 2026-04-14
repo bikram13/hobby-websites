@@ -40,11 +40,11 @@ WATCHLIST = [
 
 # ── RISK MANAGEMENT (AGGRESSIVE) ─────────────────────────────────────────────
 MAX_POSITION_SIZE_PCT = 0.15  # Max 15% of portfolio per position
-STOP_LOSS_PCT = 0.025         # 2.5% stop loss — tighter, faster exits
-TARGET_PCT = 0.10             # 10% target — recalibrated to training objective (Sprint 7)
+STOP_LOSS_PCT = 0.025         # 2.5% stop loss — optimizer winner (Sprint 9)
+TARGET_PCT = 0.08             # 8% target — exit optimizer winner (Sprint 9, was 0.10)
 MAX_OPEN_POSITIONS = 7        # More concurrent positions
 MAX_DAILY_LOSS_PCT = 0.04     # Tolerate up to 4% daily drawdown
-TRAIL_STOP_PCT = 0.03         # Trailing stop 3% below peak — more room for winners (Sprint 7)
+TRAIL_STOP_PCT = 0.04         # Trailing stop 4% below peak — exit optimizer winner (Sprint 9, was 0.03)
 
 # Ladder Buy — enter with 60%, add 40% if price dips 3-5% before recovery
 LADDER_BUY_ENABLED   = True
